@@ -1,0 +1,26 @@
+      </div>
+      <div class="logo splashTitle">Hu <span>nyang</span></div>
+      <div class="splashMini">Mini Game Collection 🐾</div>
+      <div class="splashGoText" id="splashGoText" aria-hidden="true">Go to Play</div>
+      <div class="splashVersion" aria-label="현재 버전">v4.8.26</div>
+    </div>
+  </section>
+
+  <!-- Home / Game list -->
+  <section class="page" id="homePage">
+    <div class="safeTop"></div>
+    <div class="screen">
+      <div class="homeHeader homeHeaderRow">
+        <div class="homeTitleWrap">
+          <div class="logo">Hu <span>nyang</span></div>
+          <div class="logoSub">MINI GAME COLLECTION</div>
+        </div>
+        <button class="iconBtn homeReturnBtn" id="returnToSplash" type="button" aria-label="처음 화면으로">⌂</button>
+      </div>
+
+      <button class="card featured" id="openBingo" type="button">
+        <div class="featuredText">
+          <div class="gameTag">🎱 숫자 게임 · 1~4인</div>
+          <h2>BINGO</h2>
+          <p>숫자를 맞춰 3줄 빙고를<br>가장 먼저 완성하세요!</p>
+        </div>
