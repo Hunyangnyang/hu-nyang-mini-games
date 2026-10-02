@@ -1,0 +1,938 @@
+  position:absolute;inset:0;z-index:140;display:none;align-items:center;justify-content:center;
+  padding:calc(20px + env(safe-area-inset-top)) 18px calc(20px + env(safe-area-inset-bottom));
+  background:rgba(70,45,57,.28);backdrop-filter:blur(7px)
+}
+.diagOverlay.show{display:flex}
+.diagCard{
+  width:min(100%,390px);max-height:86dvh;overflow:auto;
+  border-radius:26px;border:1px solid #efc7d6;
+  background:linear-gradient(180deg,#fffafb,#fff3f7);
+  box-shadow:0 20px 48px rgba(116,64,85,.24);
+  padding:20px;color:#5a3f4c
+}
+.diagTitleRow{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+.diagTitle{font-size:20px;font-weight:950}
+.diagClose{width:34px;height:34px;border-radius:12px;border:1px solid #efd1dc;background:#fff;color:#8b6476;font-size:18px}
+.diagSub{font-size:12px;line-height:1.5;color:#927283;margin-bottom:12px}
+.diagStatus{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+.diagChip{padding:6px 9px;border-radius:999px;background:#fbe2ec;border:1px solid #f2c6d6;font-size:11px;font-weight:900;color:#965d74}
+.diagChip.ok{background:#edf9f0;border-color:#c9e8d0;color:#4b8059}
+.diagLogBox{
+  width:100%;height:260px;resize:none;border-radius:16px;border:1px solid #eed0dc;
+  background:#fffdfd;color:#5b4650;padding:12px;font:11px/1.48 ui-monospace,SFMono-Regular,Consolas,monospace;
+  outline:none;white-space:pre;overflow:auto
+}
+.diagBtns{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
+.diagBtn{min-height:44px;border-radius:14px;border:1px solid #efc7d6;background:#fff;color:#795365;font-weight:900;font-size:13px}
+.diagBtn.primaryDiag{background:linear-gradient(135deg,#f7a6c5,#f18ab5);color:white;border-color:#ed91b5}
+.diagBtn.dangerDiag{color:#a85b70;background:#fff5f7}
+.diagFoot{margin-top:10px;font-size:10px;line-height:1.45;color:#a28390}
+
+
+/* ===== v4.8.11 Settings / Exit + diagnostics ===== */
+.mobileSettingsBtn{
+  display:none;position:absolute;z-index:72;
+  top:max(14px,calc(env(safe-area-inset-top) + 8px));left:14px;
+  width:42px;height:42px;border-radius:15px;
+  align-items:center;justify-content:center;
+  border:1px solid #efb5cb;background:rgba(255,250,252,.94);
+  color:#9d5875;font-size:21px;font-weight:900;
+  box-shadow:0 8px 20px rgba(190,112,145,.15);backdrop-filter:blur(10px)
+}
+.mobileSettingsBtn:active{transform:scale(.95)}
+@media (max-width:600px),(pointer:coarse){.mobileSettingsBtn{display:flex}}
+
+.appModalOverlay{
+  position:absolute;inset:0;z-index:190;display:none;align-items:center;justify-content:center;
+  padding:calc(22px + env(safe-area-inset-top)) 22px calc(22px + env(safe-area-inset-bottom));
+  background:rgba(70,44,57,.30);backdrop-filter:blur(7px)
+}
+.appModalOverlay.show{display:flex;animation:exitFadeIn .18s ease-out both}
+.appModalCard{
+  width:min(100%,350px);border-radius:28px;padding:22px 20px 20px;
+  background:linear-gradient(180deg,#fffafb,#fff0f5);border:2px solid #efbfd1;
+  box-shadow:0 24px 55px rgba(130,72,96,.24),inset 0 1px rgba(255,255,255,.95);
+  color:#684655;text-align:center;position:relative;
+  animation:exitPop .22s cubic-bezier(.2,.85,.25,1.15) both
+}
+.appModalClose{
+  position:absolute;right:12px;top:10px;width:34px;height:34px;border-radius:12px;
+  background:transparent;color:#aa7288;font-size:22px;font-weight:900
+}
+.settingsPaw{font-size:38px;margin:2px 0 6px;filter:drop-shadow(0 3px 3px rgba(196,114,146,.12))}
+.appModalTitle{font-size:22px;font-weight:1000;color:#714b5c;margin-bottom:8px}
+.appModalDesc{font-size:13px;line-height:1.6;color:#9b7887;font-weight:750;margin:0 4px 18px}
+.settingsExitBtn{
+  width:100%;min-height:52px;border-radius:17px;border:1px solid #eeafc8;
+  background:linear-gradient(135deg,#ffdbe8,#ffc9dc);color:#9a476a;font-size:15px;font-weight:950;
+  box-shadow:0 8px 18px rgba(210,119,155,.12)
+}
+.exitFace{font-size:46px;line-height:1;margin:2px 0 10px}
+.exitActions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:18px}
+.exitCancelBtn,.exitLeaveBtn{min-height:49px;border-radius:16px;font-size:14px;font-weight:950}
+.exitCancelBtn{background:#fff;border:1px solid #e8cbd6;color:#8c6c79}
+.exitLeaveBtn{background:linear-gradient(135deg,#f49abb,#ec7dab);border:1px solid #ef91b5;color:white;box-shadow:0 8px 18px rgba(221,95,145,.18)}
+@keyframes exitFadeIn{from{opacity:0}to{opacity:1}}
+@keyframes exitPop{from{opacity:0;transform:translateY(10px) scale(.94)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+
+/* ===== v4.8.12 splash touch/click navigation ===== */
+#splashPage{
+  cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+  touch-action:manipulation;
+}
+.splashMascot,
+.mobileSettingsBtn{
+  cursor:pointer;
+}
+.splashGoText{
+  margin-top:clamp(8px,1.8dvh,18px);
+  flex:0 0 auto;
+  color:rgba(111,73,91,.72);
+  font-size:clamp(15px,4.3vw,20px);
+  font-weight:900;
+  letter-spacing:.14em;
+  line-height:1.25;
+  text-align:center;
+  text-shadow:0 2px 9px rgba(255,255,255,.95),0 1px 16px rgba(220,133,168,.22);
+  user-select:none;
+  pointer-events:none;
+  animation:splashGoBreathe 2.6s ease-in-out infinite;
+}
+@keyframes splashGoBreathe{
+  0%,100%{opacity:.58;transform:translateY(0)}
+  50%{opacity:.88;transform:translateY(-1px)}
+}
+@media (hover:hover) and (pointer:fine){
+  #splashPage{cursor:pointer}
+  .splashMascot,.mobileSettingsBtn{cursor:pointer}
+}
+@media (prefers-reduced-motion:reduce){
+  .splashGoText{animation:none!important;opacity:.76}
+}
+
+
+/* ===== v4.8.14 Colosseum ===== */
+.colCard{border:1px solid rgba(255,255,255,.14);background:linear-gradient(180deg,rgba(255,255,255,.14),rgba(255,255,255,.08));}
+.colIcon{font-size:28px;filter:drop-shadow(0 8px 16px rgba(0,0,0,.28));}
+.colHint{margin-top:8px;color:var(--muted);font-size:12px;text-align:center}
+.stepPill{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);font-size:12px;color:#ffe9ff;margin:0 auto 14px}
+.playerCountWrap{display:flex;align-items:center;gap:12px;padding:14px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);margin-bottom:16px}
+.playerCountNum{min-width:64px;text-align:center;font-size:28px;font-weight:900;color:#fff1ff}
+.playerCountRange{flex:1;accent-color:#ff9bd8}
+.jobGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.jobCard{position:relative;padding:14px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-align:left;display:flex;gap:12px;align-items:flex-start;transition:transform .16s ease,border-color .16s ease,background .16s ease}
+.jobCard.active{border-color:#ffb3df;background:linear-gradient(180deg,rgba(255,179,223,.18),rgba(255,255,255,.08));transform:translateY(-2px)}
+.jobEmoji{font-size:26px;line-height:1;filter:drop-shadow(0 6px 12px rgba(0,0,0,.3))}
+.jobMeta b{display:block;font-size:15px;margin-bottom:3px}
+.jobMeta small{display:block;color:var(--muted);font-size:11px;line-height:1.35}
+.colCta{margin-top:18px}
+.rouletteArena,.bracketCard,.battleCard,.championCard{border-radius:24px;padding:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);box-shadow:0 22px 48px rgba(0,0,0,.22)}
+.ballRack{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin:18px 0 10px}
+.seedBall{width:76px;height:76px;border-radius:50%;display:flex;flex-direction:column;justify-content:center;align-items:center;background:radial-gradient(circle at 30% 30%,rgba(255,255,255,.92),rgba(255,255,255,.18) 34%,rgba(255,255,255,.08));border:1px solid rgba(255,255,255,.18);box-shadow:0 18px 30px rgba(0,0,0,.22);font-weight:900;text-align:center;padding:6px;position:relative}
+.seedBall.spin{animation:spinBall 1.1s linear infinite}
+.seedBall .seedRank{position:absolute;top:6px;left:50%;transform:translateX(-50%);padding:2px 8px;border-radius:999px;background:rgba(13,11,24,.66);font-size:10px;color:#ffd5ef}
+.seedBall .seedFace{font-size:22px;line-height:1;margin-bottom:4px}
+.seedBall .seedName{font-size:11px;line-height:1.15;color:#fff1ff;word-break:keep-all}
+.seedOrderList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:14px}
+.seedOrderItem{padding:10px 12px;border-radius:16px;background:rgba(0,0,0,.18);display:flex;align-items:center;gap:10px;font-size:12px}
+.seedOrderItem .badge{display:inline-flex;align-items:center;justify-content:center;min-width:24px;height:24px;border-radius:999px;background:rgba(255,255,255,.12);font-weight:900}
+.bracketList{display:flex;flex-direction:column;gap:12px;margin-top:14px}
+.matchRow{padding:14px;border-radius:18px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08)}
+.matchTop{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;color:#fcd8ef;font-size:11px}
+.duelNames{display:flex;align-items:center;justify-content:space-between;gap:10px;font-weight:800}
+.duelNames .duelSlot{flex:1;padding:10px;border-radius:14px;background:rgba(255,255,255,.06);text-align:center}
+.duelNames .duelVs{font-size:13px;opacity:.82}
+.duelWinner{margin-top:10px;font-size:12px;color:#a6ffd2;font-weight:700}
+.bracketAction{margin-top:16px}
+.vsStage{min-height:calc(100vh - 120px);display:flex;align-items:center;justify-content:center}
+.vsCard{position:relative;overflow:hidden;width:100%;border-radius:28px;padding:28px;background:linear-gradient(135deg,rgba(13,11,24,.9),rgba(58,25,45,.72));border:1px solid rgba(255,255,255,.12)}
+.vsSplit{display:grid;grid-template-columns:1fr auto 1fr;gap:18px;align-items:center}
+.vsSplit:before{content:"";position:absolute;left:50%;top:-18%;width:5px;height:136%;background:linear-gradient(180deg,rgba(255,255,255,0),rgba(255,198,221,.86),rgba(255,255,255,0));transform:translateX(-50%) rotate(18deg);box-shadow:0 0 24px rgba(255,180,211,.5)}
+.vsFighter{text-align:center;padding:12px;border-radius:20px;background:rgba(255,255,255,.04)}
+.vsFighter .face{font-size:50px;margin-bottom:10px}
+.vsFighter .name{font-size:18px;font-weight:900}
+.vsFighter .seed{font-size:12px;color:#ffd7ee;margin-top:6px}
+.bigVs{font-size:44px;font-weight:1000;color:#fff4fb;text-shadow:0 0 18px rgba(255,167,212,.46)}
+.battleWrap{display:flex;flex-direction:column;gap:14px}
+.hpBoard{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:end}
+.hpLane{padding:14px;border-radius:20px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08)}
+.hpLane.right{text-align:right}
+.hpHead{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px;font-size:12px;color:#ffd7ee}
+.hpLane.right .hpHead{flex-direction:row-reverse}
+.hpName{font-weight:900;color:#fff6fb;font-size:15px}
+.hpBar{height:14px;border-radius:999px;background:rgba(255,255,255,.08);overflow:hidden;box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
+.hpBar > i{display:block;height:100%;width:100%;background:linear-gradient(90deg,#76ffb7,#ffd27d,#ff7cc4);transition:width .35s ease}
+.hpNum{margin-top:7px;font-size:12px;color:#fff0f8;font-weight:800}
+.centerHud{padding:14px 10px;border-radius:18px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);text-align:center;min-width:122px}
+.hudVs{font-size:18px;font-weight:900;letter-spacing:1px}
+.hudTimer{font-size:32px;font-weight:1000;line-height:1;margin:6px 0;color:#fff0fa}
+.hudSub{font-size:11px;color:#ffd8ef;line-height:1.35}
+.revealGrid{display:grid;grid-template-columns:1fr auto 1fr;gap:12px;align-items:stretch}
+.revealCard{padding:14px;border-radius:18px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);min-height:98px}
+.revealCard.right{text-align:right}
+.actionTag{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.08);font-size:12px;font-weight:800;margin-bottom:8px}
+.revealValue{font-size:30px;font-weight:1000}
+.revealPending{opacity:.52;filter:blur(.5px)}
+.animPanel{display:flex;align-items:center;justify-content:center;min-height:72px;padding:12px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(255,255,255,.03));border:1px solid rgba(255,255,255,.08);font-size:14px;text-align:center}
+.animPanel.slash{box-shadow:0 0 28px rgba(255,112,136,.22) inset}
+.animPanel.guard{box-shadow:0 0 28px rgba(120,196,255,.18) inset}
+.battleControls{padding:16px;border-radius:20px;background:rgba(0,0,0,.18);border:1px solid rgba(255,255,255,.08)}
+.choiceRow{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.choiceBtn,.diceBtn{border:none;border-radius:16px;padding:14px 12px;background:rgba(255,255,255,.08);color:#fff6fb;font-weight:900}
+.choiceBtn.active,.diceBtn.active{background:linear-gradient(180deg,rgba(255,176,222,.32),rgba(255,255,255,.1));box-shadow:0 0 0 1px rgba(255,191,229,.35) inset}
+.diceBtn{display:flex;align-items:center;justify-content:center;gap:10px;font-size:16px}
+.dicePip{font-size:28px}
+.battleHint{font-size:12px;color:var(--muted);line-height:1.4}
+.battleNotice{font-size:12px;color:#ffe0f0;margin-bottom:8px;font-weight:700}
+.hiddenAiNotice{text-align:center;font-size:12px;color:#ffd7ee;padding:8px 0}
+.championCard{text-align:center}
+.championFace{font-size:64px;line-height:1;margin-bottom:12px}
+.championTitle{font-size:28px;font-weight:1000;margin-bottom:8px}
+.championSub{font-size:13px;color:#ffd8ef;line-height:1.45}
+.championBtns{display:flex;gap:10px;margin-top:18px}
+.championBtns > button{flex:1}
+@keyframes spinBall{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@media (max-width:420px){
+  .seedBall{width:68px;height:68px}
+  .seedOrderList{grid-template-columns:1fr}
+  .vsSplit{grid-template-columns:1fr;gap:12px}
+  .hpBoard,.revealGrid{grid-template-columns:1fr}
+  .centerHud{min-width:0}
+}
+
+
+/* ===== v4.8.15 Colosseum UI polish ===== */
+/* Home: Colosseum receives the same premium card treatment as Bingo. */
+.colFeatured{margin:0;min-height:155px;border-color:#d2b46f;box-shadow:0 0 0 1px rgba(191,156,79,.20),0 15px 32px rgba(116,83,117,.16)}
+.colFeatured::before{background:radial-gradient(circle at 16% 18%,rgba(255,231,170,.58),transparent 24%),radial-gradient(circle at 82% 38%,rgba(181,203,255,.38),transparent 38%),linear-gradient(135deg,#fff1dc,#e7e3f8)}
+.colFeatured .gameTag{color:#6c5870}
+.colFeatured h2{font-size:34px;color:#755b86;text-shadow:0 2px 0 rgba(255,255,255,.92);letter-spacing:-.045em}
+.colFeatured p{color:#65556d}
+.colFeaturedMascot img{filter:drop-shadow(0 12px 18px rgba(85,63,98,.18));mix-blend-mode:multiply;opacity:.88}
+.colSwordMark{position:absolute;z-index:3;right:91px;top:13px;font-size:28px;color:#856b47;filter:drop-shadow(0 4px 7px rgba(98,72,36,.20));transform:rotate(-8deg)}
+.colFeatured .featuredArrow{color:#654f72;background:rgba(255,255,255,.72);border-color:#d7cbe4}
+
+/* Colosseum palette: no low-contrast pink text on Sakura backgrounds. */
+#colosseumSetupPage,#colosseumOrderPage,#colosseumBracketPage,#colosseumBattlePage,#colosseumChampionPage{--col-ink:#463c55;--col-sub:#72677f;--col-accent:#6b5d96;--col-gold:#a17739;--col-line:#d8d0e1}
+#colosseumSetupPage .appbar h1,#colosseumOrderPage .appbar h1,#colosseumBracketPage .appbar h1,#colosseumBattlePage .appbar h1{color:#463c55}
+#colosseumSetupPage .subhead,#colosseumOrderPage .subhead,#colosseumBracketPage .subhead,#colosseumBattlePage .subhead{color:#756a81}
+#colosseumSetupPage .stepPill,#colosseumOrderPage .stepPill,#colosseumBracketPage .stepPill,#colosseumBattlePage .stepPill{background:#fffdf9;border-color:#d7ccbc;color:#695c51;font-weight:900;box-shadow:0 5px 16px rgba(91,75,63,.07)}
+#colosseumSetupPage .sectionTitle,#colosseumOrderPage .sectionTitle,#colosseumBracketPage .sectionTitle{color:#463c55}
+#colosseumSetupPage .muted{color:#766b80}
+.playerCountWrap{background:linear-gradient(180deg,#fffdfd,#f6f1fa);border-color:#d8cfe1}
+.playerCountNum{color:#5d4f86;text-shadow:none}
+.playerCountRange{accent-color:#7561a6}
+.jobCard{background:linear-gradient(180deg,#fffdfd,#f8f3f8);border-color:#ded5e3;color:#4e4358;box-shadow:0 7px 18px rgba(90,70,95,.07)}
+.jobCard.active{border-color:#8f7ab5;background:linear-gradient(180deg,#f4effd,#eee8fa);box-shadow:0 0 0 2px rgba(119,96,166,.08),0 9px 20px rgba(82,64,104,.10)}
+.jobMeta small{color:#786d82}
+.colHint{color:#776d80}
+
+/* Draw tokens: jewel/medal tokens instead of blank white eyeballs. */
+.rouletteArena{background:linear-gradient(180deg,#fffdfb,#f6f1f8);border-color:#d9d0df;box-shadow:0 18px 38px rgba(83,62,91,.12)}
+#colOrderStatus{color:#5d5369!important;font-weight:850}
+.seedBall{width:78px;height:78px;background:radial-gradient(circle at 30% 24%,#fff9d9 0 10%,#dfc683 11% 31%,#8f7aaa 32% 63%,#493f5d 64% 100%);border:3px solid rgba(255,255,255,.92);box-shadow:0 10px 22px rgba(67,56,78,.18),inset 0 0 0 3px rgba(53,44,66,.22);color:#fff}
+.seedBall.spin{animation:tokenFloat .72s ease-in-out infinite alternate,tokenTwist 1.35s linear infinite}
+.seedTokenCore{width:35px;height:35px;border-radius:10px;display:grid;place-items:center;background:rgba(255,255,255,.88);color:#7762a3;font-size:22px;box-shadow:0 3px 10px rgba(0,0,0,.16)}
+.seedBall .seedName{color:#fff;font-weight:900;text-shadow:0 1px 5px rgba(0,0,0,.45)}
+.seedBall .seedRank{background:#40364f;color:#fff0bf}
+.seedOrderItem{background:#fff;border:1px solid #ddd4e3;color:#4d4258;box-shadow:0 5px 14px rgba(75,59,85,.07)}
+.seedOrderItem .badge{background:#5d4f7d;color:#fff}
+@keyframes tokenFloat{from{translate:0 -3px}to{translate:0 4px}}
+@keyframes tokenTwist{from{rotate:0deg}to{rotate:360deg}}
+
+/* Bracket: cleaner tournament board, clearer status labels, no pink-on-black text. */
+.bracketCard{background:linear-gradient(160deg,#272333,#1d1a28);border-color:#554b66;box-shadow:0 22px 50px rgba(37,29,44,.24);color:#f8f4fb}
+#colosseumBracketPage .bracketCard .stepPill{background:#393244;border-color:#5f526b;color:#fff4d4;box-shadow:none}
+#colBracketRoundTitle{display:flex;flex-direction:column;gap:3px;margin:8px 0 16px!important;color:#fff}
+.roundKicker{font-size:10px;letter-spacing:.18em;color:#d5c28d;font-weight:1000}
+#colBracketRoundTitle strong{font-size:27px;line-height:1;color:#fff}
+#colBracketRoundTitle small{font-size:11px;color:#bdb4c7;font-weight:700}
+.bracketList{gap:14px}
+.matchRow{position:relative;padding:14px 14px 15px 17px;background:linear-gradient(180deg,#332d3d,#292432);border:1px solid #51465c;box-shadow:0 10px 24px rgba(0,0,0,.16);overflow:hidden}
+.matchRow::before{content:"";position:absolute;left:0;top:0;bottom:0;width:4px;background:linear-gradient(#c8aa62,#75639a)}
+.matchRow.currentMatch{border-color:#a88b54;box-shadow:0 0 0 1px rgba(224,188,112,.16),0 12px 28px rgba(0,0,0,.22)}
+.matchTop{margin-bottom:11px;color:#eee9f3}
+.matchNo{font-size:11px;letter-spacing:.12em;font-weight:1000;color:#e9e3ef}
+.matchStatus{padding:4px 8px;border-radius:999px;font-size:9px;font-weight:1000;letter-spacing:.08em;background:#494151;color:#e9e2ef}
+.matchStatus.next{background:#b18b49;color:#211a0e}
+.matchStatus.complete{background:#466c5a;color:#e9fff2}
+.matchStatus.wait{background:#484250;color:#d6d0dd}
+.matchStatus.byeStatus{background:#5a5275;color:#f6f1ff}
+.bracketPair{display:grid;grid-template-columns:1fr 44px 1fr;gap:8px;align-items:center}
+.bracketPair.single{grid-template-columns:1fr}
+.bracketFighter{position:relative;min-height:74px;border-radius:15px;padding:10px 8px;background:#211d29;border:1px solid #484052;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;color:#f7f2fa}
+.bracketFighter.winner{border-color:#ad915b;background:linear-gradient(180deg,#342d35,#28232c)}
+.seedChip{position:absolute;top:7px;left:7px;font-size:9px;color:#cfc5d8;background:#3a3443;padding:2px 6px;border-radius:999px}
+.fighterAvatar{font-size:28px;line-height:1}
+.fighterName{font-size:12px;font-weight:900;text-align:center;color:#fff}
+.winnerMark{position:absolute;right:7px;top:7px;color:#ffe4a3;font-size:8px;font-weight:1000;letter-spacing:.08em}
+.bracketVs{width:42px;height:42px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(145deg,#726287,#3f364a);border:1px solid #8f7ca0;box-shadow:0 0 0 4px rgba(255,255,255,.03)}
+.bracketVs span{font-size:11px;font-weight:1000;color:#fff7db}
+.duelWinner{margin-top:10px;padding-top:9px;border-top:1px solid #484052;color:#e8d39c;font-size:11px;font-weight:900;text-align:center}
+#colNextMatchBtn{background:linear-gradient(135deg,#9b7d47,#665783);border-color:#d4bf8d}
+
+/* VS screen: larger fighters and aggressive diagonal impact crack. */
+#colosseumVsPage{background:radial-gradient(circle at 50% 48%,rgba(195,159,86,.15),transparent 27%),linear-gradient(160deg,#17141d,#251b27 48%,#15131c)}
+.vsStage{min-height:calc(100svh - 34px)}
+.vsCard{min-height:520px;display:flex;flex-direction:column;justify-content:center;background:linear-gradient(135deg,#211924 0 47%,#171720 53% 100%);border:1px solid #594a5e;box-shadow:0 24px 55px rgba(0,0,0,.38);animation:vsImpact .48s cubic-bezier(.2,.9,.25,1)}
+.vsCard::before{content:"";position:absolute;z-index:2;left:49%;top:-14%;width:24px;height:132%;background:linear-gradient(90deg,transparent,#fff5d4 36%,#b89055 50%,#fff 64%,transparent);transform:rotate(20deg);clip-path:polygon(42% 0,100% 7%,54% 20%,96% 34%,35% 48%,83% 61%,30% 76%,70% 87%,20% 100%,0 100%,28% 83%,0 71%,48% 57%,8% 43%,57% 28%,17% 14%);filter:drop-shadow(0 0 10px rgba(255,231,184,.55))}
+.vsCard::after{content:"";position:absolute;z-index:1;left:50%;top:47%;width:170%;height:2px;background:linear-gradient(90deg,transparent,rgba(255,233,192,.75),transparent);transform:translate(-50%,-50%) rotate(-18deg);box-shadow:0 0 18px rgba(255,211,148,.45)}
+.vsSplit{position:relative;z-index:3;grid-template-columns:1fr 72px 1fr;gap:10px}
+.vsSplit:before{display:none}
+.vsFighter{min-height:290px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,rgba(255,255,255,.08),rgba(255,255,255,.025));border:1px solid rgba(255,255,255,.11);box-shadow:inset 0 0 35px rgba(255,255,255,.025)}
+.vsFighter .face{font-size:88px;filter:drop-shadow(0 14px 15px rgba(0,0,0,.35));transform:scale(1.08)}
+.vsFighter .name{font-size:20px;color:#fff;font-weight:1000}
+.vsFighter .seed{color:#e4d5ae;font-weight:900}
+.bigVs{font-size:48px;color:#fff4ce;text-shadow:0 0 18px rgba(220,180,104,.5),0 3px 0 #4f3e2b}
+#colosseumVsPage .stepPill{position:absolute;z-index:4;top:18px;left:50%;transform:translateX(-50%);background:#27212d;border-color:#584c5e;color:#f6e8c5}
+@keyframes vsImpact{0%{opacity:0;transform:scale(.92)}55%{opacity:1;transform:scale(1.025)}100%{transform:scale(1)}}
+
+/* Battle: readable neutral/gold text and controls immediately below HP. */
+#colosseumBattlePage .battleCard{background:linear-gradient(180deg,#282331,#201c28);border-color:#554a61;box-shadow:0 20px 45px rgba(52,41,59,.22);color:#f8f4fb}
+#colosseumBattlePage .hpLane{background:#332d3c;border-color:#574c63;color:#f8f4fb}
+#colosseumBattlePage .hpHead{color:#d6cfdd}
+#colosseumBattlePage .hpName{color:#fff}
+#colosseumBattlePage .hpNum{color:#eee7f2}
+#colosseumBattlePage .centerHud{background:#3a3241;border-color:#62556d;color:#fff}
+#colosseumBattlePage .hudTimer{color:#fff4cf}
+#colosseumBattlePage .hudSub{color:#d9d0e0;font-weight:850}
+#colosseumBattlePage .battleControls{order:2;margin-top:0;padding:13px;background:#302a38;border-color:#554a61}
+#colosseumBattlePage .revealGrid{order:3}
+#colosseumBattlePage .choiceBtn,#colosseumBattlePage .diceBtn{background:#453c4d;border:1px solid #64576f;color:#fff}
+#colosseumBattlePage .choiceBtn.active,#colosseumBattlePage .diceBtn.active{background:linear-gradient(180deg,#75618a,#564664);box-shadow:0 0 0 1px #a08bb1 inset}
+#colosseumBattlePage .battleNotice{color:#fff3cf}
+#colosseumBattlePage .battleHint{color:#cbc2d1}
+#colosseumBattlePage .hiddenAiNotice{color:#e5d9bd}
+#colosseumBattlePage .revealCard{background:#312b39;border-color:#554a61;color:#fff}
+#colosseumBattlePage .actionTag{background:#494151;color:#eee8f2}
+#colosseumBattlePage .animPanel{background:#302a38;border-color:#554a61;color:#f3edf5}
+#colosseumBattlePage .animPanel.slash{box-shadow:inset 0 0 30px rgba(197,99,85,.19)}
+#colosseumBattlePage .animPanel.guard{box-shadow:inset 0 0 30px rgba(91,138,177,.18)}
+
+/* Champion uses readable plum/bronze instead of pale pink. */
+#colosseumChampionPage .championCard{background:linear-gradient(180deg,#fffdfb,#f2edf5);border-color:#d8cfdf;color:#4b4056}
+#colosseumChampionPage .championTitle{color:#6a557b}
+#colosseumChampionPage .winnerName{color:#8a672f}
+#colosseumChampionPage .championSub{color:#6f6478}
+
+@media (max-width:420px){
+  .colFeatured h2{font-size:31px}
+  .colFeatured .featuredText{width:61%}
+  .colSwordMark{right:82px;font-size:25px}
+  .vsCard{min-height:480px;padding:22px 14px}
+  .vsSplit{grid-template-columns:1fr 56px 1fr!important;gap:7px}
+  .vsFighter{min-height:250px;padding:8px}
+  .vsFighter .face{font-size:74px}
+  .vsFighter .name{font-size:15px}
+  .bigVs{font-size:37px}
+  #colosseumBattlePage .hpBoard{grid-template-columns:1fr 94px 1fr!important;gap:7px}
+  #colosseumBattlePage .hpLane{padding:10px}
+  #colosseumBattlePage .centerHud{min-width:0;padding:10px 5px}
+  #colosseumBattlePage .hudTimer{font-size:28px}
+  #colosseumBattlePage .revealGrid{grid-template-columns:1fr 88px 1fr!important;gap:7px}
+  #colosseumBattlePage .revealCard{padding:10px;min-height:88px}
+  #colosseumBattlePage .revealValue{font-size:27px}
+  .bracketFighter{min-height:68px;padding:9px 5px}
+  .fighterAvatar{font-size:25px}
+}
+
+
+
+/* ===== v4.8.20 Sakura Colosseum VS + History + Patch Notes ===== */
+#homePage .screen{display:flex;flex-direction:column}
+.homeVersion{margin-top:auto;padding-top:14px;align-self:flex-end;font-size:10px;font-weight:850;letter-spacing:.08em;color:#aa8d9a;opacity:.82}
+.splashVersion{position:absolute;right:16px;bottom:calc(12px + env(safe-area-inset-bottom));font-size:10px;font-weight:850;letter-spacing:.08em;color:#aa8d9a;opacity:.82;pointer-events:none}
+
+/* Settings patch-note accordion */
+#settingsModal .appModalCard{max-height:calc(100svh - 70px);overflow-y:auto;overscroll-behavior:contain}
+.settingsPatchBtn{width:100%;min-height:50px;border-radius:17px;border:1px solid #e7cada;background:linear-gradient(135deg,#fffafd,#f7effa);color:#765468;font-size:14px;font-weight:950;display:flex;align-items:center;justify-content:space-between;padding:0 16px;margin-bottom:10px;box-shadow:0 7px 16px rgba(187,120,150,.08)}
+.settingsPatchBtn:active{transform:translateY(1px)}
+.patchChevron{font-size:18px;color:#a77a8f}
+.settingsPatchPanel{display:none;text-align:left;margin:2px 0 12px;padding:8px;border-radius:18px;background:#fff;border:1px solid #ecd4df;box-shadow:inset 0 1px rgba(255,255,255,.9)}
+.settingsPatchPanel.open{display:block;animation:patchDrop .18s ease-out both}
+.patchVersion{border-radius:14px;background:#fff8fb;border:1px solid #f0dce5;margin:6px 0;overflow:hidden}
+.patchVersion summary{list-style:none;cursor:pointer;min-height:42px;padding:10px 12px;display:flex;align-items:center;justify-content:space-between;color:#704f60;font-size:13px;font-weight:1000}
+.patchVersion summary::-webkit-details-marker{display:none}
+.patchVersion summary::after{content:'＋';font-size:14px;color:#ae7d92;margin-left:auto}
+.patchVersion[open] summary::after{content:'−'}
+.patchVersion summary small{margin-left:8px;margin-right:auto;padding:2px 7px;border-radius:999px;background:#f5b6ce;color:#7a4259;font-size:8px;letter-spacing:.08em}
+.patchVersion ul{margin:0;padding:0 14px 11px 28px;color:#8b6c79;font-size:11px;line-height:1.55;font-weight:750}
+.patchVersion li+li{margin-top:3px}
+@keyframes patchDrop{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+
+/* Colosseum overall: return to Hu nyang's soft Sakura visual language. */
+#colosseumSetupPage,#colosseumOrderPage,#colosseumBracketPage,#colosseumVsPage,#colosseumBattlePage,#colosseumChampionPage{
+  background:
+    radial-gradient(circle at 15% 18%,rgba(255,203,224,.45),transparent 27%),
+    radial-gradient(circle at 85% 62%,rgba(223,213,250,.46),transparent 30%),
+    linear-gradient(180deg,#fff9fb 0%,#fff1f6 64%,#fbedf4 100%);
+  color:#604857;
+}
+#colosseumSetupPage .stepPill,#colosseumOrderPage .stepPill,#colosseumBracketPage .stepPill{
+  background:linear-gradient(135deg,#fff8fb,#f7eefc);border:1px solid #ead4e1;color:#806171;
+  border-radius:999px;box-shadow:0 6px 14px rgba(182,116,145,.08)
+}
+#colosseumOrderPage .seedBall{background:radial-gradient(circle at 29% 23%,#fffdf4 0 12%,#ffdce8 13% 34%,#dbcdf0 35% 66%,#a687b0 67% 100%);border-color:#fff;box-shadow:0 10px 22px rgba(164,105,140,.13),inset 0 0 0 3px rgba(255,255,255,.30)}
+#colosseumOrderPage .seedBall .seedRank{background:#80617e;color:#fff8e8}
+
+/* Bracket: cute tournament card instead of a dark board. */
+.bracketCard{background:linear-gradient(180deg,#fffdfd,#fff4f8);border:1px solid #eccfdb;box-shadow:0 18px 38px rgba(179,108,137,.14);color:#604857;border-radius:28px}
+#colosseumBracketPage .bracketCard .stepPill{background:linear-gradient(135deg,#fff9fc,#f3edf9);border-color:#ead6e2;color:#75596a;box-shadow:0 5px 14px rgba(178,119,146,.07)}
+#colBracketRoundTitle{color:#684d5b!important}
+.roundKicker{color:#b07a90}
+#colBracketRoundTitle strong{color:#654855}
+#colBracketRoundTitle small{color:#9d7e8d}
+.matchRow{background:linear-gradient(180deg,#fff,#fff8fb);border:1px solid #ead2dd;box-shadow:0 8px 19px rgba(171,104,132,.09);border-radius:20px;color:#634b58}
+.matchRow::before{width:5px;background:linear-gradient(#f2a8c3,#cdb9eb)}
+.matchRow.currentMatch{border-color:#eda7c1;box-shadow:0 0 0 2px rgba(239,157,189,.10),0 11px 23px rgba(176,103,132,.12)}
+.matchTop{color:#775c69}
+.matchNo{color:#704f60}
+.matchStatus{background:#f2e9f0;color:#856c78}
+.matchStatus.next{background:#ffe1eb;color:#934f6b}
+.matchStatus.complete{background:#dff4e9;color:#4f7562}
+.matchStatus.wait{background:#eee8f3;color:#75687e}
+.matchStatus.byeStatus{background:#e9e0f7;color:#6e5b86}
+.bracketFighter{background:linear-gradient(180deg,#fffafd,#f9edf3);border:1px solid #ead3de;color:#614a56;border-radius:18px}
+.bracketFighter.winner{border-color:#edb0c6;background:linear-gradient(180deg,#fff7fb,#ffeaf2);box-shadow:0 0 0 2px rgba(241,172,197,.08)}
+.seedChip{background:#f0e4ed;color:#8a6879}
+.fighterName{color:#634a57}
+.winnerMark{color:#c66f94}
+.bracketVs{background:linear-gradient(145deg,#ffd7e6,#e6d9f5);border-color:#e8c9da;box-shadow:0 0 0 4px rgba(247,174,204,.09)}
+.bracketVs span{color:#795567}
+.duelWinner{border-top-color:#edd7e1;color:#a95f7d}
+#colNextMatchBtn{background:linear-gradient(135deg,#f7a7c5,#d9bee9);border-color:#f4c4d6;color:#fff;text-shadow:0 1px rgba(123,72,96,.15)}
+
+/* VS: Sakura arena, only the jagged slash remains. */
+#colosseumVsPage{background:
+  radial-gradient(circle at 50% 47%,rgba(255,229,170,.34),transparent 26%),
+  radial-gradient(circle at 20% 32%,rgba(255,188,215,.46),transparent 33%),
+  radial-gradient(circle at 82% 65%,rgba(216,204,248,.58),transparent 34%),
+  linear-gradient(155deg,#fff9fb,#fbeef5 48%,#f3edfb)}
+.vsStage{min-height:calc(100svh - 34px)}
+.vsCard{min-height:500px;background:linear-gradient(135deg,#ffe9f2 0 48%,#eee7fb 52% 100%);border:2px solid rgba(236,190,210,.88);box-shadow:0 22px 50px rgba(178,108,138,.18),inset 0 1px rgba(255,255,255,.95);border-radius:34px}
+.vsCard::before{left:49%;top:-14%;width:28px;height:132%;background:linear-gradient(90deg,transparent,#fff 31%,#f4cf87 48%,#fff 67%,transparent);filter:drop-shadow(0 0 9px rgba(214,159,86,.38));opacity:.98}
+.vsCard::after{display:none!important}
+.vsFighter{min-height:300px;background:rgba(255,255,255,.58);border:1px solid rgba(223,188,207,.80);box-shadow:0 11px 25px rgba(175,111,140,.08),inset 0 1px rgba(255,255,255,.9);border-radius:24px}
+.vsFighter .face{font-size:92px;filter:drop-shadow(0 12px 13px rgba(120,79,99,.16));transform:scale(1.08)}
+.vsFighter .name{color:#604553}
+.vsFighter .seed{color:#9a7486}
+.bigVs{color:#bd678b;text-shadow:0 3px 0 rgba(255,255,255,.9),0 0 16px rgba(233,142,181,.24)}
+
+/* Battle: soft cards, strong readability, controls close to HP. */
+#colosseumBattlePage .battleCard{background:linear-gradient(180deg,#fffdfd,#fff5f8);border:1px solid #ebcfda;box-shadow:0 18px 39px rgba(178,109,138,.14);color:#604857;border-radius:28px}
+#colosseumBattlePage .hpLane{background:linear-gradient(180deg,#fff,#fff7fa);border:1px solid #ead3dd;color:#604857;border-radius:20px}
+#colosseumBattlePage .hpHead{color:#846a77}
+#colosseumBattlePage .hpName{color:#5f4552}
+#colosseumBattlePage .hpNum{color:#755966}
+#colosseumBattlePage .centerHud{background:linear-gradient(180deg,#fff8ed,#fff3f7);border:1px solid #ead3d2;color:#72515e;border-radius:22px;box-shadow:0 7px 16px rgba(179,111,137,.08)}
+#colosseumBattlePage .hudTimer{color:#b46784;text-shadow:0 2px #fff}
+#colosseumBattlePage .hudSub{color:#8f7280}
+#colosseumBattlePage .battleControls{background:linear-gradient(180deg,#fff,#fff7fb);border:1px solid #ead1dc;border-radius:22px;box-shadow:0 8px 18px rgba(177,111,137,.07)}
+#colosseumBattlePage .battleNotice{color:#7b5969}
+#colosseumBattlePage .battleHint{color:#9c7e8c}
+#colosseumBattlePage .hiddenAiNotice{color:#8d6f7c}
+#colosseumBattlePage .choiceBtn,#colosseumBattlePage .diceBtn{color:#674b58;border-radius:18px;font-weight:1000;box-shadow:0 6px 14px rgba(171,110,136,.08)}
+#colosseumBattlePage #colAttackBtn{background:linear-gradient(135deg,#ffe4ec,#ffc5d6);border:1px solid #efb4c8}
+#colosseumBattlePage #colDefendBtn{background:linear-gradient(135deg,#e8f8f0,#ccebdc);border:1px solid #badfce}
+#colosseumBattlePage #colDiceBtn{background:linear-gradient(135deg,#f1eafb,#e0d4f3);border:1px solid #d3c3ea}
+#colosseumBattlePage .choiceBtn.active,#colosseumBattlePage .diceBtn.active{color:#5c4050;box-shadow:0 0 0 3px rgba(224,140,174,.16),0 7px 16px rgba(178,111,139,.09);transform:translateY(-1px)}
+#colosseumBattlePage .revealGrid{grid-template-columns:1fr 68px 1fr!important;gap:9px;align-items:stretch}
+#colosseumBattlePage .revealCard{background:linear-gradient(180deg,#fff9fc,#fbeef4);border:1px solid #ead1dc;color:#664c58;border-radius:20px;box-shadow:0 7px 15px rgba(175,108,136,.07)}
+#colosseumBattlePage .revealCard.right{background:linear-gradient(180deg,#faf8ff,#f1ecfb);border-color:#ddd1ee}
+#colosseumBattlePage .actionTag{background:#f2e6ed;color:#765866}
+.revealVsCore{display:grid;place-items:center;min-height:88px;border-radius:20px;background:linear-gradient(180deg,#fff8f1,#fff0f6);border:1px solid #ead2d9;box-shadow:0 7px 15px rgba(173,108,134,.07)}
+.revealVsCore span{font-size:22px;font-weight:1000;color:#b56785;text-shadow:0 2px #fff}
+#colosseumBattlePage .animPanel.battleLogBar{order:4;width:100%;min-height:48px;margin-top:-2px;padding:12px 14px;border-radius:18px;background:linear-gradient(90deg,#fff8fb,#f8f0fc);border:1px solid #e8d2df;color:#725765;box-shadow:0 7px 15px rgba(174,108,136,.07);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:11px;font-weight:850;display:flex;align-items:center;justify-content:center;text-align:center}
+#colosseumBattlePage .animPanel.battleLogBar.slash{background:linear-gradient(90deg,#fff2f3,#ffe9ee);box-shadow:0 7px 15px rgba(190,105,125,.08)}
+#colosseumBattlePage .animPanel.battleLogBar.guard{background:linear-gradient(90deg,#eef9f5,#eff6ff);box-shadow:0 7px 15px rgba(104,154,155,.08)}
+
+/* Champion stays celebratory and light. */
+#colosseumChampionPage .championCard{background:linear-gradient(180deg,#fffdfd,#fff0f6);border:2px solid #efc8d8;box-shadow:0 20px 44px rgba(183,109,141,.15);border-radius:32px}
+#colosseumChampionPage .championTitle{color:#b45f82}
+#colosseumChampionPage .winnerName{color:#72516a}
+#colosseumChampionPage .championSub{color:#927483}
+
+@media (max-width:420px){
+  .vsCard{min-height:470px;padding:18px 12px}
+  .vsFighter{min-height:245px}
+  .vsFighter .face{font-size:76px}
+  #colosseumBattlePage .revealGrid{grid-template-columns:1fr 58px 1fr!important;gap:7px}
+  .revealVsCore{min-height:88px}
+  .revealVsCore span{font-size:20px}
+  #colosseumBattlePage .animPanel.battleLogBar{font-size:10px;padding-inline:10px}
+}
+
+
+/* ===== v4.8.18 Battle UX hotfix ===== */
+/* The round message must belong to the same soft Sakura family, never the old dark arena panel. */
+#colosseumBattlePage .animPanel{
+  background:linear-gradient(90deg,#fff8fb,#f7f1fc);
+  border:1px solid #ead3df;
+  color:#725765;
+  box-shadow:0 7px 16px rgba(176,110,139,.07);
+}
+#colosseumBattlePage .animPanel.battleLogBar{
+  min-height:52px;
+  background:linear-gradient(90deg,#fff9fc,#f8f1fc);
+  border-color:#ead2df;
+  color:#6f5361;
+}
+#colosseumBattlePage .animPanel.battleLogBar.slash{
+  background:linear-gradient(90deg,#fff1f4,#ffe8ee);
+  color:#7a4b5c;
+}
+#colosseumBattlePage .animPanel.battleLogBar.guard{
+  background:linear-gradient(90deg,#eef9f5,#f1f7ff);
+  color:#526b6c;
+}
+
+/* Clear selection state: pressed tone + translucent paw + check mark. */
+#colosseumBattlePage .choiceBtn,
+#colosseumBattlePage .diceBtn{
+  position:relative;
+  isolation:isolate;
+  overflow:hidden;
+  min-height:68px;
+  transition:transform .12s ease,filter .12s ease,box-shadow .12s ease,background .12s ease;
+  opacity:1;
+}
+#colosseumBattlePage .choiceBtn > *,
+#colosseumBattlePage .diceBtn > *{
+  position:relative;
+  z-index:3;
+}
+#colosseumBattlePage .choiceBtn::before,
+#colosseumBattlePage .diceBtn::before{
+  content:'🐾';
+  position:absolute;
+  z-index:1;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-48%) scale(.78);
+  font-size:62px;
+  line-height:1;
+  opacity:0;
+  filter:grayscale(.18);
+  pointer-events:none;
+  transition:opacity .12s ease,transform .12s ease;
+}
+#colosseumBattlePage .choiceBtn::after,
+#colosseumBattlePage .diceBtn::after{
+  content:'✓';
+  position:absolute;
+  z-index:4;
+  right:10px;
+  top:8px;
+  width:24px;
+  height:24px;
+  border-radius:999px;
+  display:grid;
+  place-items:center;
+  background:#fff;
+  color:#9b5674;
+  border:1px solid rgba(155,86,116,.22);
+  box-shadow:0 3px 8px rgba(126,78,98,.12);
+  font-size:14px;
+  font-weight:1000;
+  opacity:0;
+  transform:scale(.7);
+  pointer-events:none;
+  transition:opacity .12s ease,transform .12s ease;
+}
+#colosseumBattlePage .choiceBtn.active::before,
+#colosseumBattlePage .diceBtn.active::before{
+  opacity:.18;
+  transform:translate(-50%,-48%) scale(1);
+}
+#colosseumBattlePage .choiceBtn.active::after,
+#colosseumBattlePage .diceBtn.active::after{
+  opacity:1;
+  transform:scale(1);
+}
+#colosseumBattlePage #colAttackBtn.active{
+  background:linear-gradient(135deg,#efb8c8,#e7a4ba);
+  border-color:#d894ab;
+  color:#543944;
+  box-shadow:inset 0 3px 7px rgba(104,54,72,.12),0 0 0 3px rgba(224,140,174,.15);
+  transform:translateY(2px);
+}
+#colosseumBattlePage #colDefendBtn.active{
+  background:linear-gradient(135deg,#bfe3d3,#a9d5c2);
+  border-color:#91c5ae;
+  color:#385a4c;
+  box-shadow:inset 0 3px 7px rgba(50,101,80,.12),0 0 0 3px rgba(112,190,155,.13);
+  transform:translateY(2px);
+}
+#colosseumBattlePage #colDiceBtn.active{
+  background:linear-gradient(135deg,#d8c8ee,#c7b3e5);
+  border-color:#b6a0d7;
+  color:#51405f;
+  box-shadow:inset 0 3px 7px rgba(82,59,107,.12),0 0 0 3px rgba(164,134,205,.13);
+  transform:translateY(2px);
+}
+#colosseumBattlePage .choiceBtn:disabled,
+#colosseumBattlePage .diceBtn:disabled{
+  cursor:default;
+  filter:saturate(.78);
+  opacity:.58;
+}
+#colosseumBattlePage .choiceBtn.active:disabled,
+#colosseumBattlePage .diceBtn.active:disabled{
+  opacity:1;
+  filter:none;
+}
+#colosseumBattlePage .choiceText{
+  color:inherit;
+  text-shadow:0 1px rgba(255,255,255,.65);
+}
+#colosseumBattlePage .diceBtn.rolling .dicePip{
+  animation:colDiceWiggle .34s ease-in-out infinite alternate;
+}
+@keyframes colDiceWiggle{
+  from{transform:rotate(-14deg) scale(.94)}
+  to{transform:rotate(14deg) scale(1.08)}
+}
+
+
+/* ===== v4.8.19 Colosseum UI / flow fixes ===== */
+/* Action controls keep a fixed footprint whether selected or not. */
+#colosseumBattlePage .choiceRow{
+  width:100%;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr);
+}
+#colosseumBattlePage .choiceBtn,
+#colosseumBattlePage .diceBtn{
+  width:100%;
+  min-width:0;
+  max-width:100%;
+  box-sizing:border-box;
+}
+#colosseumBattlePage #colDiceBtn{
+  width:100%;
+  margin:0 0 16px 0;
+}
+#colosseumBattlePage .battleHint{
+  margin-top:2px;
+}
+/* Pressed state may move vertically only. Never scale or change horizontal size. */
+#colosseumBattlePage #colAttackBtn.active,
+#colosseumBattlePage #colDefendBtn.active,
+#colosseumBattlePage #colDiceBtn.active{
+  width:100%;
+  transform:translateY(2px);
+}
+
+
+/* ===== v4.8.20 VS composition + battle history ===== */
+/* VS: remove the rounded fighter tiles and use the broad diagonal arena. */
+#colosseumVsPage .vsCard{
+  min-height:520px;
+  overflow:hidden;
+}
+#colosseumVsPage .vsSplit{
+  position:relative;
+  min-height:470px;
+  grid-template-columns:minmax(0,1fr) 64px minmax(0,1fr);
+  align-items:center;
+  gap:2px;
+  z-index:2;
+}
+#colosseumVsPage .vsFighter{
+  min-height:0;
+  padding:10px 2px;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  position:relative;
+  z-index:2;
+}
+#colosseumVsPage .vsFighterLeft{transform:translateY(-58px)}
+#colosseumVsPage .vsFighterRight{transform:translateY(58px)}
+#colosseumVsPage .vsFighter .face{
+  font-size:104px;
+  margin-bottom:8px;
+  filter:drop-shadow(0 13px 14px rgba(120,79,99,.18));
+}
+#colosseumVsPage .vsFighter .name{
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.54);
+  box-shadow:0 4px 12px rgba(164,105,134,.08);
+  font-size:18px;
+  line-height:1.2;
+}
+#colosseumVsPage .vsFighter .seed{margin-top:6px;font-size:12px}
+#colosseumVsPage .bigVs{
+  position:relative;
+  width:64px;
+  height:230px;
+  display:block;
+  font-size:0;
+  z-index:4;
+  pointer-events:none;
+}
+#colosseumVsPage .bigVs span{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%) rotate(-7deg);
+  font-size:48px;
+  line-height:1;
+  font-weight:1000;
+  color:#bd678b;
+  text-shadow:0 3px 0 rgba(255,255,255,.95),0 0 16px rgba(233,142,181,.25);
+}
+#colosseumVsPage .vsLetterV{top:36px;margin-left:-9px}
+#colosseumVsPage .vsLetterS{bottom:34px;margin-left:9px}
+
+/* Battle history: newest result stays on top, older rounds scroll below. */
+#colosseumBattlePage .battleHistoryPanel{
+  order:5;
+  width:100%;
+  margin-top:2px;
+  padding:12px;
+  border-radius:20px;
+  background:linear-gradient(180deg,#fffdfd,#fff5f9);
+  border:1px solid #ead1dc;
+  box-shadow:0 8px 18px rgba(177,111,137,.07);
+  color:#674e5a;
+}
+#colosseumBattlePage .battleHistoryHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:8px;
+  font-size:12px;
+  font-weight:1000;
+  color:#704f60;
+}
+#colosseumBattlePage .battleHistoryHead small{
+  color:#a17e8d;
+  font-size:9px;
+  font-weight:800;
+}
+#colosseumBattlePage .battleHistoryList{
+  max-height:148px;
+  overflow-y:auto;
+  overscroll-behavior:contain;
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+  padding-right:2px;
+  scrollbar-width:thin;
+}
+#colosseumBattlePage .battleHistoryEmpty{
+  padding:13px 10px;
+  text-align:center;
+  color:#a18692;
+  font-size:10px;
+  border-radius:14px;
+  background:#fbf2f6;
+}
+#colosseumBattlePage .battleHistoryItem{
+  padding:10px 11px;
+  border-radius:14px;
+  background:#fbf2f6;
+  border:1px solid #efdee6;
+  color:#6b5360;
+  font-size:10px;
+  line-height:1.45;
+  font-weight:780;
+  word-break:keep-all;
+}
+#colosseumBattlePage .battleHistoryItem.latest{
+  background:linear-gradient(135deg,#ffeaf2,#f1eafb);
+  border-color:#edc4d5;
+  box-shadow:0 0 0 2px rgba(233,155,187,.08);
+  color:#604553;
+}
+#colosseumBattlePage .battleHistoryRound{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  min-width:31px;
+  margin-right:6px;
+  padding:2px 6px;
+  border-radius:999px;
+  background:#fff;
+  color:#a75e7d;
+  font-size:9px;
+  font-weight:1000;
+  vertical-align:1px;
+}
+@media (max-width:420px){
+  #colosseumVsPage .vsCard{min-height:500px;padding:14px 8px}
+  #colosseumVsPage .vsSplit{min-height:450px;grid-template-columns:minmax(0,1fr) 54px minmax(0,1fr)}
+  #colosseumVsPage .vsFighterLeft{transform:translateY(-52px)}
+  #colosseumVsPage .vsFighterRight{transform:translateY(52px)}
+  #colosseumVsPage .vsFighter .face{font-size:88px}
+  #colosseumVsPage .vsFighter .name{font-size:15px;padding:4px 8px}
+  #colosseumVsPage .bigVs{width:54px;height:210px}
+  #colosseumVsPage .bigVs span{font-size:42px}
+  #colosseumVsPage .vsLetterV{top:31px;margin-left:-7px}
+  #colosseumVsPage .vsLetterS{bottom:30px;margin-left:7px}
+  #colosseumBattlePage .battleHistoryList{max-height:132px}
+}
+
+
+
+/* ===== v4.8.22 RPG Field/Battle Prototype ===== */
+.rpgFeatured{margin:0;min-height:155px;border-color:#cdb991;box-shadow:0 0 0 1px rgba(143,118,79,.18),0 15px 32px rgba(92,76,116,.14)}
+.rpgFeatured::before{background:radial-gradient(circle at 15% 18%,rgba(255,239,183,.72),transparent 25%),radial-gradient(circle at 83% 42%,rgba(187,221,199,.52),transparent 38%),linear-gradient(135deg,#fff4d9,#e8efe0 54%,#e6ddf5)}
+.rpgFeatured .gameTag{color:#6c5b6e}
+.rpgFeatured h2{font-size:39px;color:#66547f;text-shadow:0 2px 0 rgba(255,255,255,.95);letter-spacing:-.045em}
+.rpgFeatured p{color:#62586b;font-weight:780}
+.rpgFeaturedMascot{right:-2px;bottom:-4px;width:45%;height:150px;align-items:center;justify-content:center;overflow:visible}
+.rpgFeaturedHero{position:relative;z-index:2;font-size:82px;line-height:1;filter:drop-shadow(0 12px 13px rgba(81,65,89,.20));transform:translateY(5px)}
+.rpgFeaturedSpark{position:absolute;z-index:3;font-size:23px;filter:drop-shadow(0 4px 6px rgba(85,70,96,.14))}
+.rpgSparkOne{right:16px;top:19px;transform:rotate(12deg)}
+.rpgSparkTwo{left:8px;bottom:22px;font-size:27px;transform:rotate(-18deg)}
+.rpgFeatured .featuredArrow{color:#615474;background:rgba(255,255,255,.72);border-color:#d8cde2}
+@media(max-width:365px){.rpgFeaturedHero{font-size:72px}.rpgFeatured p{font-size:11px}.rpgFeatured h2{font-size:35px}}
+#rpgNamePage,#rpgGenderPage,#rpgJobPage,#rpgStatsPage,#rpgAiPage,#rpgVillagePage,#rpgStatusPage,#rpgNpcPage,#rpgGuildPage,#rpgReceptionPage,#rpgDialoguePage,#rpgQuestGuidePage,#rpgQuestAcceptedPage,#rpgFormationPage,#rpgFieldPage{
+  background:radial-gradient(circle at 18% 12%,rgba(255,222,202,.55),transparent 29%),radial-gradient(circle at 83% 58%,rgba(221,210,250,.50),transparent 32%),linear-gradient(180deg,#fffaf8 0%,#fff3f7 62%,#f8edf5 100%);color:#5d4855
+}
+.rpgHeadTitle{color:#604a58!important}.rpgSub{color:#977784!important}
+.rpgPanel{margin:10px 0 14px;padding:17px;border-radius:24px;background:linear-gradient(180deg,#fff,#fff8fb);border:1px solid #ecd6df;box-shadow:0 14px 32px rgba(165,106,132,.11)}
+.rpgKicker{font-size:9px;font-weight:1000;letter-spacing:.12em;color:#b07a91;margin-bottom:5px}.rpgBig{font-size:25px;font-weight:1000;color:#654d5c;line-height:1.15}.rpgDesc{margin-top:8px;color:#8d7380;font-size:12px;font-weight:720;line-height:1.58}
+.rpgTextInput{width:100%;height:54px;border-radius:17px;border:1px solid #e6cdd8;background:#fff;color:#604a58;padding:0 15px;font-size:17px;font-weight:900;outline:none;box-shadow:inset 0 2px 5px rgba(125,78,100,.04)}
+.rpgTextInput:focus{border-color:#d699b3;box-shadow:0 0 0 3px rgba(226,152,184,.12)}
+.rpgError{min-height:20px;margin:6px 3px 2px;color:#bd617c;font-size:10px;font-weight:850}
+.rpgChoiceGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.rpgGenderBtn,.rpgStatBtn{min-height:80px;border-radius:20px;border:1px solid #e9d3dd;background:#fff9fc;color:#684f5d;font-weight:1000;box-shadow:0 8px 19px rgba(171,104,132,.08)}
+.rpgGenderBtn{font-size:15px}.rpgGenderBtn span{display:block;font-size:27px;margin-bottom:4px}.rpgGenderBtn.active{background:linear-gradient(180deg,#ffe9f1,#f3eafd);border-color:#dca4ba;box-shadow:0 0 0 2px rgba(218,152,181,.10),0 9px 20px rgba(155,99,127,.10)}
+.rpgDiceStage{text-align:center;padding:18px 10px}.rpgDice{width:96px;height:96px;margin:4px auto 12px;border-radius:28px;display:grid;place-items:center;background:linear-gradient(145deg,#fff,#f5e7ef);border:1px solid #e6ced9;box-shadow:0 16px 28px rgba(143,91,116,.14);font-size:48px;font-weight:1000;color:#74566a}.rpgDice.rolling{animation:rpgDiceShake .13s linear infinite}@keyframes rpgDiceShake{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(3deg) translateY(-3px)}}
+.rpgJobResult{min-height:66px;text-align:center}.rpgJobName{font-size:23px;font-weight:1000;color:#624b59}.rpgJobName.hiddenJob{color:#8c62a7;text-shadow:0 2px 10px rgba(137,91,172,.14)}.rpgJobDesc{margin-top:5px;color:#937986;font-size:11px;font-weight:760}
+.rpgMap{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.rpgMap div{padding:8px 4px;border-radius:12px;background:#f8eef4;border:1px solid #ead9e1;text-align:center;color:#876d79;font-size:9px;font-weight:900}.rpgMap div:last-child{grid-column:2/3}
+.rpgStatBoard{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:10px 0}.rpgStatCell{padding:9px 2px;border-radius:14px;background:#fff;border:1px solid #ead5df;text-align:center}.rpgStatCell b{display:block;color:#715667;font-size:9px}.rpgStatCell strong{display:block;margin-top:4px;color:#5b4754;font-size:18px}.rpgStatAssign{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:10px 0}.rpgStatBtn{min-height:52px;padding:5px 1px;font-size:10px}.rpgStatBtn:disabled{opacity:.42}.rpgStatBtn:not(:disabled):active{transform:translateY(2px);background:#f7eaf1}
+.rpgRollHistory{min-height:34px;padding:8px 10px;border-radius:14px;background:#fbf4f8;color:#967786;font-size:9px;font-weight:800;line-height:1.5}.rpgCurrentRoll{text-align:center;font-size:12px;font-weight:900;color:#846676;margin:8px 0}.rpgCurrentRoll strong{font-size:24px;color:#624b59}
+.rpgPartyCards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.rpgPartyCard{padding:12px;border-radius:18px;background:#fff9fc;border:1px solid #e9d5df}.rpgPartyCard .who{font-size:9px;color:#a27d8f;font-weight:1000}.rpgPartyCard .name{font-size:14px;color:#634b59;font-weight:1000;margin-top:3px}.rpgPartyCard .job{font-size:11px;color:#8d7080;font-weight:850;margin-top:2px}.rpgAiRolling{text-align:center;padding:13px;border-radius:16px;background:#f9eff6;color:#8b6d7d;font-size:11px;font-weight:900}.rpgAiRolling.active::after{content:' ·';animation:rpgDots 1s steps(3,end) infinite}@keyframes rpgDots{0%{content:' ·'}33%{content:' ··'}66%,100%{content:' ···'}}
+.rpgStoryBox{padding:18px;border-radius:24px;background:linear-gradient(180deg,#fffdfb,#fff7f9);border:1px solid #ecd7de;box-shadow:0 14px 30px rgba(151,99,120,.10);font-family:Georgia,"Noto Serif KR",serif}.rpgStoryBox h2{margin:0 0 10px;color:#644c59;font-size:21px}.rpgStoryBox p{margin:8px 0;color:#765e6a;font-size:13px;line-height:1.75;font-weight:650}.rpgNpcLine{margin:10px 0;padding:13px 15px;border-left:4px solid #e4adc2;border-radius:0 16px 16px 0;background:#fff7fb;color:#725765;font-size:12px;line-height:1.6;font-weight:760}
+.rpgActionStack{display:grid;gap:8px;margin-top:14px}.rpgActionBtn{width:100%;min-height:54px;border-radius:17px;border:1px solid #e8cfda;background:linear-gradient(180deg,#fff,#fff7fb);color:#674e5b;font-size:12px;font-weight:950;padding:10px 13px;text-align:left;box-shadow:0 7px 17px rgba(160,103,128,.07)}.rpgActionBtn:active{transform:translateY(2px);background:#f9edf3}.rpgActionBtn.primaryChoice{text-align:center;background:linear-gradient(135deg,#f7bfd3,#d9c7f0);border-color:#ddadc2;color:#684b5b}
+.rpgDialogueChoices{display:grid;gap:9px;margin:12px 0}.rpgDialogueChoice{width:100%;min-height:62px;border-radius:18px;border:1px solid #ead3dd;background:#fff;color:#644d5a;padding:12px 14px;text-align:left;font-size:12px;line-height:1.45;font-weight:850;box-shadow:0 8px 18px rgba(160,103,128,.07)}.rpgDialogueChoice:active{transform:translateY(2px);background:#f9edf4}.rpgDialogueChoice[disabled]{opacity:.55}
+.rpgQuestGradeRow{display:flex;gap:5px;flex-wrap:wrap;margin:9px 0}.rpgGrade{min-width:31px;padding:6px 7px;border-radius:10px;text-align:center;background:#f7edf3;border:1px solid #e7d3dc;color:#846b77;font-size:9px;font-weight:1000}.rpgGrade.high{background:#f0e7fa;color:#6f5a86}.rpgQuestCard{padding:15px;border-radius:21px;background:linear-gradient(145deg,#fffaf2,#fff7fb);border:1px solid #e8d1c7;box-shadow:0 10px 22px rgba(150,102,95,.09)}.rpgQuestCard .grade{display:inline-flex;padding:5px 8px;border-radius:999px;background:#e9d7bd;color:#705b3e;font-size:9px;font-weight:1000}.rpgQuestCard h3{margin:8px 0 5px;color:#654f58;font-size:17px}.rpgQuestCard p{margin:4px 0;color:#8d747e;font-size:11px;line-height:1.55;font-weight:740}.rpgQuestRules{margin:10px 0;padding:12px;border-radius:16px;background:#fbf3f7;color:#876d79;font-size:10px;line-height:1.6;font-weight:780}
+.rpgAcceptedIcon{text-align:center;font-size:62px;margin:12px 0 4px}.rpgAcceptedTitle{text-align:center;color:#624a58;font-size:24px;font-weight:1000}.rpgAcceptedSub{text-align:center;color:#917683;font-size:11px;font-weight:780;line-height:1.6;margin:7px 0 14px}
+
+/* ===== v4.8.22 RPG formation / field / battle ===== */
+.rpgFormationLegend{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:11px 0 5px;text-align:center;font-size:9px;font-weight:1000;color:#947783}
+.rpgFormationLegend span:first-child{color:#7b75a0}.rpgFormationLegend span:last-child{color:#a96275}
+.rpgMemberPicker{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.rpgMemberChip{flex:1;min-width:128px;padding:10px 12px;border-radius:16px;border:1px solid #e7d1dc;background:#fff9fc;color:#654e5b;text-align:left;font-weight:950}
+.rpgMemberChip.active{background:linear-gradient(135deg,#ffe0ec,#eee2fb);border-color:#d89ab5;box-shadow:0 0 0 2px rgba(214,145,176,.12)}
+.rpgMemberChip small{display:block;color:#997b89;font-size:8px;margin-top:3px}
+.rpgFormationGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:10px;border-radius:22px;background:linear-gradient(90deg,#f1effc,#fff8fb 50%,#fff0ef);border:1px solid #ead4df}
+.rpgFormationCell{position:relative;min-height:76px;border-radius:17px;border:1px dashed #d9c5d0;background:rgba(255,255,255,.72);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#9a7f8b;font-size:8px;font-weight:900;overflow:hidden}
+.rpgFormationCell.front{background:rgba(255,238,238,.75)}.rpgFormationCell.rear{background:rgba(242,240,255,.78)}
+.rpgFormationCell.occupied{border-style:solid;border-color:#dbadbf;background:#fff}
+.rpgFormationAvatar{font-size:25px;line-height:1}.rpgFormationName{margin-top:4px;font-size:9px;color:#664d59;font-weight:1000}
+.rpgDerivedBox{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.rpgDerivedStat{padding:8px 5px;border-radius:13px;background:#fff;border:1px solid #ead6df;text-align:center}
+.rpgDerivedStat b{display:block;font-size:8px;color:#967987}.rpgDerivedStat strong{display:block;margin-top:3px;font-size:13px;color:#604a56}
+.rpgTimeBadge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#f6eaf1;color:#795f6c;font-size:9px;font-weight:1000}
+.rpgRouteWrap{margin:9px 0 8px;padding:10px 8px;border-radius:20px;background:rgba(255,255,255,.82);border:1px solid #e9d7df;overflow-x:auto}
+.rpgRouteTrack{display:flex;align-items:flex-start;min-width:max-content;padding:0 4px}
+.rpgRouteStep{position:relative;width:58px;text-align:center;flex:0 0 58px;color:#9b808d;font-size:7px;font-weight:900}
+.rpgRouteStep:not(:last-child)::after{content:'';position:absolute;top:17px;left:40px;width:36px;height:3px;border-radius:9px;background:#eadce3}
+.rpgRouteDot{position:relative;z-index:2;width:35px;height:35px;margin:0 auto 5px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid #ddc9d3;font-size:15px;color:#8d7481}
+.rpgRouteStep.done .rpgRouteDot{background:#e8c7d7;border-color:#d79ab4;color:#fff}.rpgRouteStep.current .rpgRouteDot{background:#fff0f6;border-color:#c97e9f;box-shadow:0 0 0 4px rgba(220,145,176,.13)}
+.rpgRouteLabel{max-width:56px;line-height:1.2}.rpgRouteStep.done:not(.current) .rpgRouteLabel{color:#b08195}
+.rpgScene{position:relative;min-height:250px;border-radius:25px;overflow:hidden;border:1px solid #d9d9c9;background:linear-gradient(180deg,#cae7ff 0 45%,#dff3ca 46% 68%,#abd582 69%);box-shadow:0 13px 28px rgba(92,113,83,.10)}
+.rpgScene.noon{background:linear-gradient(180deg,#bfe8ff 0 44%,#eef7c9 45% 67%,#a7d578 68%)}
+.rpgScene.night{background:linear-gradient(180deg,#343956 0 46%,#566b65 47% 67%,#3d6048 68%);color:#fff}
+.rpgScene.dawn{background:linear-gradient(180deg,#7f769d 0 28%,#e8aeb2 29% 48%,#d9d6a5 49% 67%,#65875e 68%);color:#fff}
+.rpgSceneDecor{position:absolute;inset:0;pointer-events:none}.rpgSceneDecor .cloud{position:absolute;top:16px;left:10%;font-size:34px;opacity:.75}.rpgSceneDecor .mount{position:absolute;top:72px;right:5%;font-size:72px;opacity:.38}.rpgSceneDecor .grass{position:absolute;bottom:10px;left:0;right:0;font-size:30px;letter-spacing:14px;white-space:nowrap;opacity:.65}
+.rpgSceneTitle{position:absolute;left:12px;top:10px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.78);color:#69545e;font-size:9px;font-weight:1000}
+.rpgCombatFormation{position:absolute;top:50px;bottom:22px;width:42%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:5px;padding:6px;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.rpgCombatFormation.show{opacity:1;pointer-events:auto}.rpgCombatFormation.party{left:5px}.rpgCombatFormation.enemy{right:5px}
+.rpgCombatUnit{position:relative;border-radius:12px;background:rgba(255,255,255,.82);border:1px solid rgba(112,86,101,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;padding:3px}
+.rpgCombatUnit.empty{background:rgba(255,255,255,.18);border-style:dashed}.rpgCombatUnit.targetable{outline:3px solid rgba(219,90,117,.42);cursor:pointer;animation:rpgTargetPulse .8s ease-in-out infinite alternate}
+@keyframes rpgTargetPulse{to{transform:scale(1.04)}}
+.rpgUnitIcon{font-size:21px;line-height:1}.rpgUnitName{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;font-size:7px;font-weight:1000;color:#5e4b55}
+.rpgMiniHp{width:90%;height:5px;border-radius:99px;background:#e7d9de;overflow:hidden;margin-top:3px}.rpgMiniHp i{display:block;height:100%;background:#df7897;border-radius:99px}
+.rpgUnitStatus{min-height:9px;font-size:6px;color:#856d78;margin-top:2px}
+.rpgDamageFloat{position:absolute;z-index:9;top:-10px;left:50%;transform:translateX(-50%);font-size:16px;font-weight:1000;color:#bb3459;text-shadow:0 2px 0 #fff;pointer-events:none;animation:rpgDamageUp .75s ease-out forwards}
+.rpgDamageFloat.heal{color:#4c9e6a}
+@keyframes rpgDamageUp{0%{opacity:0;transform:translate(-50%,8px) scale(.8)}25%{opacity:1}100%{opacity:0;transform:translate(-50%,-26px) scale(1.08)}}
+.rpgFieldControls{display:grid;grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr);gap:7px;margin:8px 0;align-items:stretch}
+.rpgBattleBox,.rpgPartyStatusBox{min-height:170px;border-radius:18px;border:1px solid #ead4de;background:#fff9fc;padding:8px}
+.rpgBattleActions{display:grid;grid-template-columns:1fr 1fr;gap:5px}.rpgBattleAction{min-height:42px;border-radius:11px;border:1px solid #e6d1da;background:#fff;color:#6b5360;font-size:9px;font-weight:1000;padding:4px}
+.rpgBattleAction:active:not(:disabled){transform:translateY(2px);background:#f7eaf1}.rpgBattleAction:disabled{opacity:.38}
+.rpgBattleHint{margin-top:7px;font-size:8px;line-height:1.4;color:#9a7e8b;font-weight:800}
+.rpgCenterActions{display:flex;flex-direction:column;gap:6px;justify-content:center}
+.rpgCenterBtn{width:100%;min-height:74px;border-radius:19px;border:1px solid #d9b9c7;background:linear-gradient(180deg,#ffe4ef,#f1def7);color:#694f5d;font-size:12px;font-weight:1000;box-shadow:0 8px 16px rgba(153,99,124,.10)}
+.rpgCenterBtn:active:not(:disabled){transform:translateY(3px) scale(.98);box-shadow:0 3px 7px rgba(153,99,124,.10)}.rpgCenterBtn:disabled{opacity:.48}
+.rpgCenterBtn.danger{background:linear-gradient(180deg,#ffdcd8,#f6c6cb);border-color:#dea6ab}.rpgCenterBtn.safe{background:linear-gradient(180deg,#e7f5e5,#cfe8d1);border-color:#b9d2bc}
+.rpgPartyStatus{padding:6px 4px;border-bottom:1px solid #f0e1e7}.rpgPartyStatus:last-child{border-bottom:0}.rpgStatusTop{display:flex;justify-content:space-between;gap:4px;font-size:8px;font-weight:1000;color:#684f5c}
+.rpgBar{height:7px;margin-top:4px;border-radius:99px;background:#eadfe4;overflow:hidden}.rpgBar i{display:block;height:100%;border-radius:99px}.rpgBar.hp i{background:#df7897}.rpgBar.mp i{background:#8f91d8}
+.rpgStatusEffect{min-height:11px;margin-top:4px;font-size:7px;color:#957b88;font-weight:800}
+.rpgHistory{max-height:130px;overflow:auto;padding:9px;border-radius:17px;background:#faf2f6;border:1px solid #ead7df}
+.rpgHistoryTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:9px;font-weight:1000;color:#79606c}
+.rpgHistoryRow{padding:6px 7px;border-radius:10px;background:#fff;margin-bottom:5px;color:#806875;font-size:8px;font-weight:800;line-height:1.45}.rpgHistoryRow:first-of-type{background:#fff1f6;color:#6c4e5c;border:1px solid #edd0dc}
+.rpgFieldSummary{display:flex;gap:6px;flex-wrap:wrap;margin:7px 0}.rpgFieldSummary span{padding:5px 8px;border-radius:999px;background:#f8edf3;color:#846a77;font-size:8px;font-weight:1000}
+.rpgQuestDone{padding:13px;border-radius:17px;background:linear-gradient(135deg,#fff0c9,#f4e2ff);border:1px solid #ead3b2;color:#715d55;font-size:10px;font-weight:900;line-height:1.55;margin:8px 0}
+@media(max-width:365px){.rpgFieldControls{grid-template-columns:minmax(0,1fr) 68px minmax(0,1fr);gap:5px}.rpgBattleBox,.rpgPartyStatusBox{padding:6px}.rpgBattleAction{font-size:8px}.rpgCenterBtn{font-size:10px}.rpgRouteStep{width:52px;flex-basis:52px}.rpgRouteStep:not(:last-child)::after{width:30px}}
+
+@media(max-width:365px){.rpgStatCell strong{font-size:15px}.rpgStatCell b,.rpgStatBtn{font-size:8px}.rpgPanel{padding:14px}.rpgBig{font-size:22px}}
+
+/* ===== v4.8.23 village / mobile continuity ===== */
+html,body{overscroll-behavior-y:none!important;overscroll-behavior-x:none}
+body{touch-action:pan-y pinch-zoom}
+#rpgVillagePage .screen,#rpgStatusPage .screen,#rpgNpcPage .screen{padding-bottom:28px}
+.rpgVillageHero{padding:18px;border-radius:25px;background:linear-gradient(145deg,#fff9f1,#f6f2df 48%,#f1e5ef);border:1px solid #ead8d4;box-shadow:0 12px 26px rgba(126,94,94,.09);margin-bottom:12px}
+.rpgVillageScene{min-height:160px;border-radius:21px;background:linear-gradient(180deg,#cdeaff 0 48%,#e7f1c9 49% 68%,#ccb48d 69%);position:relative;overflow:hidden;display:flex;align-items:flex-end;justify-content:center;padding:16px;margin-top:10px}
+.rpgVillageScene .villageSky{position:absolute;inset:8px 12px auto;display:flex;justify-content:space-between;font-size:34px;opacity:.86}.rpgVillageScene .villageTown{position:relative;font-size:46px;letter-spacing:3px;filter:drop-shadow(0 8px 8px rgba(94,74,59,.12))}
+.rpgVillageTop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;margin:7px 0 12px}.rpgVillageGold{padding:7px 11px;border-radius:999px;background:#fff2c7;border:1px solid #ead39a;color:#756039;font-size:10px;font-weight:1000}.rpgVillageClock{padding:7px 11px;border-radius:999px;background:#f4ebf4;border:1px solid #e3d2e0;color:#735e6b;font-size:10px;font-weight:1000}
+.rpgVillageGrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}.rpgVillageAction{min-height:78px;border-radius:18px;border:1px solid #e5d1da;background:linear-gradient(180deg,#fff,#fff7fa);color:#684f5d;font-size:12px;font-weight:1000;padding:10px;box-shadow:0 7px 15px rgba(148,101,120,.07)}.rpgVillageAction:active{transform:translateY(2px);background:#f9edf3}.rpgVillageAction strong{display:block;font-size:22px;margin-bottom:4px}.rpgVillageAction.wide{grid-column:1/-1}
+.rpgStatusParty{display:grid;gap:10px}.rpgStatusSheet{padding:13px;border-radius:20px;background:#fff;border:1px solid #ead7df}.rpgStatusSheetHead{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:9px;font-weight:1000;color:#644e59}.rpgStatusSheetHead span:first-child{font-size:15px}.rpgStatusRaw{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.rpgStatusRaw div,.rpgStatusDerived div{padding:7px 3px;border-radius:11px;background:#faf1f5;text-align:center}.rpgStatusRaw b,.rpgStatusDerived b{display:block;font-size:7px;color:#9b7c8a}.rpgStatusRaw strong,.rpgStatusDerived strong{display:block;margin-top:3px;font-size:12px;color:#624c58}.rpgStatusDerived{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin-top:6px}.rpgGrowthPoints{display:flex;gap:6px;flex-wrap:wrap;margin:-2px 0 8px}.rpgGrowthChip{display:inline-flex;align-items:center;gap:4px;padding:5px 8px;border-radius:999px;background:#f8edf3;border:1px solid #ead4de;color:#765c69;font-size:8px;font-weight:1000}.rpgGrowthChip strong{font-size:10px;color:#5f4955}.rpgStatInvest{position:relative;padding-bottom:27px!important}.rpgStatPlus{position:absolute;left:5px;right:5px;bottom:5px;height:18px;border:0;border-radius:8px;background:#e9bfd0;color:#5f4050;font-size:12px;font-weight:1000;line-height:18px}.rpgStatPlus:disabled{background:#eee6ea;color:#baa9b1}.rpgSkillPanel{margin-top:9px;padding-top:9px;border-top:1px dashed #e7d4dc}.rpgSkillTitle{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:6px;color:#654f5b;font-size:10px;font-weight:1000}.rpgSkillTitle small{font-size:8px;color:#9a7d8a}.rpgSkillList{display:grid;gap:6px}.rpgSkillRow{display:grid;grid-template-columns:1fr auto;gap:8px;align-items:center;padding:8px 9px;border-radius:13px;background:#fbf3f7;border:1px solid #f0dee6}.rpgSkillInfo{min-width:0}.rpgSkillName{display:flex;align-items:center;gap:5px;font-size:9px;font-weight:1000;color:#624b58}.rpgSkillDesc{margin-top:2px;font-size:7px;font-weight:800;line-height:1.35;color:#9a7c89}.rpgSkillInvest{min-width:64px;height:34px;border:0;border-radius:11px;background:#dca2ba;color:#fff;font-size:8px;font-weight:1000;padding:0 8px}.rpgSkillInvest:disabled{background:#e9e0e4;color:#b8a7af}.rpgGrowthHint{margin-top:7px;font-size:7px;font-weight:800;line-height:1.45;color:#a08390;text-align:center}
+.rpgNpcTalkCard{margin-top:16px;padding:20px 18px;border-radius:24px;background:#fff9fc;border:1px solid #ead1dc;text-align:center;cursor:pointer}.rpgNpcFace{font-size:54px}.rpgNpcName{font-size:13px;font-weight:1000;color:#674f5c;margin:8px 0}.rpgNpcSpeech{padding:14px;border-radius:18px;background:#f8edf3;color:#705965;font-size:12px;font-weight:900;line-height:1.6}.rpgNpcTap{margin-top:10px;color:#9b7d8b;font-size:8px;font-weight:900}
+.rpgTravelTicker{display:flex;align-items:center;justify-content:space-between;gap:9px;margin:9px 0;padding:9px 11px;border-radius:17px;background:#fff8fb;border:1px solid #e8d4dd;color:#806574;font-size:9px;font-weight:1000}.rpgTravelDots{display:flex;gap:5px}.rpgTravelDots i{width:10px;height:10px;border-radius:50%;background:#e4d6dd;border:1px solid #d2bec8}.rpgTravelDots i.on{background:#d58eaa;border-color:#c87597}
+#rpgFieldPage .content{width:min(calc(100% - 34px),640px);margin:0 auto;padding-left:0!important;padding-right:0!important}
+#rpgFieldPage .rpgScene{min-height:225px}#rpgFieldPage .rpgFieldControls{margin-left:0;margin-right:0}
+.rpgRewardCard{max-width:390px}.rpgRewardIcon{font-size:46px;text-align:center}.rpgRewardTitle{text-align:center;font-size:18px;font-weight:1000;color:#674f5c;margin:4px 0 12px}.rpgRewardLoot{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}.rpgRewardLoot div{padding:10px 5px;border-radius:14px;background:#fbf1f5;text-align:center}.rpgRewardLoot b{display:block;font-size:8px;color:#987a88}.rpgRewardLoot strong{display:block;margin-top:4px;font-size:14px;color:#624b58}.rpgLevelSheet{display:none;margin-top:10px}.rpgLevelSheet.show{display:block}.rpgLevelWho{text-align:center;font-size:14px;font-weight:1000;color:#624b58;margin-bottom:8px}.rpgLevelStats{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.rpgLevelStats div{padding:9px 2px;border-radius:12px;background:#f6edf6;text-align:center}.rpgLevelStats b{display:block;font-size:7px;color:#967987}.rpgLevelStats strong{font-size:13px;color:#5f4a55}.rpgRewardNote{margin-top:8px;font-size:8px;color:#957987;text-align:center;font-weight:800;line-height:1.45}
+@media(max-width:390px){.rpgVillageGrid{gap:7px}.rpgVillageAction{min-height:70px;font-size:10px}.rpgVillageAction strong{font-size:19px}#rpgFieldPage .content{width:calc(100% - 24px)}.rpgRewardLoot{gap:5px}.rpgLevelStats{gap:4px}}
+
+</style>
+<meta name="hu-nyang-build" content="mobile-single-file">
+<meta name="hu-nyang-version" content="4.8.26-rpg-class-skills">
+</head>
+<body>
+<div id="app">
+  <div class="toast" id="toast"></div>
+
+  <!-- v4.8.9 temporary diagnostics -->
+  <button class="diagFloatBtn" id="diagFloatBtn" type="button" aria-label="자가진단 로그">🩺</button>
+  <div class="diagOverlay" id="diagOverlay" aria-hidden="true">
+    <div class="diagCard" role="dialog" aria-modal="true" aria-labelledby="diagTitle">
+      <div class="diagTitleRow">
+        <div class="diagTitle" id="diagTitle">🩺 후냥 자가진단</div>
+        <button class="diagClose" id="diagCloseBtn" type="button" aria-label="닫기">×</button>
+      </div>
+      <div class="diagSub">앱 동작을 자동 기록 중이냥. 문제가 생기면 이 로그를 저장하거나 복사해서 확인하면 된다냥 🐾</div>
+      <div class="diagStatus">
+        <span class="diagChip ok">● 기록 중</span>
+        <span class="diagChip">v4.8.26</span>
+        <span class="diagChip" id="diagSessionChip">session</span>
+      </div>
+      <textarea class="diagLogBox" id="diagLogBox" readonly spellcheck="false"></textarea>
+      <div class="diagBtns">
+        <button class="diagBtn primaryDiag" id="diagSaveBtn" type="button">로그 파일 저장</button>
+        <button class="diagBtn" id="diagCopyBtn" type="button">로그 복사</button>
+        <button class="diagBtn" id="diagRefreshBtn" type="button">새로고침</button>
+        <button class="diagBtn dangerDiag" id="diagClearBtn" type="button">로그 초기화</button>
+      </div>
+      <div class="diagFoot">임시 개발용 기능이야. 정식 출시판에서는 진단 버튼과 상세 로그를 제거할 예정.</div>
+    </div>
+  </div>
+
+  <!-- Splash -->
+  <section class="page active noBottom" id="splashPage">
+    <button class="mobileSettingsBtn" id="mobileSettingsBtn" type="button" aria-label="설정">⚙</button>
+    <div class="safeTop"></div>
+    <div class="splashContent">
+      <div class="splashMascot">
+        <div class="mascotSpeech" id="mascotSpeech" role="status" aria-live="polite">
+          <span class="speechText" id="speechText"></span>
+          <span class="speechPaw" aria-hidden="true">🐾</span>
+        </div>
