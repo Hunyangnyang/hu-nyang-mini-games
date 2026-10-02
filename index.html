@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#fdeef3">
-<title>Hu nyang Mini Game Collection - v4.8.20 Colosseum VS + History</title>
+<title>Hu nyang Mini Game Collection - v4.8.22 RPG Field Battle</title>
 <style>
 :root{
   --bg:#0d0c19;
@@ -1777,6 +1777,96 @@ body{
   #colosseumBattlePage .battleHistoryList{max-height:132px}
 }
 
+
+
+/* ===== v4.8.22 RPG Field/Battle Prototype ===== */
+.rpgCard{position:relative;background:linear-gradient(135deg,#fffaf4,#f7f0ff);border-color:#ead7ca;overflow:hidden}
+.rpgCard .listIcon{background:linear-gradient(135deg,#ffe2ae,#e1d3ff);color:#745a76;font-size:25px}
+.rpgCard .listInfo h3{color:#684f5d}.rpgCard .listInfo p{margin:3px 0 0;color:#937784;font-size:10px;font-weight:750;line-height:1.35}
+.rpgMiniTag{position:absolute;right:12px;top:10px;padding:4px 7px;border-radius:999px;background:#f8dce8;color:#8b5870;font-size:7px;font-weight:1000;letter-spacing:.06em}
+#rpgNamePage,#rpgGenderPage,#rpgJobPage,#rpgStatsPage,#rpgAiPage,#rpgGuildPage,#rpgReceptionPage,#rpgDialoguePage,#rpgQuestGuidePage,#rpgQuestAcceptedPage,#rpgFormationPage,#rpgFieldPage{
+  background:radial-gradient(circle at 18% 12%,rgba(255,222,202,.55),transparent 29%),radial-gradient(circle at 83% 58%,rgba(221,210,250,.50),transparent 32%),linear-gradient(180deg,#fffaf8 0%,#fff3f7 62%,#f8edf5 100%);color:#5d4855
+}
+.rpgHeadTitle{color:#604a58!important}.rpgSub{color:#977784!important}
+.rpgPanel{margin:10px 0 14px;padding:17px;border-radius:24px;background:linear-gradient(180deg,#fff,#fff8fb);border:1px solid #ecd6df;box-shadow:0 14px 32px rgba(165,106,132,.11)}
+.rpgKicker{font-size:9px;font-weight:1000;letter-spacing:.12em;color:#b07a91;margin-bottom:5px}.rpgBig{font-size:25px;font-weight:1000;color:#654d5c;line-height:1.15}.rpgDesc{margin-top:8px;color:#8d7380;font-size:12px;font-weight:720;line-height:1.58}
+.rpgTextInput{width:100%;height:54px;border-radius:17px;border:1px solid #e6cdd8;background:#fff;color:#604a58;padding:0 15px;font-size:17px;font-weight:900;outline:none;box-shadow:inset 0 2px 5px rgba(125,78,100,.04)}
+.rpgTextInput:focus{border-color:#d699b3;box-shadow:0 0 0 3px rgba(226,152,184,.12)}
+.rpgError{min-height:20px;margin:6px 3px 2px;color:#bd617c;font-size:10px;font-weight:850}
+.rpgChoiceGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}.rpgGenderBtn,.rpgStatBtn{min-height:80px;border-radius:20px;border:1px solid #e9d3dd;background:#fff9fc;color:#684f5d;font-weight:1000;box-shadow:0 8px 19px rgba(171,104,132,.08)}
+.rpgGenderBtn{font-size:15px}.rpgGenderBtn span{display:block;font-size:27px;margin-bottom:4px}.rpgGenderBtn.active{background:linear-gradient(180deg,#ffe9f1,#f3eafd);border-color:#dca4ba;box-shadow:0 0 0 2px rgba(218,152,181,.10),0 9px 20px rgba(155,99,127,.10)}
+.rpgDiceStage{text-align:center;padding:18px 10px}.rpgDice{width:96px;height:96px;margin:4px auto 12px;border-radius:28px;display:grid;place-items:center;background:linear-gradient(145deg,#fff,#f5e7ef);border:1px solid #e6ced9;box-shadow:0 16px 28px rgba(143,91,116,.14);font-size:48px;font-weight:1000;color:#74566a}.rpgDice.rolling{animation:rpgDiceShake .13s linear infinite}@keyframes rpgDiceShake{0%,100%{transform:rotate(-3deg) translateY(0)}50%{transform:rotate(3deg) translateY(-3px)}}
+.rpgJobResult{min-height:66px;text-align:center}.rpgJobName{font-size:23px;font-weight:1000;color:#624b59}.rpgJobName.hiddenJob{color:#8c62a7;text-shadow:0 2px 10px rgba(137,91,172,.14)}.rpgJobDesc{margin-top:5px;color:#937986;font-size:11px;font-weight:760}
+.rpgMap{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}.rpgMap div{padding:8px 4px;border-radius:12px;background:#f8eef4;border:1px solid #ead9e1;text-align:center;color:#876d79;font-size:9px;font-weight:900}.rpgMap div:last-child{grid-column:2/3}
+.rpgStatBoard{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:10px 0}.rpgStatCell{padding:9px 2px;border-radius:14px;background:#fff;border:1px solid #ead5df;text-align:center}.rpgStatCell b{display:block;color:#715667;font-size:9px}.rpgStatCell strong{display:block;margin-top:4px;color:#5b4754;font-size:18px}.rpgStatAssign{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin:10px 0}.rpgStatBtn{min-height:52px;padding:5px 1px;font-size:10px}.rpgStatBtn:disabled{opacity:.42}.rpgStatBtn:not(:disabled):active{transform:translateY(2px);background:#f7eaf1}
+.rpgRollHistory{min-height:34px;padding:8px 10px;border-radius:14px;background:#fbf4f8;color:#967786;font-size:9px;font-weight:800;line-height:1.5}.rpgCurrentRoll{text-align:center;font-size:12px;font-weight:900;color:#846676;margin:8px 0}.rpgCurrentRoll strong{font-size:24px;color:#624b59}
+.rpgPartyCards{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0}.rpgPartyCard{padding:12px;border-radius:18px;background:#fff9fc;border:1px solid #e9d5df}.rpgPartyCard .who{font-size:9px;color:#a27d8f;font-weight:1000}.rpgPartyCard .name{font-size:14px;color:#634b59;font-weight:1000;margin-top:3px}.rpgPartyCard .job{font-size:11px;color:#8d7080;font-weight:850;margin-top:2px}.rpgAiRolling{text-align:center;padding:13px;border-radius:16px;background:#f9eff6;color:#8b6d7d;font-size:11px;font-weight:900}.rpgAiRolling.active::after{content:' ·';animation:rpgDots 1s steps(3,end) infinite}@keyframes rpgDots{0%{content:' ·'}33%{content:' ··'}66%,100%{content:' ···'}}
+.rpgStoryBox{padding:18px;border-radius:24px;background:linear-gradient(180deg,#fffdfb,#fff7f9);border:1px solid #ecd7de;box-shadow:0 14px 30px rgba(151,99,120,.10);font-family:Georgia,"Noto Serif KR",serif}.rpgStoryBox h2{margin:0 0 10px;color:#644c59;font-size:21px}.rpgStoryBox p{margin:8px 0;color:#765e6a;font-size:13px;line-height:1.75;font-weight:650}.rpgNpcLine{margin:10px 0;padding:13px 15px;border-left:4px solid #e4adc2;border-radius:0 16px 16px 0;background:#fff7fb;color:#725765;font-size:12px;line-height:1.6;font-weight:760}
+.rpgActionStack{display:grid;gap:8px;margin-top:14px}.rpgActionBtn{width:100%;min-height:54px;border-radius:17px;border:1px solid #e8cfda;background:linear-gradient(180deg,#fff,#fff7fb);color:#674e5b;font-size:12px;font-weight:950;padding:10px 13px;text-align:left;box-shadow:0 7px 17px rgba(160,103,128,.07)}.rpgActionBtn:active{transform:translateY(2px);background:#f9edf3}.rpgActionBtn.primaryChoice{text-align:center;background:linear-gradient(135deg,#f7bfd3,#d9c7f0);border-color:#ddadc2;color:#684b5b}
+.rpgDialogueChoices{display:grid;gap:9px;margin:12px 0}.rpgDialogueChoice{width:100%;min-height:62px;border-radius:18px;border:1px solid #ead3dd;background:#fff;color:#644d5a;padding:12px 14px;text-align:left;font-size:12px;line-height:1.45;font-weight:850;box-shadow:0 8px 18px rgba(160,103,128,.07)}.rpgDialogueChoice:active{transform:translateY(2px);background:#f9edf4}.rpgDialogueChoice[disabled]{opacity:.55}
+.rpgQuestGradeRow{display:flex;gap:5px;flex-wrap:wrap;margin:9px 0}.rpgGrade{min-width:31px;padding:6px 7px;border-radius:10px;text-align:center;background:#f7edf3;border:1px solid #e7d3dc;color:#846b77;font-size:9px;font-weight:1000}.rpgGrade.high{background:#f0e7fa;color:#6f5a86}.rpgQuestCard{padding:15px;border-radius:21px;background:linear-gradient(145deg,#fffaf2,#fff7fb);border:1px solid #e8d1c7;box-shadow:0 10px 22px rgba(150,102,95,.09)}.rpgQuestCard .grade{display:inline-flex;padding:5px 8px;border-radius:999px;background:#e9d7bd;color:#705b3e;font-size:9px;font-weight:1000}.rpgQuestCard h3{margin:8px 0 5px;color:#654f58;font-size:17px}.rpgQuestCard p{margin:4px 0;color:#8d747e;font-size:11px;line-height:1.55;font-weight:740}.rpgQuestRules{margin:10px 0;padding:12px;border-radius:16px;background:#fbf3f7;color:#876d79;font-size:10px;line-height:1.6;font-weight:780}
+.rpgAcceptedIcon{text-align:center;font-size:62px;margin:12px 0 4px}.rpgAcceptedTitle{text-align:center;color:#624a58;font-size:24px;font-weight:1000}.rpgAcceptedSub{text-align:center;color:#917683;font-size:11px;font-weight:780;line-height:1.6;margin:7px 0 14px}
+
+/* ===== v4.8.22 RPG formation / field / battle ===== */
+.rpgFormationLegend{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:11px 0 5px;text-align:center;font-size:9px;font-weight:1000;color:#947783}
+.rpgFormationLegend span:first-child{color:#7b75a0}.rpgFormationLegend span:last-child{color:#a96275}
+.rpgMemberPicker{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+.rpgMemberChip{flex:1;min-width:128px;padding:10px 12px;border-radius:16px;border:1px solid #e7d1dc;background:#fff9fc;color:#654e5b;text-align:left;font-weight:950}
+.rpgMemberChip.active{background:linear-gradient(135deg,#ffe0ec,#eee2fb);border-color:#d89ab5;box-shadow:0 0 0 2px rgba(214,145,176,.12)}
+.rpgMemberChip small{display:block;color:#997b89;font-size:8px;margin-top:3px}
+.rpgFormationGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;padding:10px;border-radius:22px;background:linear-gradient(90deg,#f1effc,#fff8fb 50%,#fff0ef);border:1px solid #ead4df}
+.rpgFormationCell{position:relative;min-height:76px;border-radius:17px;border:1px dashed #d9c5d0;background:rgba(255,255,255,.72);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#9a7f8b;font-size:8px;font-weight:900;overflow:hidden}
+.rpgFormationCell.front{background:rgba(255,238,238,.75)}.rpgFormationCell.rear{background:rgba(242,240,255,.78)}
+.rpgFormationCell.occupied{border-style:solid;border-color:#dbadbf;background:#fff}
+.rpgFormationAvatar{font-size:25px;line-height:1}.rpgFormationName{margin-top:4px;font-size:9px;color:#664d59;font-weight:1000}
+.rpgDerivedBox{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:10px 0}
+.rpgDerivedStat{padding:8px 5px;border-radius:13px;background:#fff;border:1px solid #ead6df;text-align:center}
+.rpgDerivedStat b{display:block;font-size:8px;color:#967987}.rpgDerivedStat strong{display:block;margin-top:3px;font-size:13px;color:#604a56}
+.rpgTimeBadge{display:inline-flex;align-items:center;gap:5px;padding:5px 9px;border-radius:999px;background:#f6eaf1;color:#795f6c;font-size:9px;font-weight:1000}
+.rpgRouteWrap{margin:9px 0 8px;padding:10px 8px;border-radius:20px;background:rgba(255,255,255,.82);border:1px solid #e9d7df;overflow-x:auto}
+.rpgRouteTrack{display:flex;align-items:flex-start;min-width:max-content;padding:0 4px}
+.rpgRouteStep{position:relative;width:58px;text-align:center;flex:0 0 58px;color:#9b808d;font-size:7px;font-weight:900}
+.rpgRouteStep:not(:last-child)::after{content:'';position:absolute;top:17px;left:40px;width:36px;height:3px;border-radius:9px;background:#eadce3}
+.rpgRouteDot{position:relative;z-index:2;width:35px;height:35px;margin:0 auto 5px;border-radius:50%;display:grid;place-items:center;background:#fff;border:2px solid #ddc9d3;font-size:15px;color:#8d7481}
+.rpgRouteStep.done .rpgRouteDot{background:#e8c7d7;border-color:#d79ab4;color:#fff}.rpgRouteStep.current .rpgRouteDot{background:#fff0f6;border-color:#c97e9f;box-shadow:0 0 0 4px rgba(220,145,176,.13)}
+.rpgRouteLabel{max-width:56px;line-height:1.2}.rpgRouteStep.done:not(.current) .rpgRouteLabel{color:#b08195}
+.rpgScene{position:relative;min-height:250px;border-radius:25px;overflow:hidden;border:1px solid #d9d9c9;background:linear-gradient(180deg,#cae7ff 0 45%,#dff3ca 46% 68%,#abd582 69%);box-shadow:0 13px 28px rgba(92,113,83,.10)}
+.rpgScene.noon{background:linear-gradient(180deg,#bfe8ff 0 44%,#eef7c9 45% 67%,#a7d578 68%)}
+.rpgScene.night{background:linear-gradient(180deg,#343956 0 46%,#566b65 47% 67%,#3d6048 68%);color:#fff}
+.rpgScene.dawn{background:linear-gradient(180deg,#7f769d 0 28%,#e8aeb2 29% 48%,#d9d6a5 49% 67%,#65875e 68%);color:#fff}
+.rpgSceneDecor{position:absolute;inset:0;pointer-events:none}.rpgSceneDecor .cloud{position:absolute;top:16px;left:10%;font-size:34px;opacity:.75}.rpgSceneDecor .mount{position:absolute;top:72px;right:5%;font-size:72px;opacity:.38}.rpgSceneDecor .grass{position:absolute;bottom:10px;left:0;right:0;font-size:30px;letter-spacing:14px;white-space:nowrap;opacity:.65}
+.rpgSceneTitle{position:absolute;left:12px;top:10px;padding:6px 9px;border-radius:999px;background:rgba(255,255,255,.78);color:#69545e;font-size:9px;font-weight:1000}
+.rpgCombatFormation{position:absolute;top:50px;bottom:22px;width:42%;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(3,1fr);gap:5px;padding:6px;opacity:0;pointer-events:none;transition:opacity .2s ease}
+.rpgCombatFormation.show{opacity:1;pointer-events:auto}.rpgCombatFormation.party{left:5px}.rpgCombatFormation.enemy{right:5px}
+.rpgCombatUnit{position:relative;border-radius:12px;background:rgba(255,255,255,.82);border:1px solid rgba(112,86,101,.18);display:flex;flex-direction:column;align-items:center;justify-content:center;min-width:0;padding:3px}
+.rpgCombatUnit.empty{background:rgba(255,255,255,.18);border-style:dashed}.rpgCombatUnit.targetable{outline:3px solid rgba(219,90,117,.42);cursor:pointer;animation:rpgTargetPulse .8s ease-in-out infinite alternate}
+@keyframes rpgTargetPulse{to{transform:scale(1.04)}}
+.rpgUnitIcon{font-size:21px;line-height:1}.rpgUnitName{max-width:100%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-top:2px;font-size:7px;font-weight:1000;color:#5e4b55}
+.rpgMiniHp{width:90%;height:5px;border-radius:99px;background:#e7d9de;overflow:hidden;margin-top:3px}.rpgMiniHp i{display:block;height:100%;background:#df7897;border-radius:99px}
+.rpgUnitStatus{min-height:9px;font-size:6px;color:#856d78;margin-top:2px}
+.rpgDamageFloat{position:absolute;z-index:9;top:-10px;left:50%;transform:translateX(-50%);font-size:16px;font-weight:1000;color:#bb3459;text-shadow:0 2px 0 #fff;pointer-events:none;animation:rpgDamageUp .75s ease-out forwards}
+.rpgDamageFloat.heal{color:#4c9e6a}
+@keyframes rpgDamageUp{0%{opacity:0;transform:translate(-50%,8px) scale(.8)}25%{opacity:1}100%{opacity:0;transform:translate(-50%,-26px) scale(1.08)}}
+.rpgFieldControls{display:grid;grid-template-columns:minmax(0,1fr) 82px minmax(0,1fr);gap:7px;margin:8px 0;align-items:stretch}
+.rpgBattleBox,.rpgPartyStatusBox{min-height:170px;border-radius:18px;border:1px solid #ead4de;background:#fff9fc;padding:8px}
+.rpgBattleActions{display:grid;grid-template-columns:1fr 1fr;gap:5px}.rpgBattleAction{min-height:42px;border-radius:11px;border:1px solid #e6d1da;background:#fff;color:#6b5360;font-size:9px;font-weight:1000;padding:4px}
+.rpgBattleAction:active:not(:disabled){transform:translateY(2px);background:#f7eaf1}.rpgBattleAction:disabled{opacity:.38}
+.rpgBattleHint{margin-top:7px;font-size:8px;line-height:1.4;color:#9a7e8b;font-weight:800}
+.rpgCenterActions{display:flex;flex-direction:column;gap:6px;justify-content:center}
+.rpgCenterBtn{width:100%;min-height:74px;border-radius:19px;border:1px solid #d9b9c7;background:linear-gradient(180deg,#ffe4ef,#f1def7);color:#694f5d;font-size:12px;font-weight:1000;box-shadow:0 8px 16px rgba(153,99,124,.10)}
+.rpgCenterBtn:active:not(:disabled){transform:translateY(3px) scale(.98);box-shadow:0 3px 7px rgba(153,99,124,.10)}.rpgCenterBtn:disabled{opacity:.48}
+.rpgCenterBtn.danger{background:linear-gradient(180deg,#ffdcd8,#f6c6cb);border-color:#dea6ab}.rpgCenterBtn.safe{background:linear-gradient(180deg,#e7f5e5,#cfe8d1);border-color:#b9d2bc}
+.rpgPartyStatus{padding:6px 4px;border-bottom:1px solid #f0e1e7}.rpgPartyStatus:last-child{border-bottom:0}.rpgStatusTop{display:flex;justify-content:space-between;gap:4px;font-size:8px;font-weight:1000;color:#684f5c}
+.rpgBar{height:7px;margin-top:4px;border-radius:99px;background:#eadfe4;overflow:hidden}.rpgBar i{display:block;height:100%;border-radius:99px}.rpgBar.hp i{background:#df7897}.rpgBar.mp i{background:#8f91d8}
+.rpgStatusEffect{min-height:11px;margin-top:4px;font-size:7px;color:#957b88;font-weight:800}
+.rpgHistory{max-height:130px;overflow:auto;padding:9px;border-radius:17px;background:#faf2f6;border:1px solid #ead7df}
+.rpgHistoryTitle{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:9px;font-weight:1000;color:#79606c}
+.rpgHistoryRow{padding:6px 7px;border-radius:10px;background:#fff;margin-bottom:5px;color:#806875;font-size:8px;font-weight:800;line-height:1.45}.rpgHistoryRow:first-of-type{background:#fff1f6;color:#6c4e5c;border:1px solid #edd0dc}
+.rpgFieldSummary{display:flex;gap:6px;flex-wrap:wrap;margin:7px 0}.rpgFieldSummary span{padding:5px 8px;border-radius:999px;background:#f8edf3;color:#846a77;font-size:8px;font-weight:1000}
+.rpgQuestDone{padding:13px;border-radius:17px;background:linear-gradient(135deg,#fff0c9,#f4e2ff);border:1px solid #ead3b2;color:#715d55;font-size:10px;font-weight:900;line-height:1.55;margin:8px 0}
+@media(max-width:365px){.rpgFieldControls{grid-template-columns:minmax(0,1fr) 68px minmax(0,1fr);gap:5px}.rpgBattleBox,.rpgPartyStatusBox{padding:6px}.rpgBattleAction{font-size:8px}.rpgCenterBtn{font-size:10px}.rpgRouteStep{width:52px;flex-basis:52px}.rpgRouteStep:not(:last-child)::after{width:30px}}
+
+@media(max-width:365px){.rpgStatCell strong{font-size:15px}.rpgStatCell b,.rpgStatBtn{font-size:8px}.rpgPanel{padding:14px}.rpgBig{font-size:22px}}
 </style>
 <meta name="hu-nyang-build" content="mobile-single-file">
 <meta name="hu-nyang-version" content="4.8.20-colosseum-vs-history">
@@ -1825,7 +1915,7 @@ body{
       <div class="logo splashTitle">Hu <span>nyang</span></div>
       <div class="splashMini">Mini Game Collection 🐾</div>
       <div class="splashGoText" id="splashGoText" aria-hidden="true">Go to Play</div>
-      <div class="splashVersion" aria-label="현재 버전">v4.8.20</div>
+      <div class="splashVersion" aria-label="현재 버전">v4.8.22</div>
     </div>
   </section>
 
@@ -1861,10 +1951,14 @@ body{
           <div class="featuredMascot colFeaturedMascot"><img id="colFeaturedTempMascot" alt="콜로세움 임시 캐릭터 이미지"></div>
           <div class="featuredArrow">›</div>
         </button>
-        <button class="card listCard disabledGame comingCard" type="button" data-coming><div class="listIcon">?</div><div class="listInfo"><h3>Coming Soon</h3></div></button>
+        <button class="card listCard rpgCard" id="openRpg" type="button">
+          <div class="listIcon">🎲</div>
+          <div class="listInfo"><h3>RPG · 라비엔의 모험가</h3><p>주사위로 직업과 능력치를 정하고 첫 의뢰를 받아보세요.</p></div>
+          <div class="rpgMiniTag">TEST · 2인 파티</div>
+        </button>
         <button class="card listCard disabledGame comingCard" type="button" data-coming><div class="listIcon">?</div><div class="listInfo"><h3>Coming Soon</h3></div></button>
       </div>
-      <div class="homeVersion" aria-label="현재 버전">v4.8.20</div>
+      <div class="homeVersion" aria-label="현재 버전">v4.8.22</div>
     </div>
 </section>
 
@@ -2116,6 +2210,168 @@ body{
     </div>
   </section>
 
+
+  <!-- v4.8.21 RPG Prototype: Name -->
+  <section class="page noBottom" id="rpgNamePage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgNameBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">🎲 RPG</h1><div class="subhead rpgSub">라비엔의 모험가</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgKicker">NEW ADVENTURER</div><div class="rpgBig">이름을 알려주세요</div><div class="rpgDesc">루메리아 왕국의 모험가 명부에 기록될 이름입니다. 테스트 파티는 당신과 AI 동료, 총 2명으로 진행됩니다.</div></div>
+      <input class="rpgTextInput" id="rpgNameInput" maxlength="8" placeholder="닉네임 2~8글자" autocomplete="off">
+      <div class="rpgError" id="rpgNameError"></div>
+      <button class="primary" id="rpgGameStartBtn" type="button">게임 시작</button>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: Gender -->
+  <section class="page noBottom" id="rpgGenderPage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgGenderBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">캐릭터 설정</h1><div class="subhead rpgSub">성별 지정</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgKicker">PROFILE</div><div class="rpgBig"><span id="rpgGenderName">모험가</span>의 성별</div><div class="rpgDesc">캐릭터의 기본 프로필에 사용됩니다.</div></div>
+      <div class="rpgChoiceGrid"><button class="rpgGenderBtn" data-rpg-gender="남성" type="button"><span>🧑</span>남성</button><button class="rpgGenderBtn" data-rpg-gender="여성" type="button"><span>👩</span>여성</button></div>
+      <button class="primary" id="rpgGenderNextBtn" type="button" disabled>직업 주사위로</button>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: Job -->
+  <section class="page noBottom" id="rpgJobPage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgJobBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">직업 주사위</h1><div class="subhead rpgSub">d6 · 단 한 번의 운명</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgKicker">JOB DICE</div><div class="rpgBig">🎲 d6을 굴려 직업 결정</div><div class="rpgDesc">1 전사 · 2 마법사 · 3 궁수 · 4 도적 · 5 사제. 그리고 6에는 무언가 숨겨져 있습니다.</div></div>
+      <div class="rpgDiceStage"><div class="rpgDice" id="rpgJobDice">?</div><div class="rpgJobResult"><div class="rpgJobName" id="rpgJobName">주사위를 굴려주세요</div><div class="rpgJobDesc" id="rpgJobDesc">결과는 되돌릴 수 없습니다.</div></div></div>
+      <button class="primary" id="rpgJobRollBtn" type="button">🎲 직업 주사위 굴리기</button>
+      <button class="secondary" id="rpgJobNextBtn" type="button" style="margin-top:8px;display:none">능력치 굴리기</button>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: Player Stats -->
+  <section class="page noBottom" id="rpgStatsPage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgStatsBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">능력치 굴리기</h1><div class="subhead rpgSub">d10 × 5</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgKicker">STATUS BUILD</div><div class="rpgBig">나온 숫자를 원하는 능력치에 배분</div><div class="rpgDesc">체력 / 힘 / 민첩 / 지능 / 행운 중 하나를 선택합니다. 같은 능력치에 여러 번 넣으면 합산됩니다.</div></div>
+      <div class="rpgStatBoard" id="rpgPlayerStatBoard"></div>
+      <div class="rpgDiceStage" style="padding:9px 4px"><div class="rpgDice" id="rpgStatDice" style="width:78px;height:78px;font-size:39px">?</div><div class="rpgCurrentRoll" id="rpgCurrentRoll">남은 굴림 <strong>5</strong>회</div></div>
+      <div class="rpgStatAssign" id="rpgStatAssign"></div>
+      <button class="primary" id="rpgStatRollBtn" type="button">🎲 d10 굴리기</button>
+      <div class="rpgRollHistory" id="rpgRollHistory">아직 배분된 주사위가 없습니다.</div>
+      <button class="secondary" id="rpgStatsNextBtn" type="button" style="margin-top:9px;display:none">AI 동료 능력치 보기</button>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: AI -->
+  <section class="page noBottom" id="rpgAiPage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgAiBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">AI 동료 생성</h1><div class="subhead rpgSub">멀티플레이 참가자와 동일 규칙</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgKicker">PARTY MEMBER</div><div class="rpgBig">동료도 d6 + d10 × 5</div><div class="rpgDesc">AI도 직업과 능력치 모두 주사위로 결정합니다. 능력치는 직업이 선호하는 방향에 가중치를 두고 랜덤 배분됩니다.</div></div>
+      <div class="rpgAiRolling" id="rpgAiRolling">AI 동료가 주사위를 굴리는 중</div>
+      <div id="rpgAiResult" style="display:none"><div class="rpgPartyCards" id="rpgPartyCards"></div><div class="rpgStatBoard" id="rpgAiStatBoard"></div><div class="rpgRollHistory" id="rpgAiHistory"></div></div>
+      <button class="primary" id="rpgAiNextBtn" type="button" style="margin-top:10px;display:none">라비엔 모험가 길드로</button>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: Guild -->
+  <section class="page noBottom" id="rpgGuildPage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgGuildBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">라비엔 마을</h1><div class="subhead rpgSub">모험가 길드</div></div><div style="width:40px"></div></div>
+      <div class="rpgStoryBox"><div class="rpgKicker">LUMERIA KINGDOM · RAVIEN</div><h2>첫 번째 아침, 모험가 길드</h2><p>루메리아 왕국 남동부의 작은 변경 마을, 라비엔. 초보 모험가들이 첫발을 내딛는 곳으로 유명하다.</p><p><b id="rpgGuildPlayerName">당신</b>과 <b id="rpgGuildAiName">동료</b>는 등록 절차를 마친 뒤 길드 한쪽의 낡은 원목 테이블에 마주 앉았다.</p><p>주변에서는 의뢰를 고르는 모험가들의 목소리와 잔을 부딪치는 소리가 뒤섞인다. 이제 첫 의뢰를 받을 차례다.</p></div>
+      <div class="rpgPartyCards" id="rpgGuildPartyCards"></div>
+      <button class="primary" id="rpgGoReceptionBtn" type="button">접수대로 이동</button>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: Reception -->
+  <section class="page noBottom" id="rpgReceptionPage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgReceptionBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">길드 접수대</h1><div class="subhead rpgSub">첫 의뢰를 받기 전</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgKicker">RECEPTIONIST</div><div class="rpgBig">🌿 접수원 엘리나</div><div class="rpgNpcLine">“어서 오세요. 두 분 모두 오늘 등록한 신입 모험가죠? 첫 의뢰를 찾으러 오셨나요?”</div></div>
+      <div class="rpgActionStack"><button class="rpgActionBtn" id="rpgTalkBtn" type="button">💬 접수원과 가볍게 대화한다<br><small>대화 선택에 따라 숨겨진 성향이 기록됩니다.</small></button><button class="rpgActionBtn" id="rpgSkipTalkBtn" type="button">📜 바로 의뢰를 보여 달라고 한다</button></div>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: Dialogue -->
+  <section class="page noBottom" id="rpgDialoguePage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgDialogueBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">접수원과 대화</h1><div class="subhead rpgSub">성향 선택지는 매번 섞입니다</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgNpcLine" id="rpgDialoguePrompt">“긴장되시나요? 첫 의뢰니까 너무 무리하지 않는 게 좋아요. 어떤 일을 하고 싶으세요?”</div><div class="rpgDialogueChoices" id="rpgDialogueChoices"></div><div class="rpgNpcLine" id="rpgDialogueResult" style="display:none"></div></div>
+      <button class="primary" id="rpgDialogueNextBtn" type="button" style="display:none">의뢰 목록 확인</button>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: Quest Guide -->
+  <section class="page noBottom" id="rpgQuestGuidePage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><button class="iconBtn" id="rpgQuestBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">의뢰 가이드</h1><div class="subhead rpgSub">F → SS 등급</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgKicker">QUEST RANK</div><div class="rpgBig">모험가 길드 의뢰 등급</div><div class="rpgQuestGradeRow"><span class="rpgGrade">F</span><span class="rpgGrade">E</span><span class="rpgGrade">D</span><span class="rpgGrade">C</span><span class="rpgGrade">B</span><span class="rpgGrade high">A</span><span class="rpgGrade high">S</span><span class="rpgGrade high">SS</span></div><div class="rpgQuestRules">F~B급은 마물 퇴치 · 채집 · 마을 일손 돕기가 중심입니다. 같은 계열을 일정 횟수 이상 수행하면 해당 마물의 보스 토벌 의뢰가 열립니다. A급 이상은 국가 퀘스트로 분류되며 높은 능력치가 요구됩니다.</div></div>
+      <div class="sectionTitle">초보자 추천 의뢰</div><div class="rpgQuestCard"><span class="grade">F급 · 마물 퇴치</span><h3>라비엔 초원의 슬라임 정리</h3><p>마을 동쪽 초원에 늘어난 슬라임을 정리하는 기본 의뢰입니다.</p><p><b>권장:</b> 신입 모험가 1~2인 · 슬라임 5마리 처치</p><p><b>보상:</b> EXP 30 · 10골드 + 사냥 중 개체별 보상</p></div>
+      <button class="primary" id="rpgAcceptQuestBtn" type="button" style="margin-top:12px">이 의뢰를 수락</button>
+    </div>
+  </section>
+
+  <!-- v4.8.21 RPG Prototype: Accepted -->
+  <section class="page noBottom" id="rpgQuestAcceptedPage">
+    <div class="safeTop"></div><div class="screen">
+      <div class="appbar"><div style="width:40px"></div><div style="text-align:center"><h1 class="rpgHeadTitle">의뢰 수락 완료</h1><div class="subhead rpgSub">RPG Prototype</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel"><div class="rpgAcceptedIcon">📜✨</div><div class="rpgAcceptedTitle">첫 의뢰를 받았습니다!</div><div class="rpgAcceptedSub">라비엔 초원의 슬라임 정리<br>전열을 정비한 뒤 마을 입구에서 초원으로 출발합니다.</div><div class="rpgPartyCards" id="rpgAcceptedPartyCards"></div><div class="rpgRollHistory" id="rpgAcceptedSummary"></div></div>
+      <button class="primary" id="rpgGoFormationBtn" type="button">⚔ 사냥터로 이동 준비</button>
+      <button class="secondary" id="rpgAcceptedHomeBtn" type="button" style="margin-top:8px">⌂ 게임 리스트로</button>
+      <button class="secondary" id="rpgAcceptedRestartBtn" type="button" style="margin-top:8px">↻ RPG 처음부터</button>
+    </div>
+  </section>
+
+  <!-- v4.8.22 RPG Formation -->
+  <section class="page noBottom" id="rpgFormationPage">
+    <div class="content">
+      <div class="appbar"><button class="iconBtn" id="rpgFormationBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle">파티 포지션</h1><div class="subhead rpgSub">라비엔 초원 출발 준비</div></div><div style="width:40px"></div></div>
+      <div class="rpgPanel">
+        <div class="rpgKicker">FORMATION · 3 × 3</div>
+        <div class="rpgBig">전열과 후열을 정하자</div>
+        <div class="rpgDesc">플레이어는 원하는 칸으로 이동할 수 있습니다. AI는 직업과 능력치에 맞춰 자동 배치됩니다. 전열/후열 효과는 추후 버프 시스템에서 연결됩니다.</div>
+        <div class="rpgMemberPicker" id="rpgFormationMembers"></div>
+        <div class="rpgFormationLegend"><span>후열</span><span>중앙</span><span>전열</span></div>
+        <div class="rpgFormationGrid" id="rpgFormationGrid"></div>
+      </div>
+      <div class="sectionTitle">파티 전투 능력치</div>
+      <div class="rpgPartyCards" id="rpgFormationPartyCards"></div>
+      <div class="rpgDerivedBox" id="rpgDerivedStats"></div>
+      <button class="primary" id="rpgJourneyStartBtn" type="button">🏠 마을 입구에서 출발</button>
+    </div>
+  </section>
+
+  <!-- v4.8.22 RPG Field / Battle -->
+  <section class="page noBottom" id="rpgFieldPage">
+    <div class="content">
+      <div class="appbar"><button class="iconBtn" id="rpgFieldBack" type="button">‹</button><div style="text-align:center"><h1 class="rpgHeadTitle" id="rpgFieldRegionName">라비엔 초원</h1><div class="subhead rpgSub" id="rpgFieldSub">마을 입구</div></div><div class="rpgTimeBadge" id="rpgTimeBadge">☀️ 1일차 · 아침</div></div>
+      <div class="rpgRouteWrap"><div class="rpgRouteTrack" id="rpgRouteTrack"></div></div>
+      <div class="rpgFieldSummary" id="rpgFieldSummary"></div>
+
+      <div class="rpgScene noon" id="rpgScene">
+        <div class="rpgSceneDecor"><span class="cloud">☁️</span><span class="mount">⛰️</span><span class="grass">🌿 🌱 🌿 🌱 🌿 🌱 🌿</span></div>
+        <div class="rpgSceneTitle" id="rpgSceneTitle">🏠 마을 입구</div>
+        <div class="rpgCombatFormation party" id="rpgCombatParty"></div>
+        <div class="rpgCombatFormation enemy" id="rpgCombatEnemy"></div>
+      </div>
+
+      <div class="rpgFieldControls">
+        <div class="rpgBattleBox">
+          <div class="rpgKicker">BATTLE</div>
+          <div id="rpgBattleActions" class="rpgBattleActions"></div>
+          <div class="rpgBattleHint" id="rpgBattleHint">전투 상황이 아닙니다.</div>
+        </div>
+
+        <div class="rpgCenterActions" id="rpgCenterActions"></div>
+
+        <div class="rpgPartyStatusBox">
+          <div class="rpgKicker">PARTY</div>
+          <div id="rpgPartyStatus"></div>
+        </div>
+      </div>
+
+      <div class="rpgHistory">
+        <div class="rpgHistoryTitle"><span>📖 모험 히스토리</span><small>최신 기록이 위</small></div>
+        <div id="rpgFieldHistory"></div>
+      </div>
+    </div>
+  </section>
+
   <div class="appModalOverlay" id="colosseumQuitModal" aria-hidden="true">
     <div class="appModalCard" role="alertdialog" aria-modal="true" aria-labelledby="colosseumQuitTitle">
       <div class="exitFace">⚔️</div>
@@ -2140,7 +2396,25 @@ body{
       </button>
       <div class="settingsPatchPanel" id="settingsPatchPanel" aria-hidden="true">
         <details class="patchVersion" open>
-          <summary><span>v4.8.20</span><small>NEW</small></summary>
+          <summary><span>v4.8.22</span><small>NEW</small></summary>
+          <ul>
+            <li>RPG 3×3 전열/후열 포지션 배치 추가</li>
+            <li>4~10칸 랜덤 초원 탐색 · 이동 구간 UI 추가</li>
+            <li>20% 랜덤 조우 · 슬라임 1~4마리 턴제 전투</li>
+            <li>HP/MP · 치명타 · 방어 · 도주 · EXP/골드/드랍 · 최신 로그 구현</li>
+          </ul>
+        </details>
+        <details class="patchVersion">
+          <summary><span>v4.8.21</span></summary>
+          <ul>
+            <li>신규 RPG 프로토타입 추가 · 라비엔의 모험가</li>
+            <li>d6 직업 주사위 · d10×5 능력치 자유 배분</li>
+            <li>AI 동료 자동 생성 · 직업별 능력치 가중 배분</li>
+            <li>길드 접수원 성향 3지선다 · F~SS 의뢰 가이드</li>
+          </ul>
+        </details>
+        <details class="patchVersion">
+          <summary><span>v4.8.20</span></summary>
           <ul>
             <li>전투 공방 히스토리 추가 · 최신 기록 우선</li>
             <li>VS 연출 5초로 확대</li>
@@ -2226,7 +2500,7 @@ body{
 
 /* ===== v4.8.9 persistent self diagnostics ===== */
 const HuNyangDiag=(()=>{
-  const VERSION='4.8.20';
+  const VERSION='4.8.21';
   const KEY='hunyang_diag_v1';
   const MAX_LINES=360;
   let storageOK=true;
@@ -3067,6 +3341,344 @@ $('#colHomeBtn')?.addEventListener('click',()=>leaveColosseumToHome('champion_ho
 $('#colQuitContinueBtn')?.addEventListener('click',()=>closeColosseumQuitConfirm('continue_button'));
 $('#colQuitLeaveBtn')?.addEventListener('click',()=>leaveColosseumToHome('quit_confirm_button'));
 
+
+/* ===== v4.8.22 RPG Field/Battle Prototype ===== */
+const rpgJobs=[
+  {roll:1,id:'warrior',name:'전사',emoji:'⚔️',desc:'체력과 힘을 선호하는 전위 직업'},
+  {roll:2,id:'mage',name:'마법사',emoji:'🔮',desc:'지능을 중심으로 성장하는 마법 직업'},
+  {roll:3,id:'archer',name:'궁수',emoji:'🏹',desc:'민첩을 활용하는 원거리 직업'},
+  {roll:4,id:'rogue',name:'도적',emoji:'🗡️',desc:'민첩과 행운을 선호하는 기민한 직업'},
+  {roll:5,id:'priest',name:'사제',emoji:'✨',desc:'지능과 체력을 중시하는 지원 직업'},
+  {roll:6,id:'adventurer',name:'모험가',emoji:'🌟',desc:'어떤 길로든 성장할 수 있는 히든 직업',hidden:true}
+];
+const rpgStatDefs=[['hp','체력'],['str','힘'],['dex','민첩'],['int','지능'],['luck','행운']];
+const rpgAiNames=['리안','세라','카일','유나','레온','미아','노아','아린'];
+const rpgState={name:'',gender:null,job:null,jobRoll:null,stats:{hp:0,str:0,dex:0,int:0,luck:0},statRolls:[],currentStatRoll:null,ai:null,disposition:0,level:1,exp:0,gold:0,items:{slimeGel:0},quest:null,formation:{player:4,ai:null},field:null};
+function rpgRand(n){return Math.floor(Math.random()*n)+1}
+function rpgJobByRoll(n){return rpgJobs.find(j=>j.roll===n)||rpgJobs[0]}
+function rpgBlankStats(){return {hp:0,str:0,dex:0,int:0,luck:0}}
+function rpgReset(){
+  rpgState.name='';rpgState.gender=null;rpgState.job=null;rpgState.jobRoll=null;rpgState.stats=rpgBlankStats();rpgState.statRolls=[];rpgState.currentStatRoll=null;rpgState.ai=null;rpgState.disposition=0;rpgState.level=1;rpgState.exp=0;rpgState.gold=0;rpgState.items={slimeGel:0};rpgState.quest=null;rpgState.formation={player:4,ai:null};rpgState.field=null;
+  const ni=$('#rpgNameInput');if(ni)ni.value='';
+  $('#rpgNameError')&&( $('#rpgNameError').textContent='' );
+  $$('.rpgGenderBtn').forEach(b=>b.classList.remove('active'));
+  $('#rpgGenderNextBtn')&&( $('#rpgGenderNextBtn').disabled=true );
+  $('#rpgJobDice')&&( $('#rpgJobDice').textContent='?' );
+  $('#rpgJobName')&&( $('#rpgJobName').textContent='주사위를 굴려주세요', $('#rpgJobName').classList.remove('hiddenJob') );
+  $('#rpgJobDesc')&&( $('#rpgJobDesc').textContent='결과는 되돌릴 수 없습니다.' );
+  $('#rpgJobRollBtn')&&( $('#rpgJobRollBtn').disabled=false );
+  $('#rpgJobNextBtn')&&( $('#rpgJobNextBtn').style.display='none' );
+  renderRpgPlayerStats();
+}
+function openRpg(){rpgReset();HuNyangDiag.line('RPG_OPEN','prototype');showPage('rpgNamePage')}
+function rpgNameStart(){
+  const v=$('#rpgNameInput')?.value.trim()||'';
+  if(charLen(v)<2||charLen(v)>8){$('#rpgNameError').textContent='닉네임은 2~8글자로 입력해 주세요.';return}
+  rpgState.name=v;$('#rpgNameError').textContent='';$('#rpgGenderName').textContent=v;HuNyangDiag.line('RPG_NAME_SET',v);showPage('rpgGenderPage')
+}
+function rpgSelectGender(g){rpgState.gender=g;$$('.rpgGenderBtn').forEach(b=>b.classList.toggle('active',b.dataset.rpgGender===g));$('#rpgGenderNextBtn').disabled=false;HuNyangDiag.line('RPG_GENDER_SET',g)}
+function rpgRollJob(){
+  const btn=$('#rpgJobRollBtn'),die=$('#rpgJobDice');if(btn.disabled||rpgState.job)return;btn.disabled=true;die.classList.add('rolling');let ticks=0;
+  const it=setInterval(()=>{die.textContent=rpgRand(6);if(++ticks>=11){clearInterval(it);const n=rpgRand(6),job=rpgJobByRoll(n);rpgState.jobRoll=n;rpgState.job=job;die.textContent=n;die.classList.remove('rolling');$('#rpgJobName').textContent=`${job.emoji} ${job.name}${job.hidden?' · HIDDEN':''}`;$('#rpgJobName').classList.toggle('hiddenJob',!!job.hidden);$('#rpgJobDesc').textContent=job.desc;$('#rpgJobNextBtn').style.display='block';HuNyangDiag.line('RPG_JOB_ROLL',`${n}:${job.name}`)}},65)
+}
+function renderRpgStatBoard(hostId,stats){
+  const host=$(hostId);if(!host)return;host.innerHTML='';rpgStatDefs.forEach(([k,n])=>{const d=document.createElement('div');d.className='rpgStatCell';d.innerHTML=`<b>${n}</b><strong>${stats[k]||0}</strong>`;host.appendChild(d)})
+}
+function renderRpgPlayerStats(){
+  renderRpgStatBoard('#rpgPlayerStatBoard',rpgState.stats);const assign=$('#rpgStatAssign');if(assign){assign.innerHTML='';rpgStatDefs.forEach(([k,n])=>{const b=document.createElement('button');b.className='rpgStatBtn';b.type='button';b.textContent=n;b.disabled=rpgState.currentStatRoll==null||rpgState.statRolls.length>=5;b.onclick=()=>rpgAssignStat(k,n);assign.appendChild(b)})}
+  const left=5-rpgState.statRolls.length;const cr=$('#rpgCurrentRoll');if(cr)cr.innerHTML=rpgState.currentStatRoll==null?`남은 굴림 <strong>${left}</strong>회`:`현재 주사위 <strong>${rpgState.currentStatRoll}</strong> · 배분할 능력치를 선택`;
+  const hist=$('#rpgRollHistory');if(hist)hist.textContent=rpgState.statRolls.length?rpgState.statRolls.map((x,i)=>`${i+1}회차 🎲${x.roll} → ${x.name}`).join(' · '):'아직 배분된 주사위가 없습니다.';
+  const roll=$('#rpgStatRollBtn');if(roll){roll.disabled=rpgState.currentStatRoll!=null||rpgState.statRolls.length>=5;roll.textContent=rpgState.statRolls.length>=5?'능력치 배분 완료':'🎲 d10 굴리기'}
+  const next=$('#rpgStatsNextBtn');if(next)next.style.display=rpgState.statRolls.length>=5?'block':'none'
+}
+function rpgRollStat(){if(rpgState.currentStatRoll!=null||rpgState.statRolls.length>=5)return;const die=$('#rpgStatDice');die.classList.add('rolling');let ticks=0;const it=setInterval(()=>{die.textContent=rpgRand(10);if(++ticks>=8){clearInterval(it);const n=rpgRand(10);rpgState.currentStatRoll=n;die.textContent=n;die.classList.remove('rolling');renderRpgPlayerStats();HuNyangDiag.line('RPG_STAT_ROLL',n)}},60)}
+function rpgAssignStat(k,name){if(rpgState.currentStatRoll==null||rpgState.statRolls.length>=5)return;const n=rpgState.currentStatRoll;rpgState.stats[k]+=n;rpgState.statRolls.push({roll:n,key:k,name});rpgState.currentStatRoll=null;$('#rpgStatDice').textContent='?';renderRpgPlayerStats();HuNyangDiag.line('RPG_STAT_ASSIGN',`${n}->${name}`)}
+function rpgWeightedStat(jobId){
+  const w={warrior:{hp:3.6,str:3.8,dex:1.1,int:.45,luck:.9},mage:{hp:1.1,str:.45,dex:1.0,int:4.3,luck:1.0},archer:{hp:1.1,str:1.0,dex:4.2,int:.8,luck:1.2},rogue:{hp:.9,str:.9,dex:3.7,int:.8,luck:2.8},priest:{hp:2.0,str:.45,dex:.8,int:3.8,luck:1.2},adventurer:{hp:1,str:1,dex:1,int:1,luck:1}}[jobId]||{hp:1,str:1,dex:1,int:1,luck:1};
+  const total=Object.values(w).reduce((a,b)=>a+b,0);let r=Math.random()*total;for(const [k,v] of Object.entries(w)){r-=v;if(r<=0)return k}return 'luck'
+}
+function rpgGenerateAi(){
+  const n=rpgRand(6),job=rpgJobByRoll(n),gender=Math.random()<.5?'남성':'여성',name=rpgAiNames[Math.floor(Math.random()*rpgAiNames.length)],stats=rpgBlankStats(),rolls=[];
+  for(let i=0;i<5;i++){const roll=rpgRand(10),key=rpgWeightedStat(job.id),statName=rpgStatDefs.find(x=>x[0]===key)[1];stats[key]+=roll;rolls.push({roll,key,name:statName})}
+  rpgState.ai={name,gender,job,jobRoll:n,stats,rolls,level:1,exp:0};return rpgState.ai
+}
+function rpgRenderPartyCards(hostId){const host=$(hostId);if(!host||!rpgState.ai)return;host.innerHTML=`<div class="rpgPartyCard"><div class="who">PLAYER · Lv.${rpgState.level}</div><div class="name">${rpgState.name}</div><div class="job">${rpgState.job.emoji} ${rpgState.job.name} · ${rpgState.gender}</div></div><div class="rpgPartyCard"><div class="who">AI PARTY · Lv.${rpgState.ai.level||1}</div><div class="name">${rpgState.ai.name}</div><div class="job">${rpgState.ai.job.emoji} ${rpgState.ai.job.name} · ${rpgState.ai.gender}</div></div>`}
+function rpgOpenAi(){
+  showPage('rpgAiPage');$('#rpgAiRolling').style.display='block';$('#rpgAiResult').style.display='none';$('#rpgAiNextBtn').style.display='none';rpgState.ai=null;
+  setTimeout(()=>{const ai=rpgGenerateAi();$('#rpgAiRolling').style.display='none';$('#rpgAiResult').style.display='block';rpgRenderPartyCards('#rpgPartyCards');renderRpgStatBoard('#rpgAiStatBoard',ai.stats);$('#rpgAiHistory').textContent=`직업 🎲${ai.jobRoll} → ${ai.job.name} · `+ai.rolls.map((x,i)=>`${i+1}회 🎲${x.roll}→${x.name}`).join(' · ');$('#rpgAiNextBtn').style.display='block';HuNyangDiag.line('RPG_AI_GENERATED',`${ai.name}/${ai.job.name}`)},1050)
+}
+function rpgOpenGuild(){if(!rpgState.ai)return;$('#rpgGuildPlayerName').textContent=rpgState.name;$('#rpgGuildAiName').textContent=rpgState.ai.name;rpgRenderPartyCards('#rpgGuildPartyCards');showPage('rpgGuildPage');HuNyangDiag.line('RPG_GUILD_ENTER','Ravien')}
+const rpgDialoguePools={
+  '-2':['잡담은 됐어. 가장 빨리 끝낼 수 있는 의뢰나 알려줘.','위험해도 상관없어. 효율 좋은 의뢰부터 보여줘.'],
+  '-1':['아… 처음이라서요. 아무거나 괜찮은 걸로 부탁드릴게요.','저기… 초보자가 할 만한 게 어떤 건가요?'],
+  '0':['초보 모험가가 맡기 좋은 의뢰를 추천해 주세요.','길드에서 보통 처음에는 어떤 의뢰부터 하나요?'],
+  '1':['안녕하세요. 잘 부탁드려요. 저희에게 맞는 의뢰를 추천해 주실래요?','처음이라 조금 긴장되네요. 무리하지 않을 의뢰부터 부탁드려요.'],
+  '2':['엘리나 씨 맞죠? 앞으로 자주 볼 것 같은데 잘 부탁해요!','첫날부터 좋은 분을 만나서 다행이네요. 저희 둘, 잘 부탁드릴게요!']
+};
+function rpgOne(arr){return arr[Math.floor(Math.random()*arr.length)]}
+function rpgBuildDialogue(){
+  const neg=Math.random()<.5?-2:-1,pos=Math.random()<.5?1:2;const rows=[{v:neg,t:rpgOne(rpgDialoguePools[String(neg)])},{v:0,t:rpgOne(rpgDialoguePools['0'])},{v:pos,t:rpgOne(rpgDialoguePools[String(pos)])}];
+  for(let i=rows.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[rows[i],rows[j]]=[rows[j],rows[i]]}
+  const host=$('#rpgDialogueChoices');host.innerHTML='';$('#rpgDialogueResult').style.display='none';$('#rpgDialogueNextBtn').style.display='none';rows.forEach(x=>{const b=document.createElement('button');b.className='rpgDialogueChoice';b.type='button';b.textContent=x.t;b.onclick=()=>rpgChooseDialogue(x.v,b);host.appendChild(b)});showPage('rpgDialoguePage')
+}
+function rpgChooseDialogue(v,btn){
+  rpgState.disposition+=v;$$('.rpgDialogueChoice').forEach(b=>b.disabled=true);btn.disabled=false;btn.style.borderColor='#d59bb4';btn.style.background='#f8eaf1';const result=$('#rpgDialogueResult');result.style.display='block';
+  const text=v<=-2?'“알겠습니다. 군더더기 없는 분이시네요. 그럼 바로 실무적인 의뢰를 보여드릴게요.”':v===-1?'“후후, 너무 긴장하지 않으셔도 돼요. 누구나 처음은 있으니까요.”':v===0?'“좋아요. 가장 기본적인 F급 의뢰부터 설명해 드릴게요.”':v===1?'“그렇게 말씀해 주시니 저도 안심이네요. 안전한 의뢰부터 골라볼게요.”':'“저도 잘 부탁드려요! 라비엔에서 오래 활동하시면 자주 만나게 될 거예요.”';result.textContent=text;$('#rpgDialogueNextBtn').style.display='block';HuNyangDiag.line('RPG_DISPOSITION_CHOICE',v)
+}
+function rpgOpenQuestGuide(){showPage('rpgQuestGuidePage');HuNyangDiag.line('RPG_QUEST_GUIDE_OPEN',`disposition=${rpgState.disposition}`)}
+function rpgAcceptQuest(){rpgState.quest={rank:'F',type:'마물 퇴치',name:'라비엔 초원의 슬라임 정리',target:5,kills:0,completed:false};rpgRenderPartyCards('#rpgAcceptedPartyCards');$('#rpgAcceptedSummary').textContent=`Lv.${rpgState.level} · EXP ${rpgState.exp} · ${rpgState.quest.rank}급 의뢰 수락 · 숨겨진 성향은 플레이 중 계속 누적됩니다.`;showPage('rpgQuestAcceptedPage');HuNyangDiag.line('RPG_QUEST_ACCEPT',rpgState.quest.name)}
+
+/* ===== v4.8.22 RPG field / battle ===== */
+function rpgRound(v){return Math.round(v)}
+function rpgDerived(job,stats){
+  const warrior=job.id==='warrior',mage=job.id==='mage',priest=job.id==='priest',rogue=job.id==='rogue',archer=job.id==='archer';
+  const maxHp=rpgRound(20+(stats.hp||0)*(warrior?3.2:1.7));
+  const maxMp=rpgRound(10+(stats.int||0)*2);
+  let patk=0;
+  if(mage)patk=3+(stats.str||0)*1.2;
+  else if(priest)patk=5+(stats.str||0)*1.5;
+  else if(archer)patk=10+(stats.dex||0)*2;
+  else if(job.id==='adventurer'){
+    const melee=10+(stats.str||0)*1.5,ranged=10+(stats.dex||0)*2;patk=Math.max(melee,ranged);
+  }else patk=10+(stats.str||0)*1.5;
+  let matk=(mage?10+(stats.int||0)*2:priest?10+(stats.int||0)*1.8:3+(stats.int||0)*1.4);
+  const defense=(warrior?7+(stats.hp||0)*.7:5+(stats.hp||0)*.5);
+  const crit=Math.min(95,10+(stats.luck||0)*(rogue?1.5:.5));
+  return {maxHp:rpgRound(maxHp),maxMp:rpgRound(maxMp),patk:rpgRound(patk),matk:rpgRound(matk),defense:rpgRound(defense),crit:Math.round(crit*10)/10,dex:stats.dex||0,luck:stats.luck||0}
+}
+function rpgExpNeed(level){return 30+(level-1)*20}
+function rpgGainExp(target,amount,label){
+  target.exp=(target.exp||0)+amount;
+  let ups=0;
+  while((target.level||1)<10 && target.exp>=rpgExpNeed(target.level||1)){
+    target.exp-=rpgExpNeed(target.level||1);target.level=(target.level||1)+1;ups++;
+  }
+  if(ups && target===rpgState)rpgLog(`✨ ${label} 레벨 업! Lv.${target.level}`);
+  if(ups && target===rpgState.ai)rpgLog(`✨ ${label} 레벨 업! Lv.${target.level}`);
+}
+function rpgJobFace(job,gender){
+  if(job.id==='warrior')return '🧑‍🦰';if(job.id==='mage')return '🧙';if(job.id==='archer')return '🧝';if(job.id==='rogue')return '🥷';if(job.id==='priest')return '🧑‍⚕️';return gender==='여성'?'👩':'🧑'
+}
+function rpgAiFormationPos(){
+  const job=rpgState.ai.job.id,s=rpgState.ai.stats;let col=1;
+  if(job==='warrior'||job==='rogue')col=2;
+  else if(job==='mage'||job==='archer'||job==='priest')col=0;
+  else col=(s.str||0)>Math.max(s.dex||0,s.int||0)?2:((s.int||0)>(s.str||0)?0:1);
+  let candidates=[col,3+col,6+col].filter(p=>p!==rpgState.formation.player);
+  return candidates[Math.floor(Math.random()*candidates.length)]??((rpgState.formation.player+3)%9)
+}
+function rpgOpenFormation(){
+  if(!rpgState.ai)return;
+  rpgState.formation.player=4;
+  rpgState.formation.ai=rpgAiFormationPos();
+  rpgRenderPartyCards('#rpgFormationPartyCards');
+  rpgRenderFormation();
+  showPage('rpgFormationPage');
+  HuNyangDiag.line('RPG_FORMATION_OPEN',`${rpgState.formation.player}/${rpgState.formation.ai}`)
+}
+function rpgRenderFormation(){
+  const members=$('#rpgFormationMembers');
+  if(members)members.innerHTML=`<button class="rpgMemberChip active" type="button">${rpgJobFace(rpgState.job,rpgState.gender)} ${rpgState.name}<small>${rpgState.job.name} · 칸을 눌러 이동</small></button><button class="rpgMemberChip" type="button" disabled>${rpgJobFace(rpgState.ai.job,rpgState.ai.gender)} ${rpgState.ai.name}<small>${rpgState.ai.job.name} · AI 자동 배치</small></button>`;
+  const grid=$('#rpgFormationGrid');if(grid){grid.innerHTML='';for(let p=0;p<9;p++){const c=document.createElement('button');c.type='button';c.className='rpgFormationCell '+(p%3===0?'rear':p%3===2?'front':'');c.dataset.pos=p;
+    if(p===rpgState.formation.player){c.classList.add('occupied');c.innerHTML=`<span class="rpgFormationAvatar">${rpgJobFace(rpgState.job,rpgState.gender)}</span><span class="rpgFormationName">${rpgState.name}</span>`}
+    else if(p===rpgState.formation.ai){c.classList.add('occupied');c.innerHTML=`<span class="rpgFormationAvatar">${rpgJobFace(rpgState.ai.job,rpgState.ai.gender)}</span><span class="rpgFormationName">${rpgState.ai.name}</span>`}
+    else c.innerHTML='<span style="opacity:.55">○</span>';
+    c.addEventListener('click',()=>{if(p===rpgState.formation.ai)return;rpgState.formation.player=p;rpgRenderFormation()});grid.appendChild(c)}}
+  const d1=rpgDerived(rpgState.job,rpgState.stats),d2=rpgDerived(rpgState.ai.job,rpgState.ai.stats),host=$('#rpgDerivedStats');
+  if(host)host.innerHTML=`<div class="rpgDerivedStat"><b>${rpgState.name} HP</b><strong>${d1.maxHp}</strong></div><div class="rpgDerivedStat"><b>물리 공격</b><strong>${d1.patk}</strong></div><div class="rpgDerivedStat"><b>치명타</b><strong>${d1.crit}%</strong></div><div class="rpgDerivedStat"><b>${rpgState.ai.name} HP</b><strong>${d2.maxHp}</strong></div><div class="rpgDerivedStat"><b>물리 공격</b><strong>${d2.patk}</strong></div><div class="rpgDerivedStat"><b>치명타</b><strong>${d2.crit}%</strong></div>`;
+}
+function rpgDayPart(){
+  const t=(rpgState.field?.turn||0)%16;
+  if(t<4)return {name:'아침',emoji:'🌤️',cls:''};
+  if(t<8)return {name:'점심',emoji:'☀️',cls:'noon'};
+  if(t<12)return {name:'밤',emoji:'🌙',cls:'night'};
+  return {name:'새벽',emoji:'🌌',cls:'dawn'}
+}
+function rpgAdvanceTurns(n,why){
+  if(!rpgState.field)return;
+  const before=rpgState.field.turn;rpgState.field.turn+=n;
+  const oldDay=Math.floor(before/16)+1,newDay=Math.floor(rpgState.field.turn/16)+1;
+  if(newDay>oldDay)rpgLog(`🌅 ${newDay}일차가 시작되었습니다.`);
+  if(why)rpgLog(`⏳ ${why} · ${n}턴 소모`);
+}
+function rpgLog(msg){
+  if(!rpgState.field)return;
+  rpgState.field.history.unshift(msg);rpgState.field.history=rpgState.field.history.slice(0,40);
+  const host=$('#rpgFieldHistory');if(host)host.innerHTML=rpgState.field.history.map(x=>`<div class="rpgHistoryRow">${x}</div>`).join('')
+}
+function rpgNewRoute(){
+  const f=rpgState.field;f.steps=rpgRand(7)+3;f.pos=0;f.encounter=null;f.battle=null;f.targetMode=false;
+}
+function rpgStartJourney(){
+  const pd=rpgDerived(rpgState.job,rpgState.stats),ad=rpgDerived(rpgState.ai.job,rpgState.ai.stats);
+  rpgState.field={steps:0,pos:0,turn:0,encounter:null,battle:null,targetMode:false,history:[],questRewarded:false,
+    party:[
+      {id:'player',name:rpgState.name,job:rpgState.job,stats:rpgState.stats,derived:pd,hp:pd.maxHp,mp:pd.maxMp,position:rpgState.formation.player,defending:false,dead:false},
+      {id:'ai',name:rpgState.ai.name,job:rpgState.ai.job,stats:rpgState.ai.stats,derived:ad,hp:ad.maxHp,mp:ad.maxMp,position:rpgState.formation.ai,defending:false,dead:false}
+    ]};
+  rpgNewRoute();rpgLog('🏠 라비엔 마을 입구에서 출발했습니다.');rpgLog(`📜 의뢰 목표 · 슬라임 ${rpgState.quest?.target||5}마리 처치`);
+  showPage('rpgFieldPage');rpgRenderField();HuNyangDiag.line('RPG_JOURNEY_START',`steps=${rpgState.field.steps}`)
+}
+function rpgRenderRoute(){
+  const f=rpgState.field,host=$('#rpgRouteTrack');if(!f||!host)return;host.innerHTML='';
+  for(let i=0;i<f.steps;i++){const d=document.createElement('div');d.className='rpgRouteStep'+(i<f.pos?' done':'')+(i===f.pos?' current':'');const first=i===0,last=i===f.steps-1;
+    let icon='○';if(i<f.pos)icon='●';if(i===f.pos)icon=rpgJobFace(rpgState.job,rpgState.gender);
+    d.innerHTML=`<div class="rpgRouteDot">${icon}</div><div class="rpgRouteLabel">${first?'🏠 마을 입구':last?'🎯 목표 지점':`구간 ${i+1}`}</div>`;host.appendChild(d)}
+}
+function rpgRenderPartyStatus(){
+  const f=rpgState.field,host=$('#rpgPartyStatus');if(!f||!host)return;
+  host.innerHTML=f.party.map(u=>{const hp=Math.max(0,Math.min(100,u.hp/u.derived.maxHp*100)),mp=Math.max(0,Math.min(100,u.mp/u.derived.maxMp*100));return `<div class="rpgPartyStatus"><div class="rpgStatusTop"><span>${rpgJobFace(u.job,u.id==='player'?rpgState.gender:rpgState.ai.gender)} ${u.name}</span><span>${Math.max(0,u.hp)}/${u.derived.maxHp}</span></div><div class="rpgBar hp"><i style="width:${hp}%"></i></div><div class="rpgBar mp"><i style="width:${mp}%"></i></div><div class="rpgStatusEffect">${u.dead?'💀 전투 불능':u.defending?'🛡️ 방어 중':'버프/디버프 없음'}</div></div>`}).join('')
+}
+function rpgUnitHtml(u,enemy=false,index=0){
+  if(!u)return '<div class="rpgCombatUnit empty"></div>';
+  const max=enemy?10:u.derived.maxHp,hp=Math.max(0,Math.min(100,u.hp/max*100));
+  return `<div class="rpgCombatUnit${enemy&&rpgState.field.targetMode&&!u.dead?' targetable':''}" data-enemy="${enemy?index:''}"><div class="rpgUnitIcon">${enemy?'🟢':rpgJobFace(u.job,u.id==='player'?rpgState.gender:rpgState.ai.gender)}</div><div class="rpgUnitName">${enemy?`슬라임 ${index+1}`:u.name}</div><div class="rpgMiniHp"><i style="width:${hp}%"></i></div><div class="rpgUnitStatus">${u.dead?'전투 불능':u.defending?'🛡️ 방어':''}</div></div>`
+}
+function rpgRenderCombatFormations(){
+  const f=rpgState.field,p=$('#rpgCombatParty'),e=$('#rpgCombatEnemy');if(!f||!p||!e)return;
+  const visible=!!(f.encounter||f.battle);p.classList.toggle('show',visible);e.classList.toggle('show',visible);
+  let pslots=Array(9).fill(null);f.party.forEach(u=>pslots[u.position]=u);p.innerHTML=pslots.map(u=>rpgUnitHtml(u,false)).join('');
+  let eslots=Array(9).fill(null);if(f.battle)f.battle.enemies.forEach((u,i)=>{if(!u.dead)eslots[u.position]={...u,_idx:i};});
+  else if(f.encounter)f.encounter.enemies.forEach((u,i)=>{eslots[u.position]={...u,_idx:i};});
+  e.innerHTML=eslots.map(u=>u?rpgUnitHtml(u,true,u._idx):rpgUnitHtml(null,true)).join('');
+  $$('.rpgCombatUnit.targetable',e).forEach(el=>el.addEventListener('click',()=>rpgPlayerAttack(Number(el.dataset.enemy))));
+}
+function rpgRenderBattleActions(){
+  const f=rpgState.field,host=$('#rpgBattleActions'),hint=$('#rpgBattleHint');if(!f||!host||!hint)return;
+  if(!f.battle){host.innerHTML='';hint.textContent=f.encounter?'마물과 조우했습니다. 중앙에서 전투 또는 도주를 선택하세요.':'전투 상황이 아닙니다.';return}
+  const player=f.party[0],locked=player.dead||f.battle.resolving;
+  host.innerHTML=`<button class="rpgBattleAction" id="rpgAtkBtn" type="button" ${locked?'disabled':''}>⚔ 공격</button><button class="rpgBattleAction" type="button" disabled>🔮 마법</button><button class="rpgBattleAction" id="rpgDefBtn" type="button" ${locked?'disabled':''}>🛡 방어</button><button class="rpgBattleAction" type="button" disabled>🎒 아이템</button><button class="rpgBattleAction" id="rpgRunBtn" type="button" ${locked?'disabled':''}>🏃 도망</button>`;
+  hint.textContent=f.targetMode?'공격할 슬라임을 오른쪽에서 선택하세요.':'행동을 선택하세요. 마법/아이템은 아직 준비 중입니다.';
+  $('#rpgAtkBtn')?.addEventListener('click',()=>{f.targetMode=true;rpgRenderField()});
+  $('#rpgDefBtn')?.addEventListener('click',()=>rpgResolveRound({type:'defend'}));
+  $('#rpgRunBtn')?.addEventListener('click',()=>rpgResolveRound({type:'run'}));
+}
+function rpgRenderCenter(){
+  const f=rpgState.field,host=$('#rpgCenterActions');if(!f||!host)return;host.innerHTML='';
+  if(f.battle){host.innerHTML=`<button class="rpgCenterBtn" type="button" disabled>⚔<br>전투 중<br><small>${f.battle.round}R</small></button>`;return}
+  if(f.encounter){
+    host.innerHTML='<button class="rpgCenterBtn danger" id="rpgEngageBtn" type="button">⚔ 전투</button><button class="rpgCenterBtn safe" id="rpgAvoidBtn" type="button">🏃 도주</button>';
+    $('#rpgEngageBtn').addEventListener('click',rpgBeginBattle);$('#rpgAvoidBtn').addEventListener('click',rpgAvoidEncounter);return
+  }
+  if(f.pos>=f.steps-1){
+    const done=(rpgState.quest?.kills||0)>=(rpgState.quest?.target||5);
+    host.innerHTML=done?'<button class="rpgCenterBtn safe" id="rpgReturnGuildBtn" type="button">🏠 길드<br>귀환</button>':'<button class="rpgCenterBtn" id="rpgExploreMoreBtn" type="button">🌿 추가<br>탐색</button>';
+    if(done)$('#rpgReturnGuildBtn').addEventListener('click',rpgFinishQuest);
+    else $('#rpgExploreMoreBtn').addEventListener('click',()=>{rpgNewRoute();rpgLog('🌿 슬라임을 더 찾기 위해 초원을 추가 탐색합니다.');rpgRenderField()});
+    return
+  }
+  host.innerHTML='<button class="rpgCenterBtn" id="rpgMoveBtn" type="button">➜<br>이동<br><small>1턴</small></button>';
+  $('#rpgMoveBtn').addEventListener('click',rpgMoveStep)
+}
+function rpgRenderTime(){
+  const f=rpgState.field,part=rpgDayPart(),day=Math.floor(f.turn/16)+1;$('#rpgTimeBadge').textContent=`${part.emoji} ${day}일차 · ${part.name}`;
+  const scene=$('#rpgScene');scene.classList.remove('noon','night','dawn');if(part.cls)scene.classList.add(part.cls)
+}
+function rpgRenderField(){
+  const f=rpgState.field;if(!f)return;rpgRenderTime();rpgRenderRoute();rpgRenderPartyStatus();rpgRenderCombatFormations();rpgRenderBattleActions();rpgRenderCenter();
+  const kills=rpgState.quest?.kills||0,target=rpgState.quest?.target||5;$('#rpgFieldSummary').innerHTML=`<span>Lv.${rpgState.level} · EXP ${rpgState.exp}/${rpgExpNeed(rpgState.level)}</span><span>💰 ${rpgState.gold}G</span><span>🟢 슬라임 ${kills}/${target}</span><span>🧪 젤 ${rpgState.items.slimeGel||0}</span>`;
+  $('#rpgFieldSub').textContent=f.battle?'마물과 전투 중':f.encounter?'마물 조우':f.pos>=f.steps-1?'목표 지점':'초원지대';
+  $('#rpgSceneTitle').textContent=f.pos===0?'🏠 마을 입구':f.pos>=f.steps-1?'🎯 목표 지점':f.encounter||f.battle?'⚠️ 슬라임 출현':'🌿 초원지대';
+  const host=$('#rpgFieldHistory');if(host)host.innerHTML=f.history.map(x=>`<div class="rpgHistoryRow">${x}</div>`).join('')
+}
+function rpgMoveStep(){
+  const f=rpgState.field;if(!f||f.encounter||f.battle||f.pos>=f.steps-1)return;f.pos++;rpgAdvanceTurns(1,'구간 이동');rpgLog(`👣 구간 ${f.pos+1}/${f.steps}로 이동했습니다.`);
+  if(Math.random()<.20){const count=rpgRand(4),positions=[];while(positions.length<count){const p=Math.floor(Math.random()*9);if(!positions.includes(p))positions.push(p)}
+    f.encounter={count,enemies:positions.map((p,i)=>({id:`slime${Date.now()}_${i}`,hp:10,maxHp:10,attack:1,defense:5,dex:1,position:p,dead:false}))};rpgLog(`⚠️ 야생 슬라임 ${count}마리와 조우했습니다!`)}
+  if(f.pos>=f.steps-1&&!f.encounter)rpgLog(`🎯 목표 지점에 도착했습니다. 현재 슬라임 처치 ${rpgState.quest?.kills||0}/${rpgState.quest?.target||5}.`);
+  rpgRenderField()
+}
+function rpgAvoidEncounter(){const f=rpgState.field;if(!f?.encounter)return;rpgLog(`🏃 슬라임 ${f.encounter.count}마리와의 전투를 피했습니다.`);f.encounter=null;rpgRenderField()}
+function rpgBeginBattle(){
+  const f=rpgState.field;if(!f?.encounter)return;rpgAdvanceTurns(3,'일반 사냥');f.battle={enemies:f.encounter.enemies.map(x=>({...x})),round:1,resolving:false};f.encounter=null;f.targetMode=false;rpgLog('⚔️ 전투를 시작합니다.');rpgRenderField()
+}
+function rpgPlayerAttack(index){const f=rpgState.field;if(!f?.battle||!f.targetMode)return;const enemy=f.battle.enemies[index];if(!enemy||enemy.dead)return;f.targetMode=false;rpgResolveRound({type:'attack',target:index})}
+function rpgPhysicalHit(attacker,target,attackerLabel,targetLabel,targetElSelector){
+  let raw=Math.max(1,(attacker.derived?.patk??attacker.attack)- (target.derived?.defense??target.defense));
+  if(target.defending)raw=Math.max(1,raw*.5);
+  const critChance=attacker.derived?.crit??0,crit=Math.random()*100<critChance;let dmg=rpgRound(raw*(crit?1.5:1));dmg=Math.max(1,dmg);target.hp=Math.max(0,target.hp-dmg);if(target.hp<=0){target.dead=true}
+  rpgLog(`${crit?'💥 치명타! ':''}${attackerLabel} → ${targetLabel} ${dmg} 피해`);
+  requestAnimationFrame(()=>rpgShowDamage(targetElSelector,`-${dmg}`,false));return dmg
+}
+function rpgShowDamage(selector,text,heal){
+  const el=document.querySelector(selector);if(!el)return;const f=document.createElement('div');f.className='rpgDamageFloat'+(heal?' heal':'');f.textContent=text;el.appendChild(f);setTimeout(()=>f.remove(),800)
+}
+function rpgResolveRound(action){
+  const f=rpgState.field,b=f?.battle;if(!b||b.resolving)return;b.resolving=true;f.party.forEach(u=>u.defending=false);
+  const player=f.party[0],ai=f.party[1];
+  if(action.type==='run'){
+    const alive=f.party.filter(u=>!u.dead),avgDex=alive.reduce((s,u)=>s+(u.stats.dex||0),0)/Math.max(1,alive.length),avgLuck=alive.reduce((s,u)=>s+(u.stats.luck||0),0)/Math.max(1,alive.length),chance=Math.min(90,60+avgDex+avgLuck*.5);
+    if(Math.random()*100<chance){rpgLog(`🏃 도주 성공! (${Math.round(chance)}%)`);f.battle=null;f.targetMode=false;rpgRenderField();return}
+    rpgLog(`❌ 도주 실패! (${Math.round(chance)}%)`);action={type:'failedRun'}
+  }
+  const actors=[];
+  if(!player.dead)actors.push({kind:'player',dex:player.derived.dex+Math.random()*.01});
+  if(!ai.dead)actors.push({kind:'ai',dex:ai.derived.dex+Math.random()*.01});
+  b.enemies.forEach((e,i)=>{if(!e.dead)actors.push({kind:'enemy',index:i,dex:e.dex+Math.random()*.01})});
+  actors.sort((a,c)=>c.dex-a.dex);
+  for(const a of actors){
+    if(a.kind==='player'){
+      if(player.dead)continue;
+      if(action.type==='defend'){player.defending=true;rpgLog(`🛡️ ${player.name}이 방어 자세를 취했습니다.`)}
+      else if(action.type==='attack'){const t=b.enemies[action.target];if(t&&!t.dead)rpgPhysicalHit(player,t,player.name,`슬라임 ${action.target+1}`,`#rpgCombatEnemy .rpgCombatUnit[data-enemy="${action.target}"]`)}
+    }else if(a.kind==='ai'){
+      if(ai.dead)continue;const living=b.enemies.map((e,i)=>({e,i})).filter(x=>!x.e.dead);if(!living.length)continue;
+      if(ai.hp/ai.derived.maxHp<.28&&Math.random()<.25){ai.defending=true;rpgLog(`🛡️ ${ai.name}이 방어 자세를 취했습니다.`)}
+      else{const t=living[Math.floor(Math.random()*living.length)];rpgPhysicalHit(ai,t.e,ai.name,`슬라임 ${t.i+1}`,`#rpgCombatEnemy .rpgCombatUnit[data-enemy="${t.i}"]`)}
+    }else{
+      const e=b.enemies[a.index];if(e.dead)continue;const living=f.party.filter(u=>!u.dead);if(!living.length)break;const t=living[Math.floor(Math.random()*living.length)],pi=f.party.indexOf(t);
+      rpgPhysicalHit(e,t,`슬라임 ${a.index+1}`,t.name,`#rpgCombatParty .rpgCombatUnit:nth-child(${t.position+1})`)
+    }
+  }
+  if(f.party.every(u=>u.dead)){rpgLog('💀 파티가 전멸했습니다. 라비엔 마을로 후송됩니다.');rpgState.gold=Math.max(0,rpgState.gold-Math.ceil(rpgState.gold*.1));setTimeout(()=>{f.battle=null;showPage('rpgGuildPage')},700);return}
+  if(b.enemies.every(e=>e.dead)){rpgBattleVictory();return}
+  b.round++;b.resolving=false;rpgRenderField()
+}
+function rpgBattleVictory(){
+  const f=rpgState.field,b=f.battle,count=b.enemies.length,gold=Array.from({length:count},()=>rpgRand(3)).reduce((a,c)=>a+c,0),gels=Array.from({length:count},()=>Math.random()<.5?1:0).reduce((a,c)=>a+c,0),xp=count*8;
+  rpgState.gold+=gold;rpgState.items.slimeGel=(rpgState.items.slimeGel||0)+gels;rpgState.quest.kills=(rpgState.quest.kills||0)+count;
+  rpgGainExp(rpgState,xp,rpgState.name);rpgGainExp(rpgState.ai,xp,rpgState.ai.name);
+  rpgLog(`🏆 전투 승리 · EXP +${xp} · ${gold}G · 슬라임 젤 +${gels}`);
+  if(rpgState.quest.kills>=rpgState.quest.target&&!rpgState.quest.completed){rpgState.quest.completed=true;rpgLog(`📜 의뢰 목표 달성! 슬라임 ${rpgState.quest.kills}/${rpgState.quest.target}`)}
+  f.battle=null;f.targetMode=false;f.party.forEach(u=>u.defending=false);rpgRenderField()
+}
+function rpgFinishQuest(){
+  const f=rpgState.field;if(!f||f.questRewarded)return;f.questRewarded=true;rpgState.gold+=10;rpgGainExp(rpgState,30,rpgState.name);rpgGainExp(rpgState.ai,30,rpgState.ai.name);rpgLog('📜 F급 의뢰 완료 · EXP +30 · 10G');
+  setTimeout(()=>{rpgRenderPartyCards('#rpgGuildPartyCards');showPage('rpgGuildPage')},650)
+}
+
+function rpgBack(page){showPage(page)}
+$('#openRpg')?.addEventListener('click',openRpg);
+$('#rpgNameBack')?.addEventListener('click',()=>showPage('homePage'));
+$('#rpgGameStartBtn')?.addEventListener('click',rpgNameStart);
+$('#rpgNameInput')?.addEventListener('keydown',e=>{if(e.key==='Enter')rpgNameStart()});
+$$('.rpgGenderBtn').forEach(b=>b.addEventListener('click',()=>rpgSelectGender(b.dataset.rpgGender)));
+$('#rpgGenderBack')?.addEventListener('click',()=>showPage('rpgNamePage'));
+$('#rpgGenderNextBtn')?.addEventListener('click',()=>showPage('rpgJobPage'));
+$('#rpgJobBack')?.addEventListener('click',()=>showPage('rpgGenderPage'));
+$('#rpgJobRollBtn')?.addEventListener('click',rpgRollJob);
+$('#rpgJobNextBtn')?.addEventListener('click',()=>{renderRpgPlayerStats();showPage('rpgStatsPage')});
+$('#rpgStatsBack')?.addEventListener('click',()=>showPage('rpgJobPage'));
+$('#rpgStatRollBtn')?.addEventListener('click',rpgRollStat);
+$('#rpgStatsNextBtn')?.addEventListener('click',rpgOpenAi);
+$('#rpgAiBack')?.addEventListener('click',()=>showPage('rpgStatsPage'));
+$('#rpgAiNextBtn')?.addEventListener('click',rpgOpenGuild);
+$('#rpgGuildBack')?.addEventListener('click',()=>showPage('rpgAiPage'));
+$('#rpgGoReceptionBtn')?.addEventListener('click',()=>showPage('rpgReceptionPage'));
+$('#rpgReceptionBack')?.addEventListener('click',()=>showPage('rpgGuildPage'));
+$('#rpgTalkBtn')?.addEventListener('click',rpgBuildDialogue);
+$('#rpgSkipTalkBtn')?.addEventListener('click',rpgOpenQuestGuide);
+$('#rpgDialogueBack')?.addEventListener('click',()=>showPage('rpgReceptionPage'));
+$('#rpgDialogueNextBtn')?.addEventListener('click',rpgOpenQuestGuide);
+$('#rpgQuestBack')?.addEventListener('click',()=>showPage('rpgReceptionPage'));
+$('#rpgAcceptQuestBtn')?.addEventListener('click',rpgAcceptQuest);
+$('#rpgAcceptedHomeBtn')?.addEventListener('click',()=>showPage('homePage'));
+$('#rpgAcceptedRestartBtn')?.addEventListener('click',openRpg);
+$('#rpgGoFormationBtn')?.addEventListener('click',rpgOpenFormation);
+$('#rpgFormationBack')?.addEventListener('click',()=>showPage('rpgQuestAcceptedPage'));
+$('#rpgJourneyStartBtn')?.addEventListener('click',rpgStartJourney);
+$('#rpgFieldBack')?.addEventListener('click',()=>{if(rpgState.field?.battle||rpgState.field?.encounter){rpgLog('↩️ 전투/조우 중에는 이전 화면으로 이동할 수 없습니다.');rpgRenderField();return}showPage('rpgFormationPage')});
+
 const mascotLines=[
   '어서 오라냥~! 오늘도 놀러 왔냥? ♡',
   '게임 한 판 하고 갈 거냥? 준비됐냥~?',
@@ -3331,6 +3943,32 @@ function handleAndroidBack(){
       HuNyangDiag.line('BACK_ROUTE','colosseumChampionPage->homePage');
       leaveColosseumToHome('android_back_champion');
       break;
+    case 'rpgNamePage':
+      HuNyangDiag.line('BACK_ROUTE','rpgNamePage->homePage');showPage('homePage');break;
+    case 'rpgGenderPage':
+      HuNyangDiag.line('BACK_ROUTE','rpgGenderPage->rpgNamePage');showPage('rpgNamePage');break;
+    case 'rpgJobPage':
+      HuNyangDiag.line('BACK_ROUTE','rpgJobPage->rpgGenderPage');showPage('rpgGenderPage');break;
+    case 'rpgStatsPage':
+      HuNyangDiag.line('BACK_ROUTE','rpgStatsPage->rpgJobPage');showPage('rpgJobPage');break;
+    case 'rpgAiPage':
+      HuNyangDiag.line('BACK_ROUTE','rpgAiPage->rpgStatsPage');showPage('rpgStatsPage');break;
+    case 'rpgGuildPage':
+      HuNyangDiag.line('BACK_ROUTE','rpgGuildPage->rpgAiPage');showPage('rpgAiPage');break;
+    case 'rpgReceptionPage':
+      HuNyangDiag.line('BACK_ROUTE','rpgReceptionPage->rpgGuildPage');showPage('rpgGuildPage');break;
+    case 'rpgDialoguePage':
+      HuNyangDiag.line('BACK_ROUTE','rpgDialoguePage->rpgReceptionPage');showPage('rpgReceptionPage');break;
+    case 'rpgQuestGuidePage':
+      HuNyangDiag.line('BACK_ROUTE','rpgQuestGuidePage->rpgReceptionPage');showPage('rpgReceptionPage');break;
+    case 'rpgQuestAcceptedPage':
+      HuNyangDiag.line('BACK_ROUTE','rpgQuestAcceptedPage->homePage');showPage('homePage');break;
+    case 'rpgFormationPage':
+      HuNyangDiag.line('BACK_ROUTE','rpgFormationPage->rpgQuestAcceptedPage');showPage('rpgQuestAcceptedPage');break;
+    case 'rpgFieldPage':
+      if(rpgState.field?.battle||rpgState.field?.encounter){HuNyangDiag.line('BACK_ROUTE','rpgFieldPage blocked during battle');rpgLog('↩️ 전투/조우 중에는 뒤로 갈 수 없습니다.');rpgRenderField();}
+      else{HuNyangDiag.line('BACK_ROUTE','rpgFieldPage->rpgFormationPage');showPage('rpgFormationPage');}
+      break;
     default:
       HuNyangDiag.line('BACK_ROUTE',`${page}->exitConfirm_fallback`);
       showExitConfirm('android_back_fallback');
@@ -3421,7 +4059,7 @@ setTimeout(()=>{
   });
   q('diagSaveBtn')?.addEventListener('click',async()=>{
     const txt=HuNyangDiag.exportText();
-    const name=`Hu_nyang_diag_v4_8_20_${new Date().toISOString().replace(/[:.]/g,'-')}.txt`;
+    const name=`Hu_nyang_diag_v4_8_22_${new Date().toISOString().replace(/[:.]/g,'-')}.txt`;
     let shared=false;
     try{
       const file=new File([txt],name,{type:'text/plain'});
@@ -3443,7 +4081,7 @@ setTimeout(()=>{
   setTimeout(()=>HuNyangDiag.line('APP_READY',`page=${document.querySelector('.page.active')?.id||'unknown'}`),250);
 })();
 
-window.HuNyangQA={state,showPage,selectPlayerCount,selectSize,openArrange,startGame,drawNext,countLines,diag:HuNyangDiag};
+window.HuNyangQA={state,rpgState,showPage,selectPlayerCount,selectSize,openArrange,startGame,drawNext,countLines,diag:HuNyangDiag};
 </script>
 </body>
 </html>
