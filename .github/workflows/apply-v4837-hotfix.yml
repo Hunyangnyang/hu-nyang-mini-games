@@ -1,0 +1,64 @@
+name: Apply v4.8.37 hotfix
+on:
+  push:
+    paths:
+      - ".github/workflows/apply-v4837-hotfix.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Patch index.html
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          p = Path("index.html")
+          s = p.read_text(encoding="utf-8")
+
+          required = [
+              "RPG_AUTO_BATTLE",
+              "function rpgRest(mode){",
+              "function partyMemberModel(which){",
+          ]
+          missing = [x for x in required if x not in s]
+          if missing:
+              raise SystemExit("Missing expected v4.8.36 markers: " + ", ".join(missing))
+
+          s = s.replace("v4.8.36", "v4.8.37")
+          s = s.replace("VERSION='4.8.36'", "VERSION='4.8.37'")
+          s = s.replace("version:'4.8.36'", "version:'4.8.37'")
+
+          old_party = "fieldU=rpgState.field?.party?.find(x=>x.id===which),hp=Math.max(0,Math.round(fieldU?.hp??s.currentHp??d.maxHp)),mp=Math.max(0,Math.round(fieldU?.mp??s.currentMp??d.maxMp));"
+          new_party = "fieldU=rpgState.field?.party?.find(x=>x.id===which),hp=Math.max(0,Math.round(s.currentHp??fieldU?.hp??d.maxHp)),mp=Math.max(0,Math.round(s.currentMp??fieldU?.mp??d.maxMp));"
+          if old_party not in s:
+              raise SystemExit("partyMemberModel pattern not found")
+          s = s.replace(old_party, new_party, 1)
+
+          old_toggle = "$('#rpgAutoBattleToggle')?.addEventListener('click',()=>{f.autoBattle=!f.autoBattle;HuNyangDiag.line('RPG_AUTO_BATTLE',f.autoBattle?'ON':'OFF');rpgRenderCenter()})"
+          new_toggle = "$('#rpgAutoBattleToggle')?.addEventListener('pointerdown',(e)=>{e.preventDefault();e.stopPropagation();const btn=e.currentTarget;HuNyangDiag.line('RPG_AUTO_BATTLE_INPUT',e.pointerType||'pointer');f.autoBattle=!f.autoBattle;btn.classList.toggle('on',f.autoBattle);btn.setAttribute('aria-pressed',f.autoBattle?'true':'false');HuNyangDiag.line('RPG_AUTO_BATTLE',f.autoBattle?'ON':'OFF');rpgSaveActiveSlot('rpgFieldPage','auto_battle_toggle')})"
+          if old_toggle not in s:
+              raise SystemExit("auto toggle pattern not found")
+          s = s.replace(old_toggle, new_toggle, 1)
+
+          start = s.index("function rpgRest(mode){")
+          end = s.index("\nconst rpgTownNpcImages=", start)
+          new_rest = """function rpgRest(mode){const members=1+(rpgState.ai?1:0),cost=members*2;if((rpgState.gold||0)<cost){toast('숙박비가 부족하다냥 🐾');return}const turnInDay=(rpgState.worldTurn||0)%16,turnsToMorning=(16-turnInDay)%16||16;const pd=rpgDerived(rpgState.job,rpgState.stats,rpgState.skills,rpgState.equipment);rpgEnsureEquipment(rpgState.ai);const ad=rpgState.ai?rpgDerived(rpgState.ai.job,rpgState.ai.stats,rpgState.ai.skills,rpgState.ai.equipment):null;if(rpgState.currentHp==null)rpgState.currentHp=pd.maxHp;if(rpgState.currentMp==null)rpgState.currentMp=pd.maxMp;if(rpgState.ai){if(rpgState.ai.currentHp==null)rpgState.ai.currentHp=ad.maxHp;if(rpgState.ai.currentMp==null)rpgState.ai.currentMp=ad.maxMp}const before={pHp:rpgState.currentHp,pMp:rpgState.currentMp,aHp:rpgState.ai?.currentHp??null,aMp:rpgState.ai?.currentMp??null,gold:rpgState.gold};let turns=turnsToMorning;const apply=(t)=>{const ratio=.05*t;rpgState.currentHp=Math.min(pd.maxHp,rpgState.currentHp+pd.maxHp*ratio);rpgState.currentMp=Math.min(pd.maxMp,rpgState.currentMp+pd.maxMp*ratio);if(rpgState.ai){rpgState.ai.currentHp=Math.min(ad.maxHp,rpgState.ai.currentHp+ad.maxHp*ratio);rpgState.ai.currentMp=Math.min(ad.maxMp,rpgState.ai.currentMp+ad.maxMp*ratio)}};apply(turnsToMorning);if(mode==='full'){const missing=Math.max((pd.maxHp-rpgState.currentHp)/pd.maxHp,(pd.maxMp-rpgState.currentMp)/pd.maxMp,rpgState.ai?Math.max((ad.maxHp-rpgState.ai.currentHp)/ad.maxHp,(ad.maxMp-rpgState.ai.currentMp)/ad.maxMp):0);const extra=Math.ceil(Math.max(0,missing)/.05);if(extra>0){apply(extra);turns+=extra}}const fp=rpgState.field?.party?.find(x=>x.id==='player'),fa=rpgState.field?.party?.find(x=>x.id==='ai');if(fp){fp.hp=rpgState.currentHp;fp.mp=rpgState.currentMp;fp.dead=fp.hp<=0}if(fa&&rpgState.ai){fa.hp=rpgState.ai.currentHp;fa.mp=rpgState.ai.currentMp;fa.dead=fa.hp<=0}rpgState.gold-=cost;rpgAdvanceTurns(turns,mode==='full'?'완벽 휴식':'아침까지 숙박');HuNyangDiag.line('RPG_INN_REST',`${mode}|turns=${turns}|cost=${cost}G|player=${Math.round(before.pHp)}/${Math.round(before.pMp)}>${Math.round(rpgState.currentHp)}/${Math.round(rpgState.currentMp)}${rpgState.ai?`|ai=${Math.round(before.aHp)}/${Math.round(before.aMp)}>${Math.round(rpgState.ai.currentHp)}/${Math.round(rpgState.ai.currentMp)}`:''}|gold=${before.gold}>${rpgState.gold}`);rpgSaveActiveSlot('rpgInnPage','inn_rest');rpgRenderInn();toast(mode==='full'?'완벽하게 휴식했다냥 🐾':'아침까지 푹 쉬었다냥 🐾')}"""
+          s = s[:start] + new_rest + s[end:]
+
+          p.write_text(s, encoding="utf-8")
+      - name: Commit patched index
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git diff --cached --quiet && exit 0
+          git commit -m "Fix auto battle toggle and inn party recovery (v4.8.37)"
+          git push origin main
