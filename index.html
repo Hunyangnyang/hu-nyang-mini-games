@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#fdeef3">
-<title>Hu nyang Mini Game Collection - v4.8.30 RPG ATB & Slime Rebalance</title>
+<title>Hu nyang Mini Game Collection - v4.8.38 Settings & FPS</title>
 <style>
 :root{
   --bg:#0d0c19;
@@ -2017,6 +2017,28 @@ body{touch-action:pan-y pinch-zoom}
 .rpgAutoBattleRow{display:flex;align-items:center;justify-content:space-between;gap:6px;margin-top:6px;padding:6px 7px;border-radius:12px;border:1px solid #e6d2dc;background:#fff8fb;color:#806471;font-size:8px;font-weight:1000}.rpgAutoSwitch{position:relative;width:38px;height:22px;border:0;padding:0;border-radius:99px;background:#d9cbd1}.rpgAutoSwitch i{position:absolute;width:16px;height:16px;left:3px;top:3px;border-radius:50%;background:#fff;box-shadow:0 1px 4px rgba(60,40,50,.22);transition:.16s}.rpgAutoSwitch.on{background:#d886a6}.rpgAutoSwitch.on i{left:19px}.rpgCombatUnit.targetable{touch-action:manipulation}.rpgBattleAction{touch-action:manipulation}
 @media(max-width:420px){.rpgEquipmentStage{grid-template-columns:minmax(0,1fr) 92px}.rpgEquipmentAvatarWrap{min-height:300px}.rpgEquipmentAvatarWrap img{max-height:340px}.rpgPartyMemberCard{grid-template-columns:76px 1fr}.rpgPartyMemberCard img{width:76px;height:94px}}
 
+
+/* ===== v4.8.38 global settings / frame presentation ===== */
+:root{--hu-frame-step:16.667ms}
+.mobileSettingsBtn{display:flex!important}
+.homeHeaderActions{display:flex;align-items:center;gap:8px}
+.homeSettingsBtn{font-size:19px}
+.settingsSection{margin:0 0 12px;padding:12px;border-radius:18px;background:#fff;border:1px solid #ecd4df;text-align:left;box-shadow:inset 0 1px rgba(255,255,255,.9)}
+.settingsSectionTitle{font-size:12px;font-weight:1000;color:#8e6175;letter-spacing:.06em;margin-bottom:8px}
+.settingsOptionRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 4px}
+.settingsOptionRow+.settingsOptionRow{border-top:1px solid #f2e2e9}
+.settingsOptionRow b{display:block;color:#684b59;font-size:13px}
+.settingsOptionRow small{display:block;margin-top:3px;color:#a1818f;font-size:9px;line-height:1.4;font-weight:700}
+.fpsChoice{display:flex;gap:5px;flex:0 0 auto}
+.fpsBtn{min-width:66px;height:34px;padding:0 10px;border-radius:11px;border:1px solid #e6c8d5;background:#fff8fb;color:#9a7183;font-size:10px;font-weight:1000}
+.fpsBtn.active{background:linear-gradient(135deg,#f8aec9,#ee8bb3);color:#fff;border-color:#ee8bb3;box-shadow:0 5px 12px rgba(218,109,151,.17)}
+.settingsSwitch{width:48px;height:28px;padding:3px;border-radius:999px;border:1px solid #e0c6d1;background:#eadfe4;position:relative;flex:0 0 auto;transition:background .16s ease,border-color .16s ease}
+.settingsSwitch i{display:block;width:20px;height:20px;border-radius:50%;background:#fff;box-shadow:0 2px 6px rgba(93,61,76,.20);transform:translateX(0);transition:transform .16s ease}
+.settingsSwitch.on{background:#ef9abb;border-color:#e988af}
+.settingsSwitch.on i{transform:translateX(20px)}
+body.diagHidden #diagFloatBtn{display:none!important}
+.rpgAtbGauge i{transition:none!important;will-change:width}
+@media(max-width:600px),(pointer:coarse){.homeSettingsBtn{display:flex}}
 </style>
 <meta name="hu-nyang-build" content="mobile-single-file">
 
@@ -2027,7 +2049,7 @@ body{touch-action:pan-y pinch-zoom}
 .rpgInventoryTabs{display:flex;gap:8px;margin:10px 0}.rpgInventoryTab{flex:1;border:1px solid #e5d2db;border-radius:12px;background:#fff8fb;padding:10px;font-weight:1000;color:#755d69}.rpgInventoryTab.active{background:#efd8e3;border-color:#d49ab2}.rpgInventoryLayout{display:grid;grid-template-columns:42% 1fr;gap:10px;align-items:start}.rpgAvatarEquip{position:relative;border:1px solid #ead7df;border-radius:20px;background:#fff8fb;min-height:390px;padding:10px;overflow:hidden}.rpgAvatarEquip img{width:100%;height:340px;object-fit:contain}.rpgEquipMiniSlots{position:absolute;right:8px;top:8px;display:grid;gap:7px}.rpgEquipMiniSlot{width:58px;height:58px;border-radius:13px;border:1px solid #d8bdc8;background:rgba(255,255,255,.94);font-size:8px;font-weight:1000;color:#715966;padding:4px}.rpgEquipMiniSlot b{display:block;font-size:17px}.rpgInvGrid{display:grid;grid-template-columns:repeat(5,1fr);gap:5px}.rpgInvCell{aspect-ratio:1;border-radius:10px;border:1px solid #e5d4dc;background:#fff;display:flex;align-items:center;justify-content:center;text-align:center;padding:3px;font-size:6px;font-weight:900;color:#6e5662;overflow:hidden}.rpgInvCell.filled{background:#fff7fb;border-color:#d7b7c4;cursor:pointer}.rpgInvCell.rare{border:2px solid #6ea9e8}.rpgInvCell.elite{border:2px solid #9a68d4}.rpgInvHint{font-size:8px;color:#947985;text-align:center;margin-top:8px;line-height:1.5}.rpgCurrentHp{font-size:10px;font-weight:1000;color:#745966;margin-bottom:8px}.rpgShopRebuy{max-height:390px;overflow:auto}.rpgShopTab[data-shop-tab="rebuy"]{flex:.85}.rpgMerchantStage .rpgMerchantName{display:none}.rpgInnStage{position:relative;min-height:480px;padding-top:100px;display:flex;align-items:flex-end;justify-content:center}.rpgInnArt{max-width:100%;max-height:430px;object-fit:contain}.rpgInnBubble{position:absolute;top:20px;left:8%;right:8%;padding:14px 16px;border-radius:19px;background:#fff;border:1px solid #e5d1da;box-shadow:0 8px 20px rgba(90,60,75,.13);font-weight:1000;color:#654e59;text-align:center;z-index:2}.rpgInnActions{display:grid;gap:9px;margin:12px 0}.rpgInnActions button{padding:13px;border:0;border-radius:14px;background:#df9eb7;color:white;font-weight:1000}.rpgInnActions button.secondary{background:#eee3e8;color:#735c67}.rpgMiniModal{position:fixed;inset:0;background:rgba(30,20,26,.45);z-index:9999;display:none;align-items:center;justify-content:center;padding:20px}.rpgMiniModal.show{display:flex}.rpgMiniModalCard{width:min(390px,100%);background:#fff;border-radius:22px;padding:18px;box-shadow:0 18px 50px rgba(0,0,0,.25);color:#644f5a}.rpgMiniModalCard h3{margin:0 0 8px}.rpgMiniModalActions{display:flex;gap:8px;margin-top:14px}.rpgMiniModalActions button{flex:1;padding:11px;border:0;border-radius:12px;font-weight:1000}.rpgMiniModalActions .ok{background:#d996b1;color:#fff}.rpgMiniModalActions .cancel{background:#eee5e9;color:#6d5862}
 @media(max-width:390px){.rpgGenderArtBtn{min-height:220px}.rpgGenderArtBtn img{height:180px}.rpgInventoryLayout{grid-template-columns:1fr}.rpgAvatarEquip{min-height:330px}.rpgAvatarEquip img{height:290px}.rpgInvGrid{grid-template-columns:repeat(5,1fr)}}
 </style>
-<meta name="hu-nyang-version" content="4.8.35-character-inventory-inn">
+<meta name="hu-nyang-version" content="4.8.38-settings-fps-patchnotes">
 </head>
 <body>
 <div id="app">
@@ -2073,7 +2095,7 @@ body{touch-action:pan-y pinch-zoom}
       <div class="logo splashTitle">Hu <span>nyang</span></div>
       <div class="splashMini">Mini Game Collection 🐾</div>
       <div class="splashGoText" id="splashGoText" aria-hidden="true">Go to Play</div>
-      <div class="splashVersion" aria-label="현재 버전">v4.8.37</div>
+      <div class="splashVersion" aria-label="현재 버전">v4.8.38</div>
     </div>
   </section>
 
@@ -2088,7 +2110,10 @@ body{touch-action:pan-y pinch-zoom}
           <div class="logo">Hu <span>nyang</span></div>
           <div class="logoSub">MINI GAME COLLECTION</div>
         </div>
-        <button class="iconBtn homeReturnBtn" id="returnToSplash" type="button" aria-label="처음 화면으로">⌂</button>
+        <div class="homeHeaderActions">
+          <button class="iconBtn homeSettingsBtn" id="homeSettingsBtn" type="button" aria-label="설정">⚙</button>
+          <button class="iconBtn homeReturnBtn" id="returnToSplash" type="button" aria-label="처음 화면으로">⌂</button>
+        </div>
       </div>
 
       <button class="card featured" id="openBingo" type="button">
@@ -2122,7 +2147,7 @@ body{touch-action:pan-y pinch-zoom}
         </button>
         <button class="card listCard disabledGame comingCard" type="button" data-coming><div class="listIcon">?</div><div class="listInfo"><h3>Coming Soon</h3></div></button>
       </div>
-      <div class="homeVersion" aria-label="현재 버전">v4.8.37</div>
+      <div class="homeVersion" aria-label="현재 버전">v4.8.38</div>
     </div>
 </section>
 
@@ -2679,10 +2704,55 @@ body{touch-action:pan-y pinch-zoom}
       <div class="settingsPaw">🐾</div>
       <div class="appModalTitle" id="settingsTitle">설정</div>
       <div class="appModalDesc">후냥이랑 놀다가 잠깐 쉬고 싶으면 여기서 나갈 수 있다냥.</div>
+      <div class="settingsSection" id="settingsDisplaySection">
+        <div class="settingsSectionTitle">화면 설정</div>
+        <div class="settingsOptionRow">
+          <div><b>프레임</b><small>전투 게이지와 UI 애니메이션 표시 주기</small></div>
+          <div class="fpsChoice" role="group" aria-label="프레임 설정">
+            <button type="button" class="fpsBtn" id="fps30Btn" data-fps="30">30 FPS</button>
+            <button type="button" class="fpsBtn" id="fps60Btn" data-fps="60">60 FPS</button>
+          </div>
+        </div>
+        <div class="settingsOptionRow">
+          <div><b>진단 아이콘</b><small>화면 우측의 자가진단 아이콘 표시</small></div>
+          <button type="button" class="settingsSwitch" id="diagVisibilityToggle" role="switch" aria-checked="true"><i></i></button>
+        </div>
+      </div>
       <button class="settingsPatchBtn" id="settingsPatchBtn" type="button" aria-expanded="false" aria-controls="settingsPatchPanel">
         <span>📜 패치 내역</span><span class="patchChevron" id="settingsPatchChevron">⌄</span>
       </button>
       <div class="settingsPatchPanel" id="settingsPatchPanel" aria-hidden="true">
+        <details class="patchVersion" open>
+          <summary><span>v4.8.38</span><small>NEW</small></summary>
+          <ul>
+            <li>홈 화면과 게임 리스트 상단에 설정 톱니바퀴를 배치하고 PC/모바일 설정 진입점을 통합</li>
+            <li>전역 30 FPS / 60 FPS 표시 옵션 추가 · 전투 판정 속도와 분리해 ATB 게이지를 부드럽게 표시</li>
+            <li>자가진단 아이콘 표시 ON/OFF 옵션 추가 · 설정값은 세이브 슬롯과 별개로 기기에 저장</li>
+            <li>최근 냥PG 월드 변경 내역을 패치 노트에 보강</li>
+          </ul>
+        </details>
+        <details class="patchVersion">
+          <summary><span>v4.8.37</span></summary>
+          <ul>
+            <li>자동 사냥 토글 입력을 pointerdown 기반으로 개선해 한 번의 입력으로 즉시 전환</li>
+            <li>여관 휴식 시 플레이어와 AI 파티원의 HP/MP 및 필드 상태를 함께 동기화</li>
+            <li>여관 회복 전후 수치·경과 턴·소모 골드를 진단 로그에 기록</li>
+          </ul>
+        </details>
+        <details class="patchVersion">
+          <summary><span>v4.8.36</span></summary>
+          <ul>
+            <li>자동 사냥, 파티 상태, 장비창/인벤토리 분리, 아이템 상세 팝업 추가</li>
+            <li>전투 입력 경로와 진단 로그를 보강하고 사냥터 장식/뒤로가기 UI를 정리</li>
+          </ul>
+        </details>
+        <details class="patchVersion">
+          <summary><span>v4.8.35</span></summary>
+          <ul>
+            <li>장비점 구매·판매·재매입, 40칸 인벤토리, 캐릭터 관리 메뉴 추가</li>
+            <li>전투 후 HP/MP 지속과 라비엔 여관 휴식 시스템 추가</li>
+          </ul>
+        </details>
         <details class="patchVersion" open>
           <summary><span>v4.8.30</span><small>NEW</small></summary>
           <ul>
@@ -2837,7 +2907,7 @@ body{touch-action:pan-y pinch-zoom}
 
 /* ===== v4.8.9 persistent self diagnostics ===== */
 const HuNyangDiag=(()=>{
-  const VERSION='4.8.37';
+  const VERSION='4.8.38';
   const KEY='hunyang_diag_v1';
   const MAX_LINES=360;
   let storageOK=true;
@@ -4736,9 +4806,13 @@ window.HuNyangApp={
   showGameQuitConfirm,closeGameQuitConfirm,quitRunningGameFromBack,activePageId
 };
 
-$('#mobileSettingsBtn')?.addEventListener('click',()=>{
-  HuNyangDiag.line('SETTINGS_OPEN');setAppModal('settingsModal',true);
-});
+function openGlobalSettings(source='unknown'){
+  HuNyangDiag.line('SETTINGS_OPEN',source);
+  if(window.HuNyangSettings?.syncUI)window.HuNyangSettings.syncUI();
+  setAppModal('settingsModal',true);
+}
+$('#mobileSettingsBtn')?.addEventListener('click',()=>openGlobalSettings('splash'));
+$('#homeSettingsBtn')?.addEventListener('click',()=>openGlobalSettings('game_list'));
 $('#settingsCloseBtn')?.addEventListener('click',()=>{
   HuNyangDiag.line('SETTINGS_CLOSE');setAppModal('settingsModal',false);
 });
@@ -4912,6 +4986,62 @@ window.HuNyangQA={state,rpgState,showPage,selectPlayerCount,selectSize,openArran
   // Ensure buttons/listeners added after original script are active.
   rpgRenderVillage();
 })();
+
+
+/* ===== v4.8.38 global settings + smooth ATB presentation ===== */
+const HuNyangSettings=(()=>{
+  const KEY='hunyang_global_settings_v1';
+  const defaults={fps:60,diagVisible:true};
+  let data={...defaults};
+  try{
+    const saved=JSON.parse(localStorage.getItem(KEY)||'null');
+    if(saved&&typeof saved==='object')data={...defaults,...saved};
+  }catch(_){data={...defaults}}
+  data.fps=data.fps===30?30:60;
+  data.diagVisible=data.diagVisible!==false;
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(data))}catch(_){}}
+  function apply(){
+    document.documentElement.style.setProperty('--hu-frame-step',data.fps===30?'33.333ms':'16.667ms');
+    document.body.classList.toggle('diagHidden',!data.diagVisible);
+  }
+  function syncUI(){
+    document.querySelectorAll('.fpsBtn').forEach(btn=>btn.classList.toggle('active',Number(btn.dataset.fps)===data.fps));
+    const sw=document.getElementById('diagVisibilityToggle');
+    if(sw){sw.classList.toggle('on',data.diagVisible);sw.setAttribute('aria-checked',data.diagVisible?'true':'false')}
+  }
+  function setFps(v){
+    const next=Number(v)===30?30:60;if(data.fps===next)return;
+    data.fps=next;save();apply();syncUI();HuNyangDiag.line('SETTINGS_FPS',next+'fps');
+  }
+  function toggleDiag(){
+    data.diagVisible=!data.diagVisible;save();apply();syncUI();HuNyangDiag.line('SETTINGS_DIAG_ICON',data.diagVisible?'ON':'OFF');
+  }
+  apply();
+  return {data,setFps,toggleDiag,syncUI,apply};
+})();
+window.HuNyangSettings=HuNyangSettings;
+$$('.fpsBtn').forEach(btn=>btn.addEventListener('pointerdown',e=>{e.preventDefault();HuNyangSettings.setFps(btn.dataset.fps)}));
+$('#diagVisibilityToggle')?.addEventListener('pointerdown',e=>{e.preventDefault();HuNyangSettings.toggleDiag()});
+HuNyangSettings.syncUI();
+
+let huGaugeFrameLast=0;
+function huSmoothBattleGauges(now){
+  requestAnimationFrame(huSmoothBattleGauges);
+  const step=1000/(HuNyangSettings.data.fps||60);
+  if(now-huGaugeFrameLast<step*.88)return;
+  huGaugeFrameLast=now;
+  const f=(typeof rpgState!=='undefined')?rpgState.field:null;
+  if(!f?.battle)return;
+  const setWidth=(el,v)=>{if(el)el.style.width=Math.max(0,Math.min(100,Number(v)||0))+'%'};
+  const partyRows=document.querySelectorAll('#rpgPartyStatus .rpgPartyStatus');
+  f.party?.forEach((u,i)=>setWidth(partyRows[i]?.querySelector('.rpgAtbGauge i'),u.gauge));
+  const partyUnits=document.querySelectorAll('#rpgCombatParty .rpgCombatUnit:not(.empty)');
+  f.party?.forEach((u,i)=>setWidth(partyUnits[i]?.querySelector('.rpgAtbGauge i'),u.gauge));
+  const enemyUnits=document.querySelectorAll('#rpgCombatEnemy .rpgCombatUnit');
+  f.battle.enemies?.forEach((u,i)=>setWidth(enemyUnits[i]?.querySelector('.rpgAtbGauge i'),u.gauge));
+}
+requestAnimationFrame(huSmoothBattleGauges);
+HuNyangDiag.line('SETTINGS_BOOT','fps='+HuNyangSettings.data.fps+'|diag='+(HuNyangSettings.data.diagVisible?'ON':'OFF'));
 </script>
 
 </body>
