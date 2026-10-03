@@ -1,4 +1,4 @@
-name: Apply v4.8.38 safe build
+name: Apply v4.8.38 full deploy
 on:
   push:
     paths:
