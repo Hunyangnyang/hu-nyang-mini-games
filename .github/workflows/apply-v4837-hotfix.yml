@@ -1,4 +1,4 @@
-name: Apply v4.8.37 build
+name: Apply v4.8.38 build
 on:
   push:
     paths:
@@ -15,44 +15,42 @@ jobs:
         with:
           ref: main
 
-      - name: Patch index.html to v4.8.37
+      - name: Patch index.html to v4.8.38
         shell: python
         run: |
           from pathlib import Path
-          import json, gzip, base64
+          import json, gzip, base64, hashlib
 
           p = Path("index.html")
-          s = p.read_text(encoding="utf-8")
+          raw = p.read_bytes()
+          expected = "8ca4f85c32b991ac0924feb5604eebc01b1509f0c9de67f1ce1ba243be8b7552"
+          got = hashlib.sha256(raw).hexdigest()
+          if got != expected:
+              raise SystemExit(f"index.html base mismatch: {got}")
 
-          parts = []
-          for i in range(1, 6):
-              parts.append(Path(f".github/v4837/chunk{i}.txt").read_text(encoding="utf-8").strip())
-          payload = "".join(parts)
+          payload = "".join(
+              Path(f".github/v4838/chunk{i}.txt").read_text(encoding="utf-8").strip()
+              for i in range(1, 3)
+          )
           ops = json.loads(gzip.decompress(base64.b64decode(payload)).decode("utf-8"))
+          lines = raw.decode("utf-8").splitlines(keepends=True)
 
-          for typ, old, new in ops:
-              if old not in s:
-                  raise SystemExit("patch anchor missing: " + repr(old[:180]))
-              if typ == "replace":
-                  s = s.replace(old, new, 1)
-              elif typ == "after":
-                  s = s.replace(old, old + new, 1)
-              else:
-                  raise SystemExit("unknown patch operation: " + typ)
+          for tag, a1, a2, new_text in reversed(ops):
+              lines[a1:a2] = [new_text] if new_text else []
 
-          checks = ["v4.8.37", "RPG_AUTO_BATTLE_INPUT", "RPG_INN_REST", "rpgPartyStatusPage"]
-          missing = [x for x in checks if x not in s]
-          if missing:
-              raise SystemExit("post-patch verification failed: " + ", ".join(missing))
+          out = "".join(lines).encode("utf-8")
+          final = "5069ae4fc2052e730375f753a8f3f10554d84ed9e92dcaa38a0467b662756d06"
+          actual = hashlib.sha256(out).hexdigest()
+          if actual != final:
+              raise SystemExit(f"patched output mismatch: {actual}")
 
-          p.write_text(s, encoding="utf-8")
-          print("Applied", len(ops), "operations")
+          p.write_bytes(out)
 
-      - name: Commit v4.8.37
+      - name: Commit v4.8.38
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
           git diff --cached --quiet && exit 0
-          git commit -m "Deploy 냥PG 월드 v4.8.37"
+          git commit -m "Deploy 냥PG 월드 v4.8.38"
           git push origin main
