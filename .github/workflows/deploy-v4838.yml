@@ -2,7 +2,7 @@ name: Deploy v4.8.38
 on:
   push:
     paths:
-      - ".github/v4838-trigger.txt"
+      - ".github/workflows/deploy-v4838.yml"
 
 permissions:
   contents: write
@@ -14,21 +14,20 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
-      - name: Build v4.8.38 index
+      - name: Patch index.html to v4.8.38
         shell: python
-        env:
-          DELTA_B64: "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"
         run: |
           from pathlib import Path
-          import os, json, gzip, base64, hashlib
+          import json, gzip, base64, hashlib
           p=Path("index.html")
           raw=p.read_bytes()
           expected="8ca4f85c32b991ac0924feb5604eebc01b1509f0c9de67f1ce1ba243be8b7552"
           got=hashlib.sha256(raw).hexdigest()
           if got != expected:
               raise SystemExit(f"index.html base mismatch: {got}")
+          payload="".join(Path(f".github/v4838/chunk{i}.txt").read_text().strip() for i in range(1,3))
+          ops=json.loads(gzip.decompress(base64.b64decode(payload)).decode("utf-8"))
           lines=raw.decode("utf-8").splitlines(keepends=True)
-          ops=json.loads(gzip.decompress(base64.b64decode(os.environ["DELTA_B64"])).decode("utf-8"))
           for tag,a1,a2,new_text in reversed(ops):
               lines[a1:a2]=[new_text] if new_text else []
           out="".join(lines).encode("utf-8")
@@ -42,5 +41,6 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add index.html
+          git diff --cached --quiet && exit 0
           git commit -m "Deploy 냥PG 월드 v4.8.38"
           git push origin main
