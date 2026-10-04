@@ -1,0 +1,245 @@
+      <div class="rpgGuildNpcChoices" id="rpgGuildNpcChoices"></div>
+      <button type="button" class="guildNpcReturnBtn" id="rpgGuildNpcBackToGuild">‹ 길드로 돌아가기</button>
+    </div>
+  </div>`;
+
+function syncBlurArt(){const art=$('#rpgGuildNpcArt'),blur=$('#rpgGuildNpcArtBlur');if(art&&blur)blur.src=art.src||''}
+const art=$('#rpgGuildNpcArt');
+if(art){new MutationObserver(syncBlurArt).observe(art,{attributes:true,attributeFilter:['src']});art.addEventListener('load',syncBlurArt)}
+
+function updateSelectVisual(){
+  const rel=relations(),d=dayNow();
+  for(const key of ['rubia','kain']){
+    const btn=$(`[data-guild-npc="${key}"]`),note=$('#'+key+'DailyNote');
+    const done=Number(rel[key]?.lastDay)===d;
+    if(btn)btn.disabled=done;
+    if(note)note.textContent=done?'오늘은 더 이야기하고 싶지 않은 것 같다.':'';
+  }
+}
+window.V38_updateNpcSelect=updateSelectVisual;
+
+select.querySelectorAll('[data-guild-npc]').forEach(btn=>btn.addEventListener('click',()=>{
+  if(btn.disabled)return;
+  window.V38_startNpcTalk?.(btn.dataset.guildNpc);
+  requestAnimationFrame(()=>requestAnimationFrame(syncBlurArt));
+}));
+
+$('#rpgGuildNpcBackToGuild')?.addEventListener('click',()=>{
+  if(typeof rpgRenderGuild==='function')rpgRenderGuild();
+  showPage('rpgGuildPage');
+  if(typeof rpgSaveActiveSlot==='function')rpgSaveActiveSlot('rpgGuildPage','guild_npc_return');
+});
+
+/* Keep page back behavior consistent with the visible return button. */
+const pageBack=$('#rpgGuildNpcPageBack');
+if(pageBack){
+  const replacement=pageBack.cloneNode(true);
+  pageBack.replaceWith(replacement);
+  replacement.addEventListener('click',()=>{if(typeof rpgRenderGuild==='function')rpgRenderGuild();showPage('rpgGuildPage')});
+}
+
+/* Receptionist click no longer bounces. Existing speech/dialogue behavior remains. */
+window.rpgBounceNpc=()=>{};
+
+/* Existing open-page shim calls this function. */
+updateSelectVisual();
+})();
+</script>
+
+<style id="v4838-guild-cinematic-ui-hotfix">
+/* ===== v4.8.38 cinematic dialogue layout hotfix ===== */
+#rpgGuildNpcPage #rpgGuildNpcTalk{overflow:visible!important}
+.guildNpcTalkCanvas{padding:0!important;min-height:590px!important}
+
+/* Relation meter stays visible above the NPC speech bubble. */
+#rpgGuildNpcPage .rpgNpcRelationRow{
+  top:8px!important;right:12px!important;left:auto!important;
+  width:145px!important;z-index:40!important;
+  padding:6px 9px!important;
+  background:rgba(24,18,22,.66)!important;
+  border:1px solid rgba(255,255,255,.28)!important;
+  box-shadow:0 5px 16px rgba(0,0,0,.22)!important;
+}
+#rpgGuildNpcPage .rpgRelationHeart{font-size:25px!important;line-height:1!important;flex:0 0 auto}
+#rpgGuildNpcPage .rpgRelationTrack{height:11px!important;min-width:82px}
+
+/* Move NPC speech below the relation meter and keep it centered over the portrait. */
+#rpgGuildNpcPage .rpgGuildNpcStage{
+  min-height:560px!important;
+  padding:72px 0 0!important;
+  overflow:hidden!important;
+}
+#rpgGuildNpcPage .rpgGuildNpcSpeech{
+  top:48px!important;left:50%!important;right:auto!important;
+  width:min(76%,460px)!important;
+  transform:translateX(-50%)!important;
+  z-index:35!important;
+  min-height:48px!important;
+  padding:10px 14px!important;
+}
+/* Reset the inherited square speech-tail box, then draw one clean triangle. */
+#rpgGuildNpcPage .rpgGuildNpcSpeech::after{
+  content:''!important;position:absolute!important;left:50%!important;bottom:-9px!important;
+  width:0!important;height:0!important;background:transparent!important;
+  transform:translateX(-50%)!important;
+  border-left:9px solid transparent!important;border-right:9px solid transparent!important;
+  border-top:10px solid rgba(255,255,255,.96)!important;border-bottom:0!important;
+}
+
+/* Let the lower shade span the entire scene width all the way to the bottom. */
+.guildNpcPortraitStage{height:488px!important;overflow:visible!important}
+.guildNpcLowerFade{display:none!important}
+#rpgGuildNpcPage .rpgGuildNpcStage::after{
+  content:'';position:absolute;z-index:8;left:0;right:0;bottom:0;height:56%;pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(22,14,18,0) 0%,
+    rgba(22,14,18,.12) 18%,
+    rgba(22,14,18,.42) 43%,
+    rgba(18,12,15,.72) 70%,
+    rgba(15,10,13,.92) 100%);
+}
+#rpgGuildNpcPage .rpgGuildNpcArt{height:485px!important;z-index:3!important}
+.rpgGuildNpcArtBlur{height:485px!important;z-index:4!important;clip-path:inset(61% 0 0 0)!important;opacity:.42!important;filter:blur(6px)!important}
+
+/* Name first, then triangular player choices beneath it. */
+#rpgGuildNpcPage .rpgGuildNpcName{
+  bottom:164px!important;z-index:18!important;
+  background:rgba(25,17,21,.68)!important;
+}
+#rpgGuildNpcPage .rpgGuildNpcChoices{
+  bottom:10px!important;height:146px!important;z-index:20!important;width:min(96%,610px)!important;
+}
+#rpgGuildNpcPage .rpgGuildNpcChoices button{z-index:21!important}
+
+/* The header Back control is enough. */
+#rpgGuildNpcBackToGuild,.guildNpcReturnBtn{display:none!important}
+
+@media(max-width:520px){
+  #rpgGuildNpcPage .rpgNpcRelationRow{top:7px!important;right:8px!important;width:132px!important}
+  #rpgGuildNpcPage .rpgGuildNpcSpeech{top:46px!important;width:82%!important;font-size:10.5px!important}
+  #rpgGuildNpcPage .rpgGuildNpcStage{min-height:535px!important;padding-top:70px!important}
+  .guildNpcPortraitStage{height:465px!important}
+  #rpgGuildNpcPage .rpgGuildNpcArt,.rpgGuildNpcArtBlur{height:462px!important;width:108%!important}
+  #rpgGuildNpcPage .rpgGuildNpcName{bottom:158px!important}
+  #rpgGuildNpcPage .rpgGuildNpcChoices{bottom:8px!important;height:143px!important;width:99%!important}
+}
+</style>
+<script id="v4838-remove-extra-guild-return">
+(()=>{
+  const b=document.getElementById('rpgGuildNpcBackToGuild');
+  if(b)b.remove();
+})();
+</script>
+
+<style id="v4838-guild-spacing-gradient-fix">
+/* ===== v4.8.38 relation/speech spacing + full-scene lower gradient ===== */
+#rpgGuildNpcPage .rpgGuildNpcPageScene{
+  position:relative!important;
+  overflow:hidden!important;
+}
+/* Full guild-background-width lower shade. */
+#rpgGuildNpcPage .rpgGuildNpcPageScene::after{
+  content:'';
+  position:absolute;
+  z-index:3;
+  left:0;right:0;bottom:0;
+  width:100%;
+  height:46%;
+  pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(14,10,13,0) 0%,
+    rgba(14,10,13,.08) 18%,
+    rgba(14,10,13,.26) 38%,
+    rgba(13,9,12,.52) 62%,
+    rgba(11,8,10,.78) 82%,
+    rgba(10,7,9,.92) 100%);
+}
+/* Keep all interactive/content layers above the scene-wide fade. */
+#rpgGuildNpcPage .rpgGuildNpcPageContent{position:relative!important;z-index:4!important}
+/* Disable the old stage-width fade so only the background-wide fade remains. */
+#rpgGuildNpcPage .rpgGuildNpcStage::after{display:none!important;content:none!important}
+
+/* Give the relation meter and NPC speech visible breathing room. */
+#rpgGuildNpcPage .rpgNpcRelationRow{
+  top:12px!important;
+}
+#rpgGuildNpcPage .rpgGuildNpcSpeech{
+  top:72px!important;
+}
+#rpgGuildNpcPage .rpgGuildNpcStage{
+  padding-top:98px!important;
+}
+
+@media(max-width:520px){
+  #rpgGuildNpcPage .rpgNpcRelationRow{top:10px!important}
+  #rpgGuildNpcPage .rpgGuildNpcSpeech{top:68px!important}
+  #rpgGuildNpcPage .rpgGuildNpcStage{padding-top:94px!important}
+  #rpgGuildNpcPage .rpgGuildNpcPageScene::after{height:48%}
+}
+</style>
+
+
+<style id="v4838-save-newgame-return-ui">
+/* ===== v4.8.38 save/new-game polish + dialogue return hint ===== */
+.rpgSaveEmpty>div{width:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.rpgSavePlus{line-height:1;transform:translateY(-3px);margin-inline:auto}
+.rpgSaveEmptyText{display:block;width:100%;margin:7px auto 0!important;text-align:center!important;padding:0!important;transform:none!important}
+.rpgSaveTitle{display:flex;align-items:center;justify-content:center;gap:6px}
+.rpgSaveTitleIcon{width:1em;height:1em;object-fit:contain;object-position:center;display:inline-block;flex:0 0 auto;filter:drop-shadow(0 1px 1px rgba(118,71,94,.15))}
+#rpgModeModal .rpgModeHero{width:106px;height:106px;margin:0 auto 2px;display:flex;align-items:center;justify-content:center;overflow:visible}
+#rpgModeModal .rpgModeHero img{display:block;width:100px;height:100px;object-fit:contain;filter:drop-shadow(0 6px 10px rgba(195,105,148,.22))}
+#rpgModeModal .rpgModeButtons{align-items:stretch}
+#rpgModeModal .rpgModeBtn{min-height:132px;padding:10px 8px 12px;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;gap:5px}
+#rpgModeModal .rpgModeArt{height:88px;width:100%;margin:0!important;display:flex!important;align-items:flex-end;justify-content:center;font-size:0!important;overflow:visible}
+#rpgModeModal .rpgModeArt img{display:block;max-width:100%;width:auto;height:88px;object-fit:contain;filter:drop-shadow(0 5px 8px rgba(111,75,93,.14))}
+#rpgModeModal .rpgModeCancelCute{display:block;width:100%;min-height:44px;margin-top:10px!important;border:1px solid #efafc8!important;border-radius:15px!important;background:linear-gradient(180deg,#ffd7e7,#f7b8d0)!important;color:#744f60!important;font-weight:1000!important;box-shadow:0 5px 12px rgba(211,125,159,.14)!important}
+#rpgModeModal .rpgModeCancelCute:active{transform:translateY(1px);box-shadow:inset 0 2px 5px rgba(151,79,108,.12)!important}
+
+#rpgGuildNpcPage .guildNpcReturnHint{position:absolute;left:50%;bottom:139px;transform:translateX(-50%);z-index:30;display:none;white-space:nowrap;color:#fff4f8;font-size:10px;font-weight:1000;letter-spacing:.04em;text-shadow:0 2px 5px rgba(0,0,0,.65);pointer-events:none}
+#rpgGuildNpcPage .guildNpcReturnHint.show{display:block;animation:guildReturnPulse 1.05s ease-in-out infinite}
+@keyframes guildReturnPulse{0%,100%{opacity:.42}50%{opacity:1;text-shadow:0 0 8px rgba(255,193,218,.75),0 2px 5px rgba(0,0,0,.65)}}
+#rpgGuildNpcPage.return-ready .rpgGuildNpcPageScene{cursor:pointer}
+@media(max-width:520px){#rpgGuildNpcPage .guildNpcReturnHint{bottom:135px;font-size:9px}}
+@media(prefers-reduced-motion:reduce){#rpgGuildNpcPage .guildNpcReturnHint.show{animation:none;opacity:1}}
+</style>
+<script id="v4838-save-newgame-return-js">
+(()=>{
+'use strict';
+const q=(s,r=document)=>r.querySelector(s);
+const page=q('#rpgGuildNpcPage'),scene=q('#rpgGuildNpcPageScene'),select=q('#rpgGuildNpcSelect'),talk=q('#rpgGuildNpcTalk'),choices=q('#rpgGuildNpcChoices'),name=q('#rpgGuildNpcName');
+let returnReady=false,choiceCommitted=false;
+let hint=q('#guildNpcReturnHint');
+if(!hint&&name){hint=document.createElement('div');hint.id='guildNpcReturnHint';hint.className='guildNpcReturnHint';hint.textContent='터치하여 되돌아가기';name.insertAdjacentElement('afterend',hint)}
+function hideReturn(){returnReady=false;choiceCommitted=false;page?.classList.remove('return-ready');hint?.classList.remove('show')}
+function showReturn(){returnReady=true;page?.classList.add('return-ready');hint?.classList.add('show')}
+function returnToSelect(){if(!returnReady)return;hideReturn();if(talk)talk.style.display='none';if(select)select.style.display='';window.V38_updateNpcSelect?.()}
+select?.addEventListener('click',hideReturn,true);
+choices?.addEventListener('click',e=>{if(!e.target.closest('button'))return;choiceCommitted=true;setTimeout(()=>{if(choiceCommitted&&choices.childElementCount===0&&talk?.style.display!=='none')showReturn()},0)},true);
+if(choices)new MutationObserver(()=>{if(choices.childElementCount>0)hideReturn()}).observe(choices,{childList:true});
+scene?.addEventListener('click',e=>{if(!returnReady)return;if(e.target.closest('#rpgGuildNpcPageBack'))return;returnToSelect()});
+window.addEventListener('pageshow',hideReturn);
+})();
+</script>
+
+
+<script id="v4838-landscape-preview-js">
+(function(){
+  function huSyncRpgLandscapeMode(){
+    const app=document.getElementById('app');
+    const active=document.querySelector('.page.active');
+    if(app&&active){
+      const isRpgLandscape=Boolean(active.id&&active.id.startsWith('rpg'));
+      app.classList.toggle('huRpgLandscape',isRpgLandscape);
+      try{ if(window.HuNyangAndroid&&HuNyangAndroid.setRpgLandscape) HuNyangAndroid.setRpgLandscape(isRpgLandscape); }catch(e){}
+    }
+  }
+  if(document.readyState==='loading'){
+    document.addEventListener('DOMContentLoaded',huSyncRpgLandscapeMode,{once:true});
+  }else{
+    huSyncRpgLandscapeMode();
+  }
+})();
+</script>
+
+</body>
+</html>
