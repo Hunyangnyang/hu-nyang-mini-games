@@ -11,13 +11,13 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Set up Java 17
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v5
         with:
           distribution: temurin
           java-version: '17'
@@ -25,12 +25,31 @@ jobs:
       - name: Configure Android SDK
         shell: bash
         run: |
-          echo "ANDROID_HOME=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
-          echo "ANDROID_SDK_ROOT=/usr/local/lib/android/sdk" >> "$GITHUB_ENV"
-          echo "/usr/local/lib/android/sdk/cmdline-tools/16.0/bin" >> "$GITHUB_PATH"
-          echo "/usr/local/lib/android/sdk/platform-tools" >> "$GITHUB_PATH"
-          yes | /usr/local/lib/android/sdk/cmdline-tools/16.0/bin/sdkmanager --licenses >/dev/null || true
-          /usr/local/lib/android/sdk/cmdline-tools/16.0/bin/sdkmanager "platforms;android-35" "build-tools;35.0.0"
+          set -e
+          export ANDROID_HOME=/usr/local/lib/android/sdk
+          export ANDROID_SDK_ROOT="$ANDROID_HOME"
+          mkdir -p "$ANDROID_HOME/cmdline-tools"
+
+          SDKMANAGER="$(find "$ANDROID_HOME/cmdline-tools" -type f -name sdkmanager 2>/dev/null | head -n 1 || true)"
+          if [ -z "$SDKMANAGER" ]; then
+            echo "sdkmanager not found, installing Android command-line tools..."
+            TMPDIR="$(mktemp -d)"
+            curl -fL --retry 3 -o "$TMPDIR/cmdline.zip"               "https://dl.google.com/android/repository/commandlinetools-linux-11076708_latest.zip"
+            unzip -q "$TMPDIR/cmdline.zip" -d "$TMPDIR/unpack"
+            rm -rf "$ANDROID_HOME/cmdline-tools/latest"
+            mkdir -p "$ANDROID_HOME/cmdline-tools/latest"
+            cp -R "$TMPDIR/unpack/cmdline-tools/." "$ANDROID_HOME/cmdline-tools/latest/"
+            SDKMANAGER="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          fi
+
+          echo "ANDROID_HOME=$ANDROID_HOME" >> "$GITHUB_ENV"
+          echo "ANDROID_SDK_ROOT=$ANDROID_HOME" >> "$GITHUB_ENV"
+          echo "$(dirname "$SDKMANAGER")" >> "$GITHUB_PATH"
+          echo "$ANDROID_HOME/platform-tools" >> "$GITHUB_PATH"
+
+          yes | "$SDKMANAGER" --licenses >/dev/null || true
+          "$SDKMANAGER" "platforms;android-35" "build-tools;35.0.0"
+          "$SDKMANAGER" --list_installed | head -80
 
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
@@ -40,8 +59,10 @@ jobs:
       - name: Reconstruct embedded game HTML
         shell: bash
         run: |
+          set -e
           mkdir -p apk-preview/app/src/main/assets
           find apk-preview/chunks -type f -name 'part*' -print0 | sort -z | xargs -0 cat > apk-preview/app/src/main/assets/index.html
+          test -s apk-preview/app/src/main/assets/index.html
           echo "HTML bytes: $(wc -c < apk-preview/app/src/main/assets/index.html)"
 
       - name: Build debug APK
@@ -50,6 +71,7 @@ jobs:
       - name: Prepare APK
         shell: bash
         run: |
+          set -e
           cp apk-preview/app/build/outputs/apk/debug/app-debug.apk Hu_nyang_v4_8_38_Landscape_Preview.apk
           ls -lh Hu_nyang_v4_8_38_Landscape_Preview.apk
 
