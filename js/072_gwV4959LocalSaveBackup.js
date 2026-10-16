@@ -13,7 +13,7 @@
  const style=document.createElement('style');style.textContent=`
  .gwBackupPanel59{margin:16px 0 28px;padding:14px;border:1px solid #d9bba7;border-radius:14px;background:rgba(255,249,239,.94);color:#583c3f;box-shadow:0 3px 12px rgba(30,20,35,.07)}
  .gwBackupTitle59{font-size:16px;font-weight:900;margin-bottom:5px}.gwBackupInfo59{font-size:12px;line-height:1.55;opacity:.87;margin-bottom:12px}
- .gwBackupActions59{display:flex;gap:8px;flex-wrap:wrap}.gwBackupActions59 button,.gwBackupRestoreBtn59{flex:1;min-width:120px;border-radius:10px;border:1px solid #be9b89;background:#f8ebe0;color:#633e3b;font-weight:800;padding:11px 8px;cursor:pointer}
+ .gwBackupActions59{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.gwBackupActions59 button,.gwBackupRestoreBtn59{flex:1;min-width:120px;border-radius:10px;border:1px solid #be9b89;background:#f8ebe0;color:#633e3b;font-weight:800;padding:11px 8px;cursor:pointer}
  .gwBackupActions59 button:first-child{background:#c98e76;border-color:#b57b69;color:white}
  #gwBackupNotice59{font-size:12px;margin-top:10px;line-height:1.5;min-height:1em}
  .gwBackupRestore59{display:none;margin-top:12px;border-top:1px solid #dec5b4;padding-top:12px}
@@ -26,13 +26,13 @@
  `;document.head.appendChild(style);
  const panel=document.createElement('section');panel.className='gwBackupPanel59';panel.innerHTML=`
  <div class="gwBackupTitle59">💾 세이브 백업 · 복원</div>
- <div class="gwBackupInfo59">Acode에서는 복사 방식이 안전해요. 백업 JSON을 복사해 Acode에서 .json 파일로 저장하거나, Chrome에서 직접 다운로드한 뒤 복원할 수 있어요.</div>
- <div class="gwBackupActions59"><button id="gwBackupCopy60" type="button">📋 Acode용 백업 복사</button><button id="gwBackupDownload59" type="button">📥 파일 다운로드 (Chrome)</button><button id="gwBackupChoose59" type="button">📂 백업 파일 불러오기</button></div>
+ <div class="gwBackupInfo59">클라우드 백업 또는 JSON 파일을 이용해 모험 기록을 보관하세요.</div>
+ <div class="gwBackupActions59"><button id="gwCloudBackup86" type="button">☁️ Cloud 백업</button><button id="gwCloudRestore86" type="button">☁️ Cloud 복원</button><button id="gwBackupDownload59" type="button">📥 Chrome 백업</button><button id="gwBackupChoose59" type="button">📂 Chrome 복원</button></div>
  <div class="gwBackupText60" id="gwBackupText60"><div class="gwBackupFoot59">아래 JSON 전체를 복사한 후 Acode에서 새 파일에 붙여넣고, 확장자가 .json인 이름으로 저장하세요.</div><textarea id="gwBackupJson60" spellcheck="false" readonly aria-label="복사용 세이브 백업 JSON"></textarea><button id="gwBackupSelect60" type="button">백업 내용 전체 선택</button></div>
  <input id="gwBackupFile59" type="file" accept=".json,application/json" style="display:none" aria-label="세이브 백업 JSON 파일 선택">
  <div id="gwBackupNotice59" role="status" aria-live="polite"></div>
  <div id="gwBackupRestore59" class="gwBackupRestore59" aria-label="복원 대상 슬롯 선택"><b>복원할 슬롯을 선택하세요</b><div id="gwBackupSlots59"></div><div class="gwBackupActions59"><button type="button" id="gwBackupCancel59">취소</button><button type="button" id="gwBackupApply59">선택 슬롯 복원</button></div><div class="gwBackupFoot59">기존 세이브가 있는 슬롯을 덮어쓰면 현재 기록이 바뀝니다. 복원하기 전에 현재 세이브도 백업하는 것을 권장합니다.</div></div>
- <div class="gwBackupFoot59">⚠️ 이 기능은 현재 모바일/PC 파일 백업입니다. 클라우드 동기화는 추후 Cloudflare 연동 시 별도로 추가됩니다.</div>`;
+ <div class="gwBackupFoot59">Cloud 백업·복원은 Cloudflare 서버 저장소 연결 후 사용할 수 있습니다. JSON 백업은 현재도 사용 가능합니다.</div>`;
  ($('#rpgSaveList')||root).insertAdjacentElement('afterend',panel);
  let pending=null;
  const restore=$('#gwBackupRestore59');
@@ -125,8 +125,9 @@
    notice(`복원 실패: ${e?.message||'브라우저 저장소 용량 또는 권한 문제'}. 가능한 범위에서 원래 데이터를 유지했습니다.`);
   }
  }
- $('#gwBackupCopy60').addEventListener('click',copyBackup60);
- $('#gwBackupSelect60').addEventListener('click',()=>{const a=$('#gwBackupJson60');a?.focus();a?.select();notice('전체 텍스트를 선택했어요. 복사하여 Acode 새 파일에 붙여넣고 .json으로 저장하세요.');});
+ $('#gwCloudBackup86').addEventListener('click',()=>window.NyangMatch4986?.cloudBackup(payloadJson60,notice));
+ $('#gwCloudRestore86').addEventListener('click',()=>window.NyangMatch4986?.cloudRestore(chooseFile,notice));
+ $('#gwBackupSelect60')?.addEventListener('click',()=>{const a=$('#gwBackupJson60');a?.focus();a?.select();notice('전체 텍스트를 선택했어요. 복사하여 Acode 새 파일에 붙여넣고 .json으로 저장하세요.');});
  $('#gwBackupDownload59').addEventListener('click',download);
  $('#gwBackupChoose59').addEventListener('click',()=>$('#gwBackupFile59').click());
  $('#gwBackupFile59').addEventListener('change',e=>chooseFile(e.target.files?.[0]));

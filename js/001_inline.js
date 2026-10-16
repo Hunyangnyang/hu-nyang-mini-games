@@ -4,7 +4,7 @@
 
 /* ===== v4.8.9 persistent self diagnostics ===== */
 const HuNyangDiag=(()=>{
-  const VERSION='4.9.85';
+  const VERSION='4.9.86';
   const KEY='hunyang_diag_v1';
   const MAX_LINES=360;
   let storageOK=true;
@@ -1023,10 +1023,9 @@ function rpgSaveMemberAvatar(job,gender){
 function rpgSaveMemberChip(job,gender,name,level){
   return `<span class="rpgSaveMember">${rpgSaveMemberAvatar(job,gender)}<span class="rpgSaveMemberText">${name} <b>LV.${String(level||1).padStart(2,'0')}</b></span></span>`;
 }
-function rpgRenderSaveSlots(){const host=$('#rpgSaveList');if(!host)return;host.innerHTML='';for(let n=1;n<=3;n++){const data=rpgGetSlot(n);if(!data?.rpg?.name){const el=document.createElement('button');el.type='button';el.className='rpgSaveSlot rpgSaveEmpty';el.dataset.slot=n;el.innerHTML=`<div><div class="rpgSavePlus">+</div><div class="rpgSaveEmptyText">SAVE ${String(n).padStart(2,'0')} · NEW GAME</div></div>`;el.addEventListener('click',()=>rpgOpenModeModal(n));host.appendChild(el);continue}const r=data.rpg,part=rpgPartFromTurn(r.worldTurn||0),day=Math.floor((r.worldTurn||0)/48)+1,theme=part.cls?` theme-${part.cls}`:'',ai=r.ai,ai2=r.ai2;const el=document.createElement('div');el.className='rpgSaveSlot'+theme;el.style.setProperty('--save-bg',`url("${rpgVillageBackgrounds[part.key]||rpgVillageBackgrounds.morning}")`);const party=[rpgSaveMemberChip(r.job||rpgJobs[5],r.gender,r.name,r.level||1)];if(ai)party.push(rpgSaveMemberChip(ai.job||rpgJobs[5],ai.gender,ai.name,ai.level||1));if(ai2)party.push(rpgSaveMemberChip(ai2.job||rpgJobs[5],ai2.gender,ai2.name,ai2.level||1));el.innerHTML=`<div class="rpgSaveScenery"></div><div class="rpgSaveShade"></div><div class="rpgSaveBody"><div><div class="rpgSaveTop"><span class="rpgSaveNo">SAVE ${String(n).padStart(2,'0')}</span><span class="rpgSaveTime">${part.emoji} ${day}일차 · ${part.name}</span></div><div class="rpgSaveParty">${party.join('')}</div><div class="rpgSaveMeta"><b>${data.location||rpgPageLocation(data.page)}</b><br>${new Date(data.savedAt||Date.now()).toLocaleString('ko-KR')}</div></div><div class="rpgSaveActions"><button class="rpgSaveBtn delete" type="button" data-delete="${n}">데이터 삭제</button><button class="rpgSaveBtn continue" type="button" data-continue="${n}">이어하기</button></div></div>`;el.querySelector('[data-continue]').addEventListener('click',()=>rpgLoadSlot(n));el.querySelector('[data-delete]').addEventListener('click',()=>rpgOpenDeleteModal(n));host.appendChild(el)}}
+function rpgRenderSaveSlots(){const host=$('#rpgSaveList');if(!host)return;host.innerHTML='';for(let n=1;n<=3;n++){const data=rpgGetSlot(n);if(!data?.rpg?.name){const el=document.createElement('button');el.type='button';el.className='rpgSaveSlot rpgSaveEmpty';el.dataset.slot=n;el.innerHTML=`<div><div class="rpgSavePlus">+</div><div class="rpgSaveEmptyText">SAVE ${String(n).padStart(2,'0')} · NEW GAME</div></div>`;el.addEventListener('click',()=>{rpgPendingSlot=n;rpgStartSingleSlot()});host.appendChild(el);continue}const r=data.rpg,part=rpgPartFromTurn(r.worldTurn||0),day=Math.floor((r.worldTurn||0)/48)+1,theme=part.cls?` theme-${part.cls}`:'',ai=r.ai,ai2=r.ai2;const el=document.createElement('div');el.className='rpgSaveSlot'+theme;el.style.setProperty('--save-bg',`url("${rpgVillageBackgrounds[part.key]||rpgVillageBackgrounds.morning}")`);const party=[rpgSaveMemberChip(r.job||rpgJobs[5],r.gender,r.name,r.level||1)];if(ai)party.push(rpgSaveMemberChip(ai.job||rpgJobs[5],ai.gender,ai.name,ai.level||1));if(ai2)party.push(rpgSaveMemberChip(ai2.job||rpgJobs[5],ai2.gender,ai2.name,ai2.level||1));el.innerHTML=`<div class="rpgSaveScenery"></div><div class="rpgSaveShade"></div><div class="rpgSaveBody"><div><div class="rpgSaveTop"><span class="rpgSaveNo">SAVE ${String(n).padStart(2,'0')}</span><span class="rpgSaveTime">${part.emoji} ${day}일차 · ${part.name}</span></div><div class="rpgSaveParty">${party.join('')}</div><div class="rpgSaveMeta"><b>${data.location||rpgPageLocation(data.page)}</b><br>${new Date(data.savedAt||Date.now()).toLocaleString('ko-KR')}</div></div><div class="rpgSaveActions"><button class="rpgSaveBtn delete" type="button" data-delete="${n}">데이터 삭제</button><button class="rpgSaveBtn continue" type="button" data-continue="${n}">이어하기</button></div></div>`;el.querySelector('[data-continue]').addEventListener('click',()=>rpgLoadSlot(n));el.querySelector('[data-delete]').addEventListener('click',()=>rpgOpenDeleteModal(n));host.appendChild(el)}}
 function rpgOpenSavePage(){rpgActiveSlot=0;rpgRenderSaveSlots();showPage('rpgSavePage');HuNyangDiag.line('RPG_SAVE_PAGE_OPEN')}
-function rpgOpenModeModal(n){rpgPendingSlot=n;setAppModal('rpgModeModal',true)}
-function rpgStartSingleSlot(){if(!rpgPendingSlot)return;rpgActiveSlot=rpgPendingSlot;rpgPendingSlot=0;setAppModal('rpgModeModal',false);rpgRemoveSlot(rpgActiveSlot);rpgReset();rpgState.saveSlot=rpgActiveSlot;
+function rpgStartSingleSlot(){if(!rpgPendingSlot)return;rpgActiveSlot=rpgPendingSlot;rpgPendingSlot=0;rpgRemoveSlot(rpgActiveSlot);rpgReset();rpgState.saveSlot=rpgActiveSlot;
 HuNyangDiag.line('RPG_SLOT_SCOPE_RESET',`${rpgActiveSlot}|relations=0|classQuest=none|classHistory=0|questHistory=0`);
 showPage('rpgNamePage');HuNyangDiag.line('RPG_SLOT_NEW',rpgActiveSlot)}
 let rpgDeleteToastSeq=0;
@@ -1388,7 +1387,8 @@ function rpgPlayerDerivedRows4927(){
  const vit=Math.max(1,Number(s.hp)||1),str=Math.max(1,Number(s.str)||1),dex=Math.max(1,Number(s.dex)||1),intel=Math.max(1,Number(s.int)||1),luck=Math.max(1,Number(s.luck)||1);
  const vr=Math.max(0,Number(sk.vitality)||0),cr=Math.max(0,Number(sk.combat)||0),pr=Math.max(0,Number(sk.precision)||0);
  const setAtk=Number(rpgEquipmentSetBonus(eq).atk)||0,a=eq?.armor,t=a?(rpgArmorTypeDefs[a.armorType]||rpgArmorTypeDefs.cloth):null;
- const armorPd=a?(Number(a.pdef)||0)+(Number(t?.def)||0):0,armorMd=a?(Number(a.mdef)||0)+(Number(t?.def)||0):0,armorSpd=a?(Number(t?.speed)||0):0,weaponType=eq?.weapon?.weaponType,weaponSpd=weaponType?(Number(rpgWeaponDefs[weaponType]?.speed)||0):0;
+ const armorPd=a?(Number(a.pdef)||0)+(Number(t?.def)||0):0,armorMd=a?(Number(a.mdef)||0)+(Number(t?.def)||0):0,armorSpd=a?(Number(t?.speed)||0):0;
+ const weaponType=eq?.weapon?.weaponType,weaponSpd=weaponType?(Number(rpgWeaponDefs[weaponType]?.speed)||0):0;
  const hpBase=30+vit*1.8,meleeBase=str*1.5+dex*.6,rangedBase=str*.5+dex*1.6,magicBase=intel*2.2+luck*.3,pdBase=vit*1.2+str*.5,mdBase=intel*1.7,spdBase=1+Math.max(0,dex-1)*.08;
  const fmt=rpgFormulaNum4927;
  const pct=window.GW84PenaltyTotal?.(rpgState)||0,raw=pct?rpgDerived(rpgState.job,{...s},sk,eq):null;
@@ -1893,7 +1893,7 @@ function rpgDerived(job,stats,skills={},equipment=null){
   const physicalDefense=vit*1.2+str*.5,magicDefense=intel*1.7,evasion=Math.min(100,dex*.1+luck*.5),dropRate=luck*.5;
   const vitality=Math.max(0,Number(skills?.vitality)||0),combat=Math.max(0,Number(skills?.combat)||0),precision=Math.max(0,Number(skills?.precision)||0);
   maxHp*=1+vitality*.05;meleeAtk*=1+combat*.03;rangedAtk*=1+combat*.03;magicAtk*=1+combat*.03;
-  const crit=Math.min(100,luck*.4+precision*2),weaponSpeed=0,attackSpeed=Math.min(10,Math.max(.1,1+Math.max(0,dex-1)*.08+weaponSpeed));
+  const crit=Math.min(100,luck*.4+precision*2),attackSpeed=Math.min(10,Math.max(.1,1+Math.max(0,dex-1)*.08));
   return rpgApplyEquipmentToDerived({maxHp:rpgRound(maxHp),maxMp:rpgRound(maxMp),meleeAtk:rpgRound(meleeAtk),rangedAtk:rpgRound(rangedAtk),magicAtk:rpgRound(magicAtk),physicalDefense:rpgRound(physicalDefense),magicDefense:rpgRound(magicDefense),attackSpeed:Math.round(attackSpeed*10)/10,evasion:Math.round(evasion*10)/10,crit:Math.round(crit*10)/10,dropRate:Math.round(dropRate*10)/10,patk:rpgRound(meleeAtk),matk:rpgRound(magicAtk),defense:rpgRound(physicalDefense),dex,luck},equipment);
 }
 function rpgExpNeed(level){return 30+(level-1)*20}
@@ -2630,9 +2630,9 @@ function rpgFinishQuest(){const q=rpgState.quest;if(!q||!q.completed||q.rewarded
 function rpgBack(page){showPage(page)}
 $('#openRpg')?.addEventListener('click',openRpg);
 $('#rpgSaveBack')?.addEventListener('click',()=>showPage('homePage'));
-$('#rpgSingleModeBtn')?.addEventListener('click',rpgStartSingleSlot);
-$('#rpgMultiModeBtn')?.addEventListener('click',()=>{setAppModal('rpgModeModal',false);rpgToastTimed('멀티 플레이는 아직 개발중이다냥~ 🐾',3000)});
-$('#rpgModeCancelBtn')?.addEventListener('click',()=>setAppModal('rpgModeModal',false));
+
+
+
 $('#rpgDeleteYesBtn')?.addEventListener('click',rpgConfirmDelete);
 $('#rpgDeleteNoBtn')?.addEventListener('click',rpgCancelDelete);
 $('#rpgNameBack')?.addEventListener('click',()=>rpgOpenSavePage());
@@ -2649,7 +2649,7 @@ $('#rpgStatsNextBtn')?.addEventListener('click',rpgStartAdventure);
 $('#rpgVillageBack')?.addEventListener('click',()=>rpgOpenSavePage());
 $('#rpgVillageStatusBtn')?.addEventListener('click',rpgOpenStatus);
 $('#rpgVillageShopBtn')?.addEventListener('click',rpgOpenShop);$('#rpgShopSelectBack')?.addEventListener('click',rpgOpenVillage);$('#rpgWeaponShopBtn')?.addEventListener('click',rpgOpenWeaponShop);$('#rpgGeneralShopBtn')?.addEventListener('click',rpgOpenGeneralShop);$('#rpgShopBack')?.addEventListener('click',rpgOpenShop);$('#rpgGeneralShopBack')?.addEventListener('click',rpgOpenShop);$$('[data-shop-tab]').forEach(b=>b.addEventListener('click',()=>{$$('[data-shop-tab]').forEach(x=>x.classList.toggle('active',x===b));const tab=b.dataset.shopTab;$('#rpgShopList').style.display=tab==='shop'?'grid':'none';$('#rpgRebuyList').style.display=tab==='rebuy'?'grid':'none';$('#rpgInventoryList').style.display=tab==='inventory'?'grid':'none';rpgRenderShop()}));
-$('#rpgVillageHuntBtn')?.addEventListener('click',rpgOpenFormation);
+$('#rpgVillageHuntBtn')?.addEventListener('click',()=>window.NyangMatch4986?.open()||rpgOpenFormation());
 $('#rpgVillageGuildBtn')?.addEventListener('click',rpgOpenGuild);
 $('#rpgVillageNpcBtn')?.addEventListener('click',rpgOpenTownNpc);
 $('#rpgStatusBack')?.addEventListener('click',rpgOpenVillage);$('#rpgVillageInnBtn')?.addEventListener('click',rpgOpenInn);$('#rpgVillagePrayerBtn')?.addEventListener('click',rpgOpenPrayer);$('#rpgPrayerBack')?.addEventListener('click',rpgOpenVillage);$('#rpgPrayerHealBtn')?.addEventListener('click',rpgPrayerHeal);$('#rpgPrayerReviveBtn')?.addEventListener('click',rpgPrayerRevive);$('#rpgPrayerActionBtn4927')?.addEventListener('click',()=>$('#gwPrayerChoice4927')?.classList.toggle('show'));$('#rpgPrayerTalkBtn4927')?.addEventListener('click',rpgPrayerTalkNow4927);$('#rpgInnBack')?.addEventListener('click',rpgOpenVillage);$('#rpgInnSleepBtn')?.addEventListener('click',()=>rpgShowConfirm('아침까지 잠들기','파티원당 5G를 지불하고 다음 아침까지 쉽니다.',()=>rpgRest('morning')));$('#rpgInnFullRestBtn')?.addEventListener('click',()=>rpgShowConfirm('완벽 회복','파티원당 7G를 지불하고 HP/MP가 가득 찰 때까지 쉽니다.',()=>rpgRest('full')));$('#rpgCharStatsBtn')?.addEventListener('click',()=>{rpgRenderPlayerStatsPage();showPage('rpgCharStatsPage')});$('#rpgCharEquipBtn')?.addEventListener('click',()=>rpgOpenInventory('equipment'));$('#rpgCharInventoryBtn')?.addEventListener('click',()=>rpgOpenInventory('equipment'));$('#rpgCharSkillsBtn')?.addEventListener('click',()=>{rpgRenderPlayerSkillsPage('passive');showPage('rpgCharSkillsPage')});$('#rpgCharStatsBack')?.addEventListener('click',rpgOpenStatus);$('#rpgCharSkillsBack')?.addEventListener('click',rpgOpenStatus);$('#rpgInventoryBack')?.addEventListener('click',rpgOpenStatus);$$('[data-inv-tab]').forEach(b=>b.addEventListener('click',()=>{rpgInventoryView=b.dataset.invTab;$$('[data-inv-tab]').forEach(x=>x.classList.toggle('active',x===b));rpgRenderInventory()}));$$('[data-skill-view]').forEach(b=>b.addEventListener('click',()=>{$$('[data-skill-view]').forEach(x=>x.classList.toggle('active',x===b));rpgRenderPlayerSkillsPage(b.dataset.skillView)}));

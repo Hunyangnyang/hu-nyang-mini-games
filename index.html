@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#fdeef3">
-<title>Hu nyang Mini Game Collection - v4.9.85 Update Watch</title>
+<title>Hu nyang Mini Game Collection - v4.9.86 Match Lobby Preview</title>
 
 <meta name="hu-nyang-build" content="mobile-single-file">
-<meta name="hu-nyang-patch" content="4.9.85 weapon speed + Cloudflare update watch">
+<meta name="hu-nyang-patch" content="4.9.85 update detection + weapon speed">
 
 
 <meta name="hu-nyang-version" content="4.8.38-guild-relationship-shops">
@@ -97,7 +97,7 @@
       <div class="logo splashTitle">Hu <span>nyang</span></div>
       <div class="splashMini">Mini Game Collection 🐾</div>
       <div class="splashGoText" id="splashGoText" aria-hidden="true">Go to Play</div>
-      <div class="splashVersion" aria-label="현재 버전">v4.9.85</div>
+      <div class="splashVersion" aria-label="현재 버전">v4.9.86</div>
     </div>
   </section>
 
@@ -144,7 +144,7 @@
         </button>
         <button class="card listCard disabledGame comingCard" type="button" data-coming><div class="listIcon">?</div><div class="listInfo"><h3>Coming Soon</h3></div></button>
       </div>
-      <div class="homeVersion" aria-label="현재 버전">v4.9.85</div>
+      <div class="homeVersion" aria-label="현재 버전">v4.9.86</div>
     </div>
 </section>
 
@@ -812,13 +812,6 @@
     </div>
   </div>
 
-  <div class="appModalOverlay" id="rpgModeModal" aria-hidden="true">
-    <div class="appModalCard" role="dialog" aria-modal="true" aria-labelledby="rpgModeTitle">
-      <div class="exitFace rpgModeHero"><img src="assets/images/0003_c6edec7c93.png" alt="냥PG 월드"></div><div class="appModalTitle" id="rpgModeTitle">새로운 모험</div><div class="appModalDesc">어떤 방식으로 시작할 거냥?</div>
-      <div class="rpgModeButtons"><button class="rpgModeBtn" id="rpgSingleModeBtn" type="button"><span class="rpgModeArt"><img src="assets/images/0008_e3a2703db8.png" alt="여성 모험가"></span>싱글 플레이</button><button class="rpgModeBtn" id="rpgMultiModeBtn" type="button"><span class="rpgModeArt"><img src="assets/images/0009_e78fd8f8fd.png" alt="두 모험가"></span>멀티 플레이</button></div>
-      <button class="secondary rpgModeCancelCute" id="rpgModeCancelBtn" type="button">취소</button>
-    </div>
-  </div>
 
   <div class="appModalOverlay" id="rpgDeleteModal" aria-hidden="true">
     <div class="appModalCard" role="alertdialog" aria-modal="true" aria-labelledby="rpgDeleteTitle">
@@ -863,7 +856,8 @@
         <span>📜 패치 내역</span><span class="patchChevron" id="settingsPatchChevron">⌄</span>
       </button>
       <div class="settingsPatchPanel" id="settingsPatchPanel" aria-hidden="true">
-<details class="patchVersion" open><summary><span>v4.9.85</span><small>UPDATE</small></summary><ul><li>Cloudflare Pages 최신 버전 60초 주기 확인</li><li>업데이트 안내 팝업 및 안전한 화면에서 새로고침</li><li>전투 중 알림 보류 및 업데이트 확인 진단 로그 추가</li><li>v4.9.84 무기 공격속도 보정 적용 포함</li></ul></details>
+<details class="patchVersion" open><summary><span>v4.9.86</span><small>UPDATE · MATCHING</small></summary><ul><li>신규 저장 슬롯에서 싱글·멀티 팝업 없이 닉네임 설정</li><li>사냥터 매칭 팝업 및 방 목록·생성·검색·대기실 UI 추가</li><li>Save Data 하단 Cloud 백업·복원 / Chrome 백업·복원 2×2 UI 구성</li><li>Cloudflare 매칭·백업 API 연결용 클라이언트 추가 (서버 구축 전 온라인 기능 비활성)</li></ul></details>
+<details class="patchVersion" open><summary><span>v4.9.85</span><small>UPDATE · CLOUDFARE</small></summary><ul><li>Cloudflare Pages 배포 버전을 60초마다 확인</li><li>신규 버전 발견 시 업데이트 팝업 및 새로고침 안내</li><li>전투·사냥터 등에서는 알림을 보류하고 마을·저장 슬롯에서 표시</li><li>새로고침 전 마을 저장 시도, 업데이트 API 장애 진단 로그</li></ul></details>
 <details class="patchVersion" open><summary><span>v4.9.76</span><small>CRITICAL FIX</small></summary><ul><li>사냥터 EXP K/M/B/T 문자열 처리 TypeError 수정 · 파티/이동/아이템/귀환 UI 복원</li><li>도적 전직 의뢰: 늑대·파란/빨간 슬라임으로 표기 및 실제 카운트 조건 동기화 (보스 소환 엘리트 제외)</li><li>훈련장 대사 3~5초 자동 전환, 플레이어 지문에서 정지, 선택 후 진행</li><li>새 슬롯의 청록 지팡이 수령 플래그 초기화 및 보스 의뢰 수락 이력으로 세리아 부탁 표시</li><li>진단 로그 빌드 표기 갱신</li></ul></details>
 <details class="patchVersion" open><summary><span>v4.9.31</span><small>BOSS</small></summary><ul><li>거대 슬라임 전멸(BREAK) 기믹에서 연계 공격/연계 방어 중 하나만 1회 사용 가능</li><li>한쪽을 사용하면 같은 전멸 기믹 동안 다른 연계 행동도 잠금</li><li>다른 보스의 연계 사용 규칙은 변경하지 않음</li></ul></details>
 <details class="patchVersion" open><summary><span>v4.9.30</span><small>BOSS</small></summary><ul><li>거대 슬라임 분열 엘리트 빨간 슬라임 HP를 360 → 220으로 조정</li><li>엘리트 공격·방어·민첩·EXP 0 및 분열 기믹은 기존 유지</li></ul></details>
@@ -1517,5 +1511,6 @@
 })();
 </script>
 <script src="js/076_gwUpdateWatch4985.js?v=4985"></script>
+<script src="js/077_gwMatching4986.js?v=4986"></script>
 </body>
 </html>

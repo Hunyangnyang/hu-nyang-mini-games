@@ -1,25 +1,41 @@
-(()=>{'use strict';
-const CURRENT='4.9.85', API='https://nyangpg-api.hwjung1102.workers.dev/api/version';
-let pending='', lastShown='', busy=false, dialog=null;
-const log=(key,v)=>{try{window.HuNyangDiag?.line(key,String(v||''))}catch(_){}};
-const page=()=>document.querySelector('.page.active')?.id||'';
-const safe=()=>['homePage','splashPage','rpgSavePage','rpgVillagePage'].includes(page());
-function newer(a,b){const x=String(a).split('.').map(Number),y=String(b).split('.').map(Number);return x.some((v,i)=>v>(y[i]||0)&&x.slice(0,i).every((n,j)=>n===(y[j]||0)))}
-async function get(url){const ac=new AbortController(),id=setTimeout(()=>ac.abort(),7000);try{const r=await fetch(url+(url.includes('?')?'&':'?')+'v='+Date.now(),{cache:'no-store',signal:ac.signal});if(!r.ok)throw Error('HTTP '+r.status);return r.json()}finally{clearTimeout(id)}}
-function notify(){if(!pending||lastShown===pending||!safe()||document.visibilityState==='hidden')return;lastShown=pending;
-const backdrop=document.createElement('div');backdrop.id='nyangUpdateNotice4985';backdrop.style.cssText='position:fixed;inset:0;z-index:2147483600;display:flex;align-items:center;justify-content:center;padding:20px;background:#000a;box-sizing:border-box';
-const panel=document.createElement('div');panel.style.cssText='width:min(370px,100%);padding:23px 18px;border-radius:16px;background:#fff5f9;color:#513743;border:2px solid #d5aac0;text-align:center;box-sizing:border-box;font-family:inherit;box-shadow:0 15px 35px #0004';
-const title=document.createElement('h3');title.textContent='📢 새로운 업데이트 발견';title.style.cssText='font-size:19px;margin:0 0 13px';panel.append(title);
-const txt=document.createElement('p');txt.textContent='업데이트 내역이 있습니다. 새로고침을 시도해주세요.';txt.style.cssText='line-height:1.6;font-size:14px;margin:0';panel.append(txt);
-const ver=document.createElement('p');ver.textContent='v'+CURRENT+' → v'+pending;ver.style.cssText='font-size:12px;color:#89677a;margin:12px 0';panel.append(ver);
-const row=document.createElement('div');row.style.cssText='display:flex;gap:10px';
-for(const [label,action,primary] of [['나중에',()=>{backdrop.remove();dialog=null;log('RPG_UPDATE_POSTPONE',pending)},false],['새로고침',()=>{if(!safe()){backdrop.remove();dialog=null;return}try{if(page()==='rpgVillagePage')log('RPG_UPDATE_SAVE',window.rpgSaveActiveSlot?.('rpgVillagePage','update_reload')?'ok':'skip')}catch(e){log('RPG_UPDATE_SAVE_ERROR',e)}location.reload()},true]]){const btn=document.createElement('button');btn.type='button';btn.textContent=label;btn.style.cssText='flex:1;padding:12px;border-radius:10px;font-weight:bold;border:1px solid #d6a7bd;background:'+(primary?'#bd7a9f':'#fff')+';color:'+(primary?'#fff':'#654454');btn.onclick=action;row.append(btn)}
-panel.append(row);backdrop.append(panel);document.body.append(backdrop);dialog=backdrop;log('RPG_UPDATE_NOTICE',CURRENT+'->'+pending)}
-async function poll(){if(busy)return;busy=true;try{
-const deployed=await get('./version.json');const latest=String(deployed?.version||'');if(!/^\d+\.\d+\.\d+$/.test(latest))throw Error('manifest invalid');
-if(newer(latest,CURRENT)){pending=latest;log('RPG_UPDATE_FOUND',CURRENT+'->'+latest);notify()}
-try{const api=await get(API);if(api?.version&&api.version!==latest)log('RPG_UPDATE_API_MISMATCH','pages='+latest+',worker='+api.version)}catch(e){log('RPG_UPDATE_API_ERROR',e.message||e)}
-}catch(e){log('RPG_UPDATE_CHECK_ERROR',e.message||e)}finally{busy=false}}
-function start(){log('RPG_UPDATE_WATCH_READY',CURRENT);setTimeout(poll,4000);setInterval(poll,60000);setInterval(notify,2500);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){poll();notify()}})}
-document.readyState==='loading'?document.addEventListener('DOMContentLoaded',start,{once:true}):start();
+/* NyangPG v4.9.85: update notification, safe-page deferral and cache-busted manifest. */
+(()=>{
+'use strict';
+const CLIENT_VERSION='4.9.85';
+const VERSION_URL='./version.json';
+const WORKER_URL='https://nyangpg-api.hwjung1102.workers.dev/api/version';
+const INTERVAL=60000;
+let pending=null, shownFor='', checking=false, modal=null;
+const log=(event,data)=>{try{window.HuNyangDiag?.line(event,String(data||''))}catch(e){}};
+const versionParts=s=>String(s||'').replace(/^v/i,'').split('.').map(x=>parseInt(x,10)||0);
+function newer(a,b){const x=versionParts(a),y=versionParts(b);for(let i=0;i<Math.max(x.length,y.length);i++){if((x[i]||0)!==(y[i]||0))return (x[i]||0)>(y[i]||0)}return false}
+const active=()=>document.querySelector('.page.active')?.id||'';
+function safe(){const page=active();return page==='homePage'||page==='rpgSavePage'||page==='rpgVillagePage'||page==='splashPage'}
+function getSavedPage(){return active()}
+function hide(){if(modal){modal.remove();modal=null}}
+function show(){if(!pending||shownFor===pending.version||!safe()||document.visibilityState==='hidden')return;
+ shownFor=pending.version;
+ const shade=document.createElement('div'); shade.id='nyangUpdatePrompt4985';
+ shade.style.cssText='position:fixed;inset:0;z-index:2147483600;background:rgba(0,0,0,.64);display:flex;align-items:center;justify-content:center;padding:20px;box-sizing:border-box';
+ const card=document.createElement('div');card.style.cssText='width:min(370px,100%);box-sizing:border-box;border-radius:16px;border:2px solid #d6aabb;background:#fff5fa;color:#4d3441;padding:22px 18px;text-align:center;box-shadow:0 12px 36px #0005;font-family:inherit';
+ const heading=document.createElement('div');heading.textContent='📢 새로운 업데이트 발견';heading.style.cssText='font-size:19px;font-weight:800;margin-bottom:12px';card.appendChild(heading);
+ const desc=document.createElement('div');desc.textContent='업데이트 내역이 있습니다. 새로고침을 시도해주세요.';desc.style.cssText='font-size:14px;line-height:1.6;white-space:pre-wrap';card.appendChild(desc);
+ const v=document.createElement('div');v.textContent=`v${CLIENT_VERSION} → v${pending.version}`;v.style.cssText='font-size:12px;color:#906c80;margin:12px 0';card.appendChild(v);
+ const buttons=document.createElement('div');buttons.style.cssText='display:flex;gap:10px;margin-top:15px';
+ const later=document.createElement('button');later.type='button';later.textContent='나중에';later.style.cssText='flex:1;padding:12px;border:1px solid #ccadc0;border-radius:10px;background:white;color:#785668;font-weight:bold';later.onclick=()=>{hide();log('RPG_UPDATE_POSTPONED',pending.version)};
+ const reload=document.createElement('button');reload.type='button';reload.textContent='새로고침';reload.style.cssText='flex:1;padding:12px;border:0;border-radius:10px;background:#bb789c;color:white;font-weight:bold';reload.onclick=()=>{if(!safe()){hide();log('RPG_UPDATE_RELOAD_BLOCKED',active());return}try{if(active()==='rpgVillagePage'&&typeof window.rpgSaveActiveSlot==='function'){const ok=window.rpgSaveActiveSlot('rpgVillagePage','update_v4985');log('RPG_UPDATE_PRESAVE',ok?'ok':'not_saved')}}catch(err){log('RPG_UPDATE_PRESAVE_ERROR',err)}log('RPG_UPDATE_RELOAD',pending.version);window.location.reload()};
+ buttons.append(later,reload);card.appendChild(buttons);shade.appendChild(card);document.body.appendChild(shade);modal=shade;log('RPG_UPDATE_PROMPT',`${CLIENT_VERSION}->${pending.version}`)
+}
+async function json(url){const controller=new AbortController();const t=setTimeout(()=>controller.abort(),7000);try{const separator=url.includes('?')?'&':'?';const r=await fetch(url+separator+'_t='+Date.now(),{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}finally{clearTimeout(t)}}
+async function check(){if(checking)return;checking=true;try{
+ // The manifest is published together with Pages and is the deployment-ready source of truth.
+ const manifest=await json(VERSION_URL);
+ const latest=String(manifest?.version||'');
+ if(!/^\d+\.\d+\.\d+$/.test(latest))throw Error('invalid manifest version');
+ if(newer(latest,CLIENT_VERSION)){pending={version:latest,patchNotes:manifest.patchNotes||[]};log('RPG_UPDATE_FOUND',`${CLIENT_VERSION}->${latest}`);show()}
+ // Worker API is independently observed; it must not announce an unverified Pages release.
+ try{const server=await json(WORKER_URL);if(server?.version&&server.version!==latest)log('RPG_UPDATE_API_VERSION_MISMATCH',`pages=${latest}|worker=${server.version}`)}catch(e){log('RPG_UPDATE_API_UNAVAILABLE',e?.message||e)}
+ }catch(e){log('RPG_UPDATE_CHECK_ERROR',e?.message||e)}finally{checking=false}}
+function start(){log('RPG_UPDATE_WATCH_READY',CLIENT_VERSION);setTimeout(check,3500);setInterval(check,INTERVAL);setInterval(()=>{if(pending)show()},2500);document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='visible'){check();show()}})}
+if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',start,{once:true});else start();
 })();

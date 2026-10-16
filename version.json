@@ -1,16 +1,5 @@
 {
-  "version": "4.9.85",
+  "version": "4.9.86",
   "updatedAt": "2026-10-17",
-  "patchNotes": [
-    {
-      "version": "4.9.85",
-      "title": "Cloudflare 업데이트 감지",
-      "changes": [
-        "Cloudflare Pages 배포 버전 확인",
-        "전투 중 업데이트 알림 보류",
-        "안전한 화면에서 새로고침 안내",
-        "무기별 공격속도 보정 반영"
-      ]
-    }
-  ]
+  "patchNotes": [{"version":"4.9.86","title":"사냥터 매칭 및 Cloud 백업 준비","changes":["신규 슬롯 진입 간소화","방 목록 및 매칭 대기실 UI","Cloud·Chrome 백업·복원 2×2 배치","Cloudflare D1 서버 설정 필요"]}]
 }
