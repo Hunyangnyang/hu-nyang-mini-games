@@ -1,7 +1,7 @@
 /* NyangPG v4.9.86: update notification, safe-page deferral and cache-busted manifest. */
 (()=>{
 'use strict';
-const CLIENT_VERSION='4.9.87';
+const CLIENT_VERSION='4.9.88';
 const VERSION_URL='./version.json';
 const WORKER_URL='https://nyangpg-api.hwjung1102.workers.dev/api/version';
 const INTERVAL=60000;
@@ -23,7 +23,7 @@ function show(){if(!pending||shownFor===pending.version||!safe()||document.visib
  const v=document.createElement('div');v.textContent=`v${CLIENT_VERSION} → v${pending.version}`;v.style.cssText='font-size:12px;color:#906c80;margin:12px 0';card.appendChild(v);
  const buttons=document.createElement('div');buttons.style.cssText='display:flex;gap:10px;margin-top:15px';
  const later=document.createElement('button');later.type='button';later.textContent='나중에';later.style.cssText='flex:1;padding:12px;border:1px solid #ccadc0;border-radius:10px;background:white;color:#785668;font-weight:bold';later.onclick=()=>{hide();log('RPG_UPDATE_POSTPONED',pending.version)};
- const reload=document.createElement('button');reload.type='button';reload.textContent='새로고침';reload.style.cssText='flex:1;padding:12px;border:0;border-radius:10px;background:#bb789c;color:white;font-weight:bold';reload.onclick=()=>{if(!safe()){hide();log('RPG_UPDATE_RELOAD_BLOCKED',active());return}try{if(active()==='rpgVillagePage'&&typeof window.rpgSaveActiveSlot==='function'){const ok=window.rpgSaveActiveSlot('rpgVillagePage','update_v4987');log('RPG_UPDATE_PRESAVE',ok?'ok':'not_saved')}}catch(err){log('RPG_UPDATE_PRESAVE_ERROR',err)}log('RPG_UPDATE_RELOAD',pending.version);window.location.reload()};
+ const reload=document.createElement('button');reload.type='button';reload.textContent='새로고침';reload.style.cssText='flex:1;padding:12px;border:0;border-radius:10px;background:#bb789c;color:white;font-weight:bold';reload.onclick=()=>{if(!safe()){hide();log('RPG_UPDATE_RELOAD_BLOCKED',active());return}try{if(active()==='rpgVillagePage'&&typeof window.rpgSaveActiveSlot==='function'){const ok=window.rpgSaveActiveSlot('rpgVillagePage','update_v4988');log('RPG_UPDATE_PRESAVE',ok?'ok':'not_saved')}}catch(err){log('RPG_UPDATE_PRESAVE_ERROR',err)}log('RPG_UPDATE_RELOAD',pending.version);window.location.reload()};
  buttons.append(later,reload);card.appendChild(buttons);shade.appendChild(card);document.body.appendChild(shade);modal=shade;log('RPG_UPDATE_PROMPT',`${CLIENT_VERSION}->${pending.version}`)
 }
 async function json(url){const controller=new AbortController();const t=setTimeout(()=>controller.abort(),7000);try{const separator=url.includes('?')?'&':'?';const r=await fetch(url+separator+'_t='+Date.now(),{cache:'no-store',signal:controller.signal});if(!r.ok)throw Error('HTTP '+r.status);return await r.json()}finally{clearTimeout(t)}}
