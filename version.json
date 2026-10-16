@@ -1,0 +1,16 @@
+{
+  "version": "4.9.85",
+  "updatedAt": "2026-10-17",
+  "patchNotes": [
+    {
+      "version": "4.9.85",
+      "title": "Cloudflare 업데이트 감지",
+      "changes": [
+        "Cloudflare Pages 배포 버전 확인",
+        "전투 중 업데이트 알림 보류",
+        "안전한 화면에서 새로고침 안내",
+        "무기별 공격속도 보정 반영"
+      ]
+    }
+  ]
+}
