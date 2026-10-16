@@ -4,10 +4,10 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#fdeef3">
-<title>Hu nyang Mini Game Collection - v4.9.81 Public Build</title>
+<title>Hu nyang Mini Game Collection - v4.9.83 Image Loading</title>
 
 <meta name="hu-nyang-build" content="mobile-single-file">
-<meta name="hu-nyang-patch" content="4.9.80 public developer options cleanup">
+<meta name="hu-nyang-patch" content="4.9.83 app frame image entry preload">
 
 
 <meta name="hu-nyang-version" content="4.8.38-guild-relationship-shops">
@@ -48,6 +48,10 @@
   warm.forEach(function(src){var img=new Image(); img.decoding='async'; img.src=src;});
 })();
 </script>
+
+<style id="huEntryLoadStyles4982">
+#huEntryLoad4982{position:absolute;inset:0;min-height:100%;width:100%;z-index:2147482000;background:#050507;color:#eee9f1;opacity:0;pointer-events:none;display:flex;align-items:center;justify-content:center;transition:opacity .38s ease;font-family:inherit}#huEntryLoad4982.huVisible4982{opacity:1;pointer-events:auto}#huEntryLoad4982 .huLoadMessage4982{text-align:center;padding:22px;letter-spacing:.04em}#huEntryLoad4982 .huLoadMessage4982 h2{font-size:clamp(24px,6vw,38px);margin:0 0 14px;color:#f6e2ed}#huEntryLoad4982 .huLoadMessage4982 p{font-size:clamp(13px,2vw,16px);margin:0;color:#cbbbc9}#huEntryLoad4982 .huLoadProgress4982{position:absolute;right:max(20px,env(safe-area-inset-right));bottom:max(24px,env(safe-area-inset-bottom));width:min(230px,48vw)}#huEntryLoad4982 .huLoadText4982{display:flex;justify-content:space-between;gap:10px;font-size:14px;font-weight:700;margin-bottom:9px}#huEntryLoad4982 .huLoadTrack4982{height:7px;border-radius:20px;background:#40373f;overflow:hidden}#huEntryLoad4982 .huLoadFill4982{height:100%;width:0;background:linear-gradient(90deg,#b97b9a,#f8d7e4);transition:width .16s linear}#huEntryLoad4982 .huLoadStep4982{font-size:11px;color:#aaa0ac;margin-top:7px;text-align:right}#huLoadError4982{position:fixed;inset:0;z-index:2147482200;background:#09080bc9;display:flex;align-items:center;justify-content:center;padding:18px}#huLoadError4982 .huLoadErrCard4982{background:#fff9fc;color:#4c3141;border-radius:18px;padding:22px;max-width:490px;width:100%;box-shadow:0 18px 55px #0006}#huLoadError4982 h2{font-size:20px;margin:0 0 10px}#huLoadError4982 p{font-size:13px;line-height:1.6}#huLoadError4982 pre{white-space:pre-wrap;overflow:auto;max-height:28vh;background:#f0e7ed;padding:10px;border-radius:8px;font-size:11px}#huLoadError4982 button{border:0;border-radius:10px;padding:12px 18px;background:#dc94b7;color:white;font-weight:700;margin-top:10px} 
+</style>
 </head>
 <body>
 <div id="app">
@@ -93,7 +97,7 @@
       <div class="logo splashTitle">Hu <span>nyang</span></div>
       <div class="splashMini">Mini Game Collection 🐾</div>
       <div class="splashGoText" id="splashGoText" aria-hidden="true">Go to Play</div>
-      <div class="splashVersion" aria-label="현재 버전">v4.9.81</div>
+      <div class="splashVersion" aria-label="현재 버전">v4.9.83</div>
     </div>
   </section>
 
@@ -140,7 +144,7 @@
         </button>
         <button class="card listCard disabledGame comingCard" type="button" data-coming><div class="listIcon">?</div><div class="listInfo"><h3>Coming Soon</h3></div></button>
       </div>
-      <div class="homeVersion" aria-label="현재 버전">v4.9.81</div>
+      <div class="homeVersion" aria-label="현재 버전">v4.9.83</div>
     </div>
 </section>
 
@@ -1491,6 +1495,24 @@
   new MutationObserver(clean).observe(box,{childList:true,characterData:true,subtree:true});
   clean();
   try{HuNyangDiag.line('RPG_V4969_READY','safe_css_position=on|recursive_observers=removed')}catch(_){ }
+})();
+</script>
+
+<script id="huImageEntryLoader4982">
+(function(){
+ 'use strict';
+ const MANIFEST=["assets/images/0001_ce7c7cc2ee.png","assets/images/0002_db53a361a5.webp","assets/images/0003_c6edec7c93.png","assets/images/0004_2f5d483057.png","assets/images/0005_8b6f1f358f.webp","assets/images/0006_34261f88d4.webp","assets/images/0007_13afa45fd6.webp","assets/images/0008_e3a2703db8.png","assets/images/0009_e78fd8f8fd.png","assets/images/0010_53541f4f2e.png","assets/images/0011_76c334f23d.png","assets/images/0012_b561c07dd7.png","assets/images/0013_47bea42b3b.png","assets/images/0014_6f363afb56.png","assets/images/0015_7c47b8995e.png","assets/images/0016_12a073043c.png","assets/images/0017_c983430ab8.webp","assets/images/0018_e42ff864fa.webp","assets/images/0019_28f78d53e3.webp","assets/images/0020_c2c18d31ff.webp","assets/images/0021_4a742f6c98.webp","assets/images/0022_fbe4512961.webp","assets/images/0023_24db840792.png","assets/images/0024_bc3864a012.png","assets/images/0025_ae12606d04.png","assets/images/0026_2366c8b195.png","assets/images/0027_4890154961.webp","assets/images/0028_159abb186f.webp","assets/images/0029_fa226437f3.webp","assets/images/0030_6f34486194.webp","assets/images/0031_a7d7b4de71.webp","assets/images/0032_299a3f23cd.webp","assets/images/0033_7c5712a909.webp","assets/images/0034_99c4d6e624.webp","assets/images/0035_74218b58c2.webp","assets/images/0036_82956d09e7.webp","assets/images/0037_567218c9ad.webp","assets/images/0038_1997aff4a9.webp","assets/images/0039_62466792ff.png","assets/images/0040_355f3b307d.png","assets/images/0041_9af7b07fb2.png","assets/images/0042_acf473004c.webp","assets/images/0043_12f39c87f8.webp","assets/images/0044_1f977e57bf.webp","assets/images/0045_7553a2575a.webp","assets/images/0046_7f86da9e6f.webp","assets/images/0047_4e82688051.webp","assets/images/0048_69abbafeb0.png","assets/images/0049_40a129ac30.png","assets/images/0050_39dd016dd6.png","assets/images/0051_5433dd8367.png","assets/images/0052_2beda1ec3f.png","assets/images/0053_d1d81b91a5.png","assets/images/0054_def2c2e38e.png","assets/images/0055_2bcfec55fd.png","assets/images/0056_c85f4440fe.png","assets/images/0057_463d83d835.png","assets/images/0058_60400eb77a.png","assets/images/0059_06b4b21d9f.png","assets/images/0060_84d6d0b8c1.png","assets/images/0061_c6e6ef1f26.png","assets/images/0062_752729b99d.png","assets/images/0063_0ed1390230.png","assets/images/0064_241e0fe0e9.png","assets/images/0065_a1c7953ff3.webp","assets/images/0066_1dfb91b234.webp","assets/images/0067_ae50f19562.webp","assets/images/0068_fd90d48088.webp","assets/images/0069_e9161f9549.webp","assets/images/0070_f86bc39f41.webp","assets/images/0071_7c2e951e5a.webp","assets/images/0072_0c1b7de822.webp","assets/images/0073_553d25bc15.webp","assets/images/0074_0ea0a9fa6c.webp","assets/images/0075_71e7afe65a.webp","assets/images/0076_36121863da.webp","assets/images/0077_11162bb046.webp","assets/images/0078_839b791d1a.webp","assets/images/0079_4bb31a1503.webp","assets/images/0080_e91e0e4c12.webp","assets/images/0081_cb6478c50a.webp","assets/images/0082_61e4c1e42b.webp","assets/images/0083_896544a96a.webp","assets/images/0084_0d12188751.webp","assets/images/0085_75c9f24986.webp","assets/images/0086_d548087a9b.webp","assets/images/0087_2c4a56ab36.webp","assets/images/0088_9123e00cb5.webp","assets/images/0089_4866129af4.webp","assets/images/0090_2739dbac87.webp","assets/images/0091_3aff903977.webp","assets/images/0092_455973574d.webp","assets/images/0093_cb1dcdea4b.webp","assets/images/0094_11d5cd5667.webp","assets/images/0095_471966e5b4.webp","assets/images/0096_8fdcc9fc0c.webp","assets/images/0097_da7b9fb990.webp","assets/images/0098_a103cc720d.png","assets/images/0099_0c6d41d9de.png","assets/images/0100_1e1679739b.png","assets/images/0101_63770dae1b.png","assets/images/0102_e10caa4109.png","assets/images/0103_26f438ff95.png","assets/images/0104_a4f5050a2d.png","assets/images/0105_dbefef983e.png","assets/images/0106_ebfcdce56c.png","assets/images/0107_51b62cfce9.png","assets/images/0108_6756ae20ac.png","assets/images/0109_ec06e9fd21.png","assets/images/0110_7b975375ee.png","assets/images/0111_785c0d3b77.png","assets/images/0112_d89b0b4611.png","assets/images/0113_c07ca480e7.png","assets/images/0114_ce0cdfac53.png","assets/images/0115_d8b1f24f2e.png","assets/images/0116_77b97c9d65.png","assets/images/0117_982cfe7f94.png","assets/images/0118_56b0e28578.png","assets/images/0119_dda527b69e.png","assets/images/0120_f7f2f67106.png","assets/images/0121_1206c6c302.png","assets/images/0122_9643c0b260.png","assets/images/0123_c304ca25f1.png","assets/images/0124_7fee117470.png","assets/images/0125_82a2a22fdc.png","assets/images/belmorne_story55.png","assets/images/dungeon_entrance4972.png","assets/images/guild_bright4973.png","assets/images/guild_dark4973.png","assets/images/kain_happy4972.png","assets/images/kain_panic4972.png","assets/images/kain_pout4972.png","assets/images/kain_sneer4972.png","assets/images/rubia_annoy4972.png","assets/images/rubia_panic4972.png","assets/images/rubia_smirk2_4972.png","assets/images/rubia_smirk4972.png","assets/images/sanctum_card4972.png","assets/images/training4972.png"];
+ const MAX_PARALLEL=4,RETRY=1,PER_FILE_TIMEOUT=18000;
+ let busy=false,finishedOnce=false;
+ const log=(tag,msg)=>{try{if(window.HuNyangDiag&&typeof HuNyangDiag.line==='function')HuNyangDiag.line(tag,msg);else console.warn(tag,msg)}catch(_){console.warn(tag,msg)}};
+ function makeCover(){let el=document.getElementById('huEntryLoad4982');if(el)return el;el=document.createElement('div');el.id='huEntryLoad4982';el.setAttribute('role','status');el.innerHTML='<div class="huLoadMessage4982"><h2>냥PG 월드</h2><p>모험을 준비하고 있습니다.<br>잠시만 기다려 주세요.</p></div><div class="huLoadProgress4982"><div class="huLoadText4982"><span>Loading...</span><span id="huLoadNum4982">00%</span></div><div class="huLoadTrack4982"><div class="huLoadFill4982" id="huLoadFill4982"></div></div><div class="huLoadStep4982" id="huLoadStep4982">이미지를 확인하는 중...</div></div>';(document.getElementById("app")||document.body).appendChild(el);return el}
+ const progress=(done,total)=>{let p=Math.min(100,Math.floor(done/Math.max(1,total)*100));let n=document.getElementById('huLoadNum4982'),bar=document.getElementById('huLoadFill4982'),step=document.getElementById('huLoadStep4982');if(n)n.textContent=String(p).padStart(2,'0')+'%';if(bar)bar.style.width=p+'%';if(step)step.textContent=done+' / '+total+' 이미지 준비'};
+ function loadOne(src){return new Promise(resolve=>{let tries=0;function attempt(){let image=new Image(),ended=false;let timer=setTimeout(()=>done(false,'timeout'),PER_FILE_TIMEOUT);function done(ok,why){if(ended)return;ended=true;clearTimeout(timer);image.onload=image.onerror=null;if(!ok&&tries++<RETRY){attempt();return}resolve(ok?null:{path:src,reason:why||'load error'})}image.onload=()=>done(true);image.onerror=()=>done(false,'network/decode');image.src=src;if(image.complete&&image.naturalWidth>0)done(true)}attempt()})}
+ async function prepare(){let next=0,done=0,fail=[];let urls=MANIFEST;progress(0,urls.length);log('RPG_IMAGE_PRELOAD_BEGIN','total='+urls.length);await Promise.all(Array.from({length:Math.min(MAX_PARALLEL,urls.length)},async()=>{while(next<urls.length){let src=urls[next++];let error=await loadOne(src);if(error){fail.push(error);log('RPG_IMAGE_LOAD_FAILED',error.path+' | '+error.reason)}progress(++done,urls.length)}}));log('RPG_IMAGE_PRELOAD_DONE','total='+urls.length+'|failed='+fail.length);return fail}
+ function errorPopup(failed){return new Promise(resolve=>{if(!failed.length)return resolve();let pop=document.createElement('div');pop.id='huLoadError4982';pop.setAttribute('role','alertdialog');pop.setAttribute('aria-modal','true');let card=document.createElement('div');card.className='huLoadErrCard4982';let title=document.createElement('h2');title.textContent='일부 이미지 로딩 실패';let desc=document.createElement('p');desc.textContent=failed.length+'개 이미지의 로딩에 실패했습니다. 진단 로그에 파일 경로와 오류를 기록했어요. 아래 목록을 확인해 주세요.';let pre=document.createElement('pre');pre.textContent=failed.map(x=>x.path+' ('+x.reason+')').join('\n');let btn=document.createElement('button');btn.type='button';btn.textContent='확인하고 계속하기';btn.addEventListener('click',()=>{pop.remove();resolve()},{once:true});card.append(title,desc,pre,btn);pop.append(card);document.body.appendChild(pop);btn.focus()})}
+ async function start(){if(busy)return;busy=true;let cover=makeCover();cover.classList.add('huVisible4982');await new Promise(r=>setTimeout(r,400));try{let failed=finishedOnce?[]:await prepare();finishedOnce=failed.length===0;if(failed.length)await errorPopup(failed);if(typeof window.openRpg==='function')window.openRpg();else{log('RPG_IMAGE_LOADER_ERROR','openRpg missing');document.getElementById('openRpg')?.click()}}catch(e){log('RPG_IMAGE_LOADER_ERROR',String(e));if(typeof window.openRpg==='function')window.openRpg()}finally{cover.classList.remove('huVisible4982');setTimeout(()=>{busy=false},430)}}
+ const button=document.getElementById('openRpg');if(button){button.addEventListener('click',function(ev){if(ev.isTrusted!==false){ev.preventDefault();ev.stopImmediatePropagation();start()}},true)}
+ window.HuNyangImageEntryLoad4982=start;
 })();
 </script>
 </body>
