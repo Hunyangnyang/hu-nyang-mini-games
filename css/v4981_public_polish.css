@@ -1,36 +1,4 @@
-/* v4.9.81 targeted public polish. */
-:root{--hu4981-safe-top:env(safe-area-inset-top,0px)}
-/* The old .appbar rules used a fixed 100px top pad plus an offset on the back button.
-   Define the header against the screen itself and center with equal 52px guard columns. */
-:is(#rpgGuildPage,#rpgReceptionPage,#rpgDialoguePage,#rpgQuestGuidePage,#rpgQuestAcceptedPage,#rpgGuildNpcPage,#gwTrainingPage4972,#gwDungeonPage4972,#gwSanctumPage4972) .appbar{
-  position:absolute!important;inset:var(--hu4981-safe-top) 0 auto!important;
-  box-sizing:border-box!important;width:100%!important;height:88px!important;min-height:88px!important;
-  padding:8px 12px!important;display:grid!important;grid-template-columns:48px minmax(0,1fr) 48px!important;
-  gap:7px!important;align-items:center!important;justify-items:center!important;
-  z-index:75!important;transform:none!important;
-}
-:is(#rpgGuildPage,#rpgReceptionPage,#rpgDialoguePage,#rpgQuestGuidePage,#rpgQuestAcceptedPage,#rpgGuildNpcPage,#gwTrainingPage4972,#gwDungeonPage4972,#gwSanctumPage4972) .appbar>div:nth-child(2){
-  position:relative!important;grid-column:2!important;grid-row:1!important;
-  width:100%!important;max-width:360px!important;min-width:0!important;flex:auto!important;
-  min-height:66px!important;max-height:77px!important;margin:0 auto!important;
-  padding:10px 7px!important;display:flex!important;flex-direction:column!important;
-  align-items:center!important;justify-content:center!important;
-  transform:none!important;text-align:center!important;box-sizing:border-box!important;
-}
-:is(#rpgGuildPage,#rpgReceptionPage,#rpgDialoguePage,#rpgQuestGuidePage,#rpgQuestAcceptedPage,#rpgGuildNpcPage,#gwTrainingPage4972,#gwDungeonPage4972,#gwSanctumPage4972) .appbar>.iconBtn{
-  position:relative!important;grid-column:1!important;grid-row:1!important;
-  inset:auto!important;left:auto!important;top:auto!important;
-  transform:none!important;justify-self:start!important;align-self:center!important;
-  width:42px!important;height:42px!important;min-width:42px!important;z-index:77!important;
-}
-:is(#rpgGuildPage,#rpgReceptionPage,#rpgDialoguePage,#rpgQuestGuidePage,#rpgQuestAcceptedPage,#rpgGuildNpcPage,#gwTrainingPage4972,#gwDungeonPage4972,#gwSanctumPage4972) .appbar .rpgHeadTitle{
-  margin:0!important;max-width:100%!important;font-size:clamp(14px,4vw,20px)!important;
-  line-height:1.16!important;white-space:normal!important;overflow-wrap:break-word!important;
-}
-:is(#rpgGuildPage,#rpgReceptionPage,#rpgDialoguePage,#rpgQuestGuidePage,#rpgQuestAcceptedPage,#rpgGuildNpcPage,#gwTrainingPage4972,#gwDungeonPage4972,#gwSanctumPage4972) .appbar .rpgSub{
-  margin-top:3px!important;font-size:clamp(9px,2.3vw,11px)!important;line-height:1.2!important;
-  white-space:normal!important;overflow-wrap:break-word!important;
-}
+/* v4.9.81b: guild header definitions consolidated in combined.css; no competing overrides. */
 /* Seria's displayed pixel size stays consistent across large screens.
    Small viewports scale only as needed to avoid clipping. */
 #rpgPrayerPage .gwPrayerHero55.gwPrayerHero77{height:402px!important;min-height:402px!important;max-height:none!important}
