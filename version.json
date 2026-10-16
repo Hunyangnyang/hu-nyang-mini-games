@@ -1,5 +1,25 @@
 {
-  "version": "4.9.86",
+  "version": "4.9.87",
   "updatedAt": "2026-10-17",
-  "patchNotes": [{"version":"4.9.86","title":"사냥터 매칭 및 Cloud 백업 준비","changes":["신규 슬롯 진입 간소화","방 목록 및 매칭 대기실 UI","Cloud·Chrome 백업·복원 2×2 배치","Cloudflare D1 서버 설정 필요"]}]
+  "patchNotes": [
+    {
+      "version": "4.9.87",
+      "title": "캐릭터·포지션 동기화 및 Ping 갱신",
+      "changes": [
+        "실제 캐릭터 이름·레벨·HP·MP 서버 전달",
+        "포지션 상태 주기적 동기화",
+        "개인 Ping 2초 갱신, 타인 미측정 표기"
+      ]
+    },
+    {
+      "version": "4.9.86",
+      "title": "사냥터 매칭 및 Cloud 백업 준비",
+      "changes": [
+        "신규 슬롯 진입 간소화",
+        "방 목록 및 매칭 대기실 UI",
+        "Cloud·Chrome 백업·복원 2×2 배치",
+        "Cloudflare D1 서버 설정 필요"
+      ]
+    }
+  ]
 }
