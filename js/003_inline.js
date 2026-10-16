@@ -8,7 +8,7 @@ const shuffle=a=>a.map(v=>[Math.random(),v]).sort((x,y)=>x[0]-y[0]).map(x=>x[1])
 
 /* settings: diagnostic icon only */
 const settingsKey='hunyang_global_settings_v2';
-let globalSettings={diagVisible:true};try{globalSettings={...globalSettings,...JSON.parse(localStorage.getItem(settingsKey)||'{}')}}catch(_){ }
+let globalSettings={diagVisible:false};try{globalSettings={...globalSettings,...JSON.parse(localStorage.getItem(settingsKey)||'{}')}}catch(_){ }
 function applyGlobalSettings(){document.body.classList.toggle('diagHidden',globalSettings.diagVisible===false);const sw=$v('#diagVisibilityToggle');if(sw){sw.classList.toggle('on',globalSettings.diagVisible!==false);sw.setAttribute('aria-checked',globalSettings.diagVisible!==false?'true':'false')}}
 function saveGlobalSettings(){try{localStorage.setItem(settingsKey,JSON.stringify(globalSettings))}catch(_){}}
 $v('#diagVisibilityToggle')?.addEventListener('click',()=>{globalSettings.diagVisible=!globalSettings.diagVisible;saveGlobalSettings();applyGlobalSettings();HuNyangDiag?.line?.('SETTINGS_DIAG_ICON',globalSettings.diagVisible?'ON':'OFF')});
