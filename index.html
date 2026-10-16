@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
 <meta name="theme-color" content="#fdeef3">
-<title>Hu nyang Mini Game Collection - v4.9.80 Public Build</title>
+<title>Hu nyang Mini Game Collection - v4.9.81 Public Build</title>
 
 <meta name="hu-nyang-build" content="mobile-single-file">
 <meta name="hu-nyang-patch" content="4.9.80 public developer options cleanup">
@@ -25,7 +25,30 @@
 #rpgTravelDots.gwTravel52 i.on{background:linear-gradient(140deg,#eec884,#ce99a6)!important;border-color:#cfa36b!important}
 #rpgTravelDots.gwTravel52 i.gwTravelPlayer52{font-size:19px!important;font-weight:bold;background:#fff4df!important;border-color:#a76d4f!important;box-shadow:0 0 0 3px #f5d2a488}
  .gwPenaltyOriginal52{color:#988b92;text-decoration:line-through;font-weight:normal}.gwPenaltyRate52{color:#c45173;font-size:.8em;font-weight:700}
-</style></head>
+</style><!-- v4.9.81 first-paint asset warmup. Browser cache shared with CSS image URLs. -->
+<link rel="preload" as="image" href="assets/images/guild_bright4973.png">
+<link rel="preload" as="image" href="assets/images/guild_dark4973.png">
+<link rel="stylesheet" href="css/v4981_public_polish.css">
+<script>
+(function(){
+  // First village entry after a newly-created character only. Existing saves never trigger this.
+  window.HuNyangFirstVillageGuide4981=function(){
+    var old=document.getElementById('huFirstGuide4981'); if(old)old.remove();
+    var overlay=document.createElement('div'); overlay.id='huFirstGuide4981';
+    overlay.setAttribute('role','dialog');overlay.setAttribute('aria-modal','true');
+    overlay.setAttribute('aria-labelledby','huFirstGuideTitle4981');
+    overlay.innerHTML='<div class="huFirstGuideCard4981"><div class="huFirstGuideIcon4981">🗡️</div><h2 id="huFirstGuideTitle4981">첫 모험을 준비해요!</h2><p>마을에서 <b>상점 → 장비점</b>으로 이동하여<br><b>원하는 무기를 먼저 구매</b>해 주세요.</p><p class="huFirstGuideHint4981">무기를 장착하면 전투 준비가 한결 수월해져요.</p><button type="button" id="huFirstGuideClose4981">확인</button></div>';
+    document.body.appendChild(overlay);
+    var btn=document.getElementById('huFirstGuideClose4981');
+    btn.addEventListener('click',function(){overlay.remove()},{once:true});
+    btn.focus({preventScroll:true});
+  };
+  // Warm up a small list of reused scene sprites without blocking page entry.
+  var warm=['assets/images/guild_bright4973.png','assets/images/guild_dark4973.png'];
+  warm.forEach(function(src){var img=new Image(); img.decoding='async'; img.src=src;});
+})();
+</script>
+</head>
 <body>
 <div id="app">
   <div class="toast" id="toast"></div>
@@ -70,7 +93,7 @@
       <div class="logo splashTitle">Hu <span>nyang</span></div>
       <div class="splashMini">Mini Game Collection 🐾</div>
       <div class="splashGoText" id="splashGoText" aria-hidden="true">Go to Play</div>
-      <div class="splashVersion" aria-label="현재 버전">v4.9.80</div>
+      <div class="splashVersion" aria-label="현재 버전">v4.9.81</div>
     </div>
   </section>
 
@@ -117,7 +140,7 @@
         </button>
         <button class="card listCard disabledGame comingCard" type="button" data-coming><div class="listIcon">?</div><div class="listInfo"><h3>Coming Soon</h3></div></button>
       </div>
-      <div class="homeVersion" aria-label="현재 버전">v4.9.80</div>
+      <div class="homeVersion" aria-label="현재 버전">v4.9.81</div>
     </div>
 </section>
 
