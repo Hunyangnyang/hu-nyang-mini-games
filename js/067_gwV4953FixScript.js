@@ -1,0 +1,8 @@
+(()=>{'use strict';
+const paint=()=>{if(typeof activePageId==='function'&&activePageId()!=='rpgFieldPage')return;const f=rpgState?.field;if(!f)return;const ticker=document.querySelector('#rpgFieldPage .rpgTravelTicker'),dots=document.querySelector('#rpgTravelDots'),a=document.querySelector('#rpgTravelText'),b=document.querySelector('#rpgTravelTurnText');if(ticker)ticker.style.display='';const first=rpgState._travelFirstCycle52!==false;let pos=Number(rpgState._travelPos52);if(!Number.isFinite(pos)){pos=first?0:Math.max(1,Number(rpgState.moveStepCounter)||1)}pos=Math.max(first?0:1,Math.min(5,pos));if(dots){dots.classList.add('gwTravel52');dots.innerHTML=Array.from({length:first?6:5},(_,i)=>{const n=first?i:i+1;return `<i class="${n<pos?'on':''} ${n===pos?'gwTravelPlayer52':''}" aria-label="${n===0?'출발':n+'회'}">${n===pos?`<img class="gwTravelLeader64" src="${rpgSaveAdventurerPortraits?.[rpgState.gender==='여성'?'female':'male']||''}" alt="리더">`:''}</i>`}).join('')}if(a)a.textContent=`이동 진행도 · ${Number(f.distance)||0}회`;if(b)b.textContent=pos===5?'5회 이동 완료 · +1턴':`다음 턴까지 ${5-pos}회 이동`;};
+const oldRender=rpgRenderField;rpgRenderField=function(){const v=oldRender.apply(this,arguments);paint();return v};
+const oldStart=rpgBeginBattle;rpgBeginBattle=function(){window.GWResetChain53?.();return oldStart.apply(this,arguments)};
+const oldEnter=rpgEnterBattle;rpgEnterBattle=function(){window.GWResetChain53?.();return oldEnter.apply(this,arguments)};
+const oldShow=showPage;showPage=function(id){const v=oldShow.apply(this,arguments);if(id==='rpgFieldPage')requestAnimationFrame(paint);return v};
+try{HuNyangDiag.line('RPG_V4953_READY','travel5=on|first6=on|affinity=restored|wolf_speed=2.5,3.5,5|chain_reset=on|prayer_talk_idle=on')}catch(_){}
+})();

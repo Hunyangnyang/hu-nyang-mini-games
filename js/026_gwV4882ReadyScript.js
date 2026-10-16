@@ -1,0 +1,1 @@
+(()=>{try{HuNyangDiag.line('RPG_V4882_READY','npc_portrait_unclipped|prayer_actions=larger|refine_catalog=10weapon+3armor|craftable_sort=top|craftable_glow=on')}catch(_){}})();

@@ -1,0 +1,1 @@
+try{HuNyangDiag.line('RPG_V4931_READY','giant_wipe_chain=attack_or_defense_once_per_wipe|other_boss_rules=unchanged|version=4.9.31')}catch(_){}
