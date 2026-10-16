@@ -1125,6 +1125,15 @@ const rpgState={name:'',gender:null,job:rpgJobs.find(j=>j.id==='adventurer'),job
 guildNpcRelations:{},classQuest:null,classQuestHistory4905:{},bossHuntCounters:{slime:0,wolf:0},
 completedQuestIds:[],elinaEverMet:false,fQuestBoard:null,pendingQuestChoice70:null,
 questCycleClears4900:{},selectedQuestFilter:'all',prayerReviveCount4927:0};
+/* v4.9.87: read-only multiplayer character snapshot. Never expose mutable game state. */
+window.NyangRpgPlayerSnapshot4987=function(){
+ const d=rpgDerived(rpgState.job,rpgState.stats,rpgState.skills,rpgState.equipment);
+ const maxHp=Math.max(1,Number(d?.maxHp)||1),maxMp=Math.max(0,Number(d?.maxMp)||0);
+ return {name:String(rpgState.name||''),level:Math.max(1,Number(rpgState.level)||1),
+ hp:Math.max(0,Math.min(maxHp,Number(rpgState.currentHp??maxHp))),
+ mp:Math.max(0,Math.min(maxMp,Number(rpgState.currentMp??maxMp))),
+ maxHp,maxMp,job:String(rpgState.job?.name||'모험가'),saveSlot:Number(rpgActiveSlot||0)};
+};
 function rpgRand(n){return Math.floor(Math.random()*n)+1}
 function rpgJobByRoll(n){return rpgJobs.find(j=>j.roll===n)||rpgJobs[0]}
 function rpgBlankStats(){return {hp:1,str:1,dex:1,int:1,luck:1}}
