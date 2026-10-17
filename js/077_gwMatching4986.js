@@ -95,14 +95,14 @@ function renderSharedField(){
   gender:human[0]?.gender||'남성',job:human[0]?.job||'모험가'}))].slice(0,3).map(p=>{
   const state=f.party?.find(v=>v.id===p.id);
   return {...p,hp:state?.hp??p.hp,mp:state?.mp??p.mp,maxHp:state?.maxHp??p.maxHp,maxMp:state?.maxMp??p.maxMp,
-   gauge:state?.nextAt?Math.max(0,Math.min(100,100-(state.nextAt-Date.now())/24)):0}
+   gauge:state?.nextAt?Math.max(0,Math.min(100,100-(Number(state.nextAt)-Date.now())/Math.max(1,Number(state.attackInterval)||Math.round(2400/Math.max(.1,Number(state.attackSpeed)||1)))*100)):0}
  });
  if(f.phase==='combat'){
   const ok=window.NyangRpgRenderServerBattle494?.(f,roster,session);
   if(!ok){diag('RPG_MATCH94_BATTLE_RENDER_BLOCKED','server_battle_state_incomplete');return}
   const controls=document.getElementById('rpgBattlePageActions');
   if(controls)controls.querySelectorAll('[data-nm-action]').forEach(button=>{
-   button.disabled=!!f.pausedAt||((button.dataset.nmAction==='attack'||button.dataset.nmAction==='skill'||button.dataset.nmAction==='defend'||button.dataset.nmAction==='run')&&Number(roster.find(p=>p.id===session)?.gauge||0)<100);
+   button.disabled=!!f.pausedAt||((button.dataset.nmAction==='attack'||button.dataset.nmAction==='skill'||button.dataset.nmAction==='defend'||button.dataset.nmAction==='run')&&(Number(roster.find(p=>p.id===session)?.gauge||0)<99.99||Number(roster.find(p=>p.id===session)?.hp||0)<=0))||(button.dataset.nmAction==='run'&&!host);
    button.onclick=()=>fieldAction(button.dataset.nmAction);
   });
   const hint=document.getElementById('rpgBattlePageHint');
