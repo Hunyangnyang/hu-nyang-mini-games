@@ -2480,6 +2480,72 @@ window.NyangRpgRenderServerField93=function(state,roster,sessionId){
   rpgState._travelPos52=original.pos;rpgState._travelFirstCycle52=original.first;rpgState.worldTurn=original.turn;
  }
 };
+
+/* v4.9.94: Render multiplayer combat through the ORIGINAL single-player battle page.
+   This adapter displays server state; it does not run local combat or save rewards. */
+window.NyangRpgRenderServerBattle494=function(state,roster,sessionId){
+ if(!state||!Array.isArray(roster)||activePageId()!=='rpgBattlePage')return false;
+ const old={field:rpgState.field,ai:rpgState.ai,ai2:rpgState.ai2,turn:rpgState.worldTurn};
+ const localIndex=roster.findIndex(p=>p.id===sessionId);
+ const order=localIndex>0?[roster[localIndex],...roster.filter((_,i)=>i!==localIndex)]:roster;
+ const findJob=p=>rpgJobs.find(j=>j.name===p.job||j.id===p.job)||rpgState.job;
+ const party=order.slice(0,3).map((p,i)=>({
+  id:i===0?'player':i===1?'ai':'ai2',
+  controller:p.id===sessionId?'local':p.ai?'ai':'remote',
+  connected:!p.ai,name:String(p.name||'모험가'),gender:p.gender||'남성',
+  job:findJob(p),stats:rpgState.stats,level:Number(p.level)||1,
+  derived:{maxHp:Math.max(1,Number(p.maxHp)||1),maxMp:Math.max(0,Number(p.maxMp)||0)},
+  hp:Math.max(0,Number(p.hp)||0),mp:Math.max(0,Number(p.mp)||0),
+  shield:Number(p.shield)||0,gauge:Math.max(0,Math.min(100,Number(p.gauge)||0)),
+  position:Math.max(0,Math.min(8,Number(p.position)||0)),
+  skillCooldowns:{},defending:!!p.defending,dead:Number(p.hp)<=0
+ }));
+ const supplied=state.battle?.enemies||state.enemies|| (state.enemy?[state.enemy]:[]);
+ const enemyArt=n=>{
+  const name=String(n||'');
+  if(name.includes('파란'))return rpgSlimeDefs.blue?.image||rpgSlimeDefs.green.image;
+  if(name.includes('빨간'))return rpgSlimeDefs.red?.image||rpgSlimeDefs.green.image;
+  if(name.includes('늑대'))return rpgSlimeDefs.wolf?.image||rpgSlimeDefs.green.image;
+  return rpgSlimeDefs.green.image;
+ };
+ const enemies=supplied.map((e,i)=>({
+  id:e.id||'enemy'+i,name:e.name||'마물',
+  hp:Math.max(0,Number(e.hp)||0),maxHp:Math.max(1,Number(e.maxHp)||1),
+  gauge:Math.max(0,Math.min(100,Number(e.gauge)||0)),position:Number(e.position??4),
+  image:e.image||enemyArt(e.name),shield:Number(e.shield)||0,
+  dead:e.dead===true||Number(e.hp)<=0,
+  type:e.type||'green',level:Number(e.level)||1
+ }));
+ if(!enemies.length)return false;
+ try{
+  rpgState.ai={...(old.ai||{}),job:party[1]?.job||rpgState.job,gender:party[1]?.gender||'남성',level:party[1]?.level||1};
+  rpgState.ai2={...(old.ai2||{}),job:party[2]?.job||rpgState.job,gender:party[2]?.gender||'남성',level:party[2]?.level||1};
+  rpgState.worldTurn=old.turn+(Number(state.turn)||0);
+  rpgState.field={
+   party,battle:{enemies,history:Array.isArray(state.history)?state.history:[],startedAt:performance.now()},
+   encounter:null,history:Array.isArray(state.history)?state.history:[],
+   autoBattle:false,targetMode:false,skillMenu:false,presenceStartedAt:Date.now()
+  };
+  rpgRenderBattlePage();
+  /* The original UI is drawn, but multiplayer controls must never invoke local
+     battle handlers because those would mutate an unrelated single-player slot. */
+  const controls=document.getElementById('rpgBattlePageActions');
+  if(controls){
+   controls.innerHTML='<button type="button" class="rpgBattleCmd attack" data-nm-action="attack">⚔<span>공격</span></button>'+
+    '<button type="button" class="rpgBattleCmd skill" data-nm-action="skill">✨<span>강타</span></button>'+
+    '<button type="button" class="rpgBattleCmd defend" data-nm-action="defend">🛡<span>방어</span></button>'+
+    '<button type="button" class="rpgBattleCmd item" data-nm-action="item" disabled>🎒<span>아이템</span></button>'+
+    '<button type="button" class="rpgBattleCmd run" data-nm-action="run">🏃<span>도주</span></button>';
+  }
+  const auto=document.getElementById('rpgBattleAutoBtn');
+  if(auto){auto.disabled=true;auto.style.display='none'}
+  return true;
+ }catch(err){try{HuNyangDiag.line('RPG_MATCH94_BATTLE_RENDER_ERROR',String(err))}catch(_){ }return false}
+ finally{
+  rpgState.field=old.field;rpgState.ai=old.ai;rpgState.ai2=old.ai2;rpgState.worldTurn=old.turn;
+ }
+};
+
 const rpgRenderFieldBase=rpgRenderField;
 rpgRenderField=function(){
   if(activePageId()==='rpgBattlePage'){
