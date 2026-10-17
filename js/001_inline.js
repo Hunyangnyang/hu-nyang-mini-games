@@ -4,7 +4,7 @@
 
 /* ===== v4.8.9 persistent self diagnostics ===== */
 const HuNyangDiag=(()=>{
-  const VERSION='4.9.92';
+  const VERSION='4.9.93';
   const KEY='hunyang_diag_v1';
   const MAX_LINES=360;
   let storageOK=true;
