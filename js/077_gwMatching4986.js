@@ -97,6 +97,18 @@ function renderSharedField(){
   return {...p,hp:state?.hp??p.hp,mp:state?.mp??p.mp,maxHp:state?.maxHp??p.maxHp,maxMp:state?.maxMp??p.maxMp,
    gauge:state?.nextAt?Math.max(0,Math.min(100,100-(state.nextAt-Date.now())/24)):0}
  });
+ if(f.phase==='combat'){
+  const ok=window.NyangRpgRenderServerBattle494?.(f,roster,session);
+  if(!ok){diag('RPG_MATCH94_BATTLE_RENDER_BLOCKED','server_battle_state_incomplete');return}
+  const controls=document.getElementById('rpgBattlePageActions');
+  if(controls)controls.querySelectorAll('[data-nm-action]').forEach(button=>{
+   button.disabled=!!f.pausedAt||((button.dataset.nmAction==='attack'||button.dataset.nmAction==='skill'||button.dataset.nmAction==='defend'||button.dataset.nmAction==='run')&&Number(roster.find(p=>p.id===session)?.gauge||0)<100);
+   button.onclick=()=>fieldAction(button.dataset.nmAction);
+  });
+  const hint=document.getElementById('rpgBattlePageHint');
+  if(hint)hint.textContent=f.pausedAt?'연결 끊김으로 전투 일시정지 중':'서버 판정 기준 멀티 전투 · 자기 캐릭터만 조작';
+  return;
+ }
  const originalOK=window.NyangRpgRenderServerField93?.(f,roster,session);
  if(!originalOK)diag('RPG_MATCH93_ORIGINAL_UI_PENDING','bridge_unavailable');
  const head=document.getElementById('rpgFieldSub');if(head)head.textContent=f.phase==='combat'?'마물과 전투 중':f.encounter?'마물 조우':'초원지대';
