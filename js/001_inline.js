@@ -1142,7 +1142,11 @@ window.NyangRpgPlayerSnapshot4987=function(){
  combatProfile:{schema:1,stats:{hp:Number(rpgState.stats?.hp)||1,str:Number(rpgState.stats?.str)||1,dex:Number(rpgState.stats?.dex)||1,int:Number(rpgState.stats?.int)||1,luck:Number(rpgState.stats?.luck)||1},
  skills:{vitality:Number(rpgState.skills?.vitality)||0,combat:Number(rpgState.skills?.combat)||0,precision:Number(rpgState.skills?.precision)||0},
  derived:{meleeAtk:Number(d.meleeAtk)||0,rangedAtk:Number(d.rangedAtk)||0,magicAtk:Number(d.magicAtk)||0,physicalDefense:Number(d.physicalDefense)||0,magicDefense:Number(d.magicDefense)||0,attackSpeed:Number(d.attackSpeed)||1,evasion:Number(d.evasion)||0,crit:Number(d.crit)||0},
- equipmentSlots:Object.keys(rpgState.equipment||{}).sort()},
+ equipmentSlots:Object.keys(rpgState.equipment||{}).sort(),
+ equipment:Object.fromEntries(['weapon','armor'].map(slot=>{
+  const e=rpgState.equipment?.[slot];
+  return [slot,e?{uid:String(e.uid||''),series:String(e.series||''),slot,weaponType:String(e.weaponType||''),armorType:String(e.armorType||''),weaponBonus:Number(e.weaponBonus)||0,pdef:Number(e.pdef)||0,mdef:Number(e.mdef)||0,setAtk:Number(e.setAtk)||0,level:Number(e.level)||1}:null]
+ }))},
  job:String(rpgState.job?.name||'모험가'),gender:String(rpgState.gender||''),avatar:String(rpgState.gender==='여성'?rpgSaveAdventurerPortraits.female:rpgSaveAdventurerPortraits.male),saveSlot:Number(rpgActiveSlot||0)};
 };
 function rpgRand(n){return Math.floor(Math.random()*n)+1}
