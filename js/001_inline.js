@@ -2531,11 +2531,20 @@ window.NyangRpgRenderServerBattle494=function(state,roster,sessionId){
      battle handlers because those would mutate an unrelated single-player slot. */
   const controls=document.getElementById('rpgBattlePageActions');
   if(controls){
-   controls.innerHTML='<button type="button" class="rpgBattleCmd attack" data-nm-action="attack">⚔<span>공격</span></button>'+
-    '<button type="button" class="rpgBattleCmd skill" data-nm-action="skill">✨<span>강타</span></button>'+
-    '<button type="button" class="rpgBattleCmd defend" data-nm-action="defend">🛡<span>방어</span></button>'+
-    '<button type="button" class="rpgBattleCmd item" data-nm-action="item" disabled>🎒<span>아이템</span></button>'+
-    '<button type="button" class="rpgBattleCmd run" data-nm-action="run">🏃<span>도주</span></button>';
+   /* Preserve the native single-player battle buttons and their styling.
+      Clone them to remove local battle listeners before binding server actions. */
+   for(const [id,action] of [
+    ['rpgBattleAtkBtn','attack'],['rpgBattleSkillBtn','skill'],
+    ['rpgBattleDefBtn','defend'],['rpgBattleRunBtn','run']
+   ]){
+    const originalButton=controls.querySelector('#'+id);
+    if(!originalButton)continue;
+    const safeButton=originalButton.cloneNode(true);
+    safeButton.dataset.nmAction=action;
+    originalButton.replaceWith(safeButton);
+   }
+   const itemButton=controls.querySelector('.rpgBattleCmd.item');
+   if(itemButton){itemButton.disabled=true;itemButton.title='개인 인벤토리 서버 검증 연동 전 사용 불가'}
   }
   const auto=document.getElementById('rpgBattleAutoBtn');
   if(auto){auto.disabled=true;auto.style.display='none'}
