@@ -1137,7 +1137,13 @@ window.NyangRpgPlayerSnapshot4987=function(){
  return {name:String(rpgState.name||''),level:Math.max(1,Number(rpgState.level)||1),
  hp:Math.max(0,Math.min(maxHp,Number(rpgState.currentHp??maxHp))),
  mp:Math.max(0,Math.min(maxMp,Number(rpgState.currentMp??maxMp))),
- maxHp,maxMp,job:String(rpgState.job?.name||'모험가'),gender:String(rpgState.gender||''),avatar:String(rpgState.gender==='여성'?rpgSaveAdventurerPortraits.female:rpgSaveAdventurerPortraits.male),saveSlot:Number(rpgActiveSlot||0)};
+ maxHp,maxMp,
+ /* Client-observed only. Worker must independently validate before trusting damage or speed. */
+ combatProfile:{schema:1,stats:{hp:Number(rpgState.stats?.hp)||1,str:Number(rpgState.stats?.str)||1,dex:Number(rpgState.stats?.dex)||1,int:Number(rpgState.stats?.int)||1,luck:Number(rpgState.stats?.luck)||1},
+ skills:{vitality:Number(rpgState.skills?.vitality)||0,combat:Number(rpgState.skills?.combat)||0,precision:Number(rpgState.skills?.precision)||0},
+ derived:{meleeAtk:Number(d.meleeAtk)||0,rangedAtk:Number(d.rangedAtk)||0,magicAtk:Number(d.magicAtk)||0,physicalDefense:Number(d.physicalDefense)||0,magicDefense:Number(d.magicDefense)||0,attackSpeed:Number(d.attackSpeed)||1,evasion:Number(d.evasion)||0,crit:Number(d.crit)||0},
+ equipmentSlots:Object.keys(rpgState.equipment||{}).sort()},
+ job:String(rpgState.job?.name||'모험가'),gender:String(rpgState.gender||''),avatar:String(rpgState.gender==='여성'?rpgSaveAdventurerPortraits.female:rpgSaveAdventurerPortraits.male),saveSlot:Number(rpgActiveSlot||0)};
 };
 function rpgRand(n){return Math.floor(Math.random()*n)+1}
 function rpgJobByRoll(n){return rpgJobs.find(j=>j.roll===n)||rpgJobs[0]}
