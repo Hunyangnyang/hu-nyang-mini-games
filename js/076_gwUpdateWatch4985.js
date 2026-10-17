@@ -1,7 +1,7 @@
 /* NyangPG v4.9.86: update notification, safe-page deferral and cache-busted manifest. */
 (()=>{
 'use strict';
-const CLIENT_VERSION='4.9.90';
+const CLIENT_VERSION='4.9.91';
 const VERSION_URL='./version.json';
 const WORKER_URL='https://nyangpg-api.hwjung1102.workers.dev/api/version';
 const INTERVAL=60000;
