@@ -2433,6 +2433,47 @@ function rpgRenderField(){
   const host=$('#rpgFieldHistory');if(host){host.innerHTML=(f.history||[]).slice(0,3).map(x=>`<div class="rpgHistoryRow">${x}</div>`).join('');host.scrollTop=0;}
 }
 
+/* v4.9.93: project synchronized server field data onto ORIGINAL single-player renderers.
+   The local field/save state is restored in finally. Never apply multiplayer rewards here. */
+window.NyangRpgRenderServerField93=function(state,roster,sessionId){
+ if(!state||!Array.isArray(roster)||activePageId()!=='rpgFieldPage')return false;
+ const original={field:rpgState.field,ai:rpgState.ai,ai2:rpgState.ai2,
+  pos:rpgState._travelPos52,first:rpgState._travelFirstCycle52,turn:rpgState.worldTurn};
+ const jobFor=p=>rpgJobs.find(j=>j.name===p.job||j.id===p.job)||rpgState.job;
+ const mapped=roster.slice(0,3).map((p,i)=>{
+  const job=jobFor(p),maxHp=Math.max(1,Number(p.maxHp)||1),maxMp=Math.max(0,Number(p.maxMp)||0);
+  return {id:i===0?'player':i===1?'ai':'ai2',controller:p.id===sessionId?'local':p.ai?'ai':'remote',
+   connected:p.ai?null:true,name:String(p.name||'모험가'),gender:p.gender||'남성',job,stats:rpgState.stats,
+   derived:{maxHp,maxMp},hp:Math.max(0,Number(p.hp)||0),mp:Math.max(0,Number(p.mp)||0),
+   shield:0,gauge:Math.min(100,Math.max(0,Number(p.gauge)||0)),position:Math.max(0,Math.min(8,Number(p.position)||0)),
+   defending:false,dead:Number(p.hp)<=0,level:Number(p.level)||1};
+ });
+ const name=String(state.enemy?.name||state.encounter?.name||'');
+ let image=rpgSlimeDefs.green.image;
+ if(name.includes('파란'))image=rpgSlimeDefs.blue?.image||image;
+ if(name.includes('빨간'))image=rpgSlimeDefs.red?.image||image;
+ const monster=name?{name,hp:Number(state.enemy?.hp)||Number(state.enemy?.maxHp)||60,
+  maxHp:Number(state.enemy?.maxHp)||60,position:4,image,gauge:0,dead:false}:null;
+ const encounter=monster?{enemies:[monster]}:null;
+ try{
+  rpgState.ai={...(original.ai||{}),gender:mapped[1]?.gender||'남성',level:mapped[1]?.level||1,job:mapped[1]?.job||rpgState.job,exp:0};
+  rpgState.ai2={...(original.ai2||{}),gender:mapped[2]?.gender||'남성',level:mapped[2]?.level||1,job:mapped[2]?.job||rpgState.job,exp:0};
+  rpgState.field={distance:Number(state.step)||0,encounter,battle:null,
+    party:mapped,history:Array.isArray(state.history)?state.history:[],
+    presenceStartedAt:Date.now(),targetMode:false};
+  rpgState._travelPos52=(Number(state.step)||0)%5;
+  rpgState._travelFirstCycle52=false;
+  rpgState.worldTurn=original.turn+(Number(state.turn)||0);
+  rpgRenderField();
+  const party=document.getElementById('rpgCombatParty');
+  if(party&&mapped.length){party.classList.add('show');party.style.pointerEvents='none'}
+  return true;
+ }catch(e){try{HuNyangDiag.line('RPG_MATCH93_ORIGINAL_RENDER_ERROR',String(e))}catch(_){ }return false}
+ finally{
+  rpgState.field=original.field;rpgState.ai=original.ai;rpgState.ai2=original.ai2;
+  rpgState._travelPos52=original.pos;rpgState._travelFirstCycle52=original.first;rpgState.worldTurn=original.turn;
+ }
+};
 const rpgRenderFieldBase=rpgRenderField;
 rpgRenderField=function(){
   if(activePageId()==='rpgBattlePage'){
