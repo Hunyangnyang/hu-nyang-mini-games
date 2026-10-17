@@ -1132,7 +1132,7 @@ window.NyangRpgPlayerSnapshot4987=function(){
  return {name:String(rpgState.name||''),level:Math.max(1,Number(rpgState.level)||1),
  hp:Math.max(0,Math.min(maxHp,Number(rpgState.currentHp??maxHp))),
  mp:Math.max(0,Math.min(maxMp,Number(rpgState.currentMp??maxMp))),
- maxHp,maxMp,job:String(rpgState.job?.name||'모험가'),saveSlot:Number(rpgActiveSlot||0)};
+ maxHp,maxMp,job:String(rpgState.job?.name||'모험가'),gender:String(rpgState.gender||''),avatar:String(rpgState.gender==='여성'?rpgSaveAdventurerPortraits.female:rpgSaveAdventurerPortraits.male),saveSlot:Number(rpgActiveSlot||0)};
 };
 function rpgRand(n){return Math.floor(Math.random()*n)+1}
 function rpgJobByRoll(n){return rpgJobs.find(j=>j.roll===n)||rpgJobs[0]}
