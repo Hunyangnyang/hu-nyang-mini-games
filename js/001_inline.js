@@ -2457,6 +2457,7 @@ window.NyangRpgRenderServerField93=function(state,roster,sessionId){
  let image=rpgSlimeDefs.green.image;
  if(name.includes('파란'))image=rpgSlimeDefs.blue?.image||image;
  if(name.includes('빨간'))image=rpgSlimeDefs.red?.image||image;
+ if(name.includes('늑대'))image=rpgSlimeDefs.wolf?.image||image;
  const monster=name?{name,hp:Number(state.enemy?.hp)||Number(state.enemy?.maxHp)||60,
   maxHp:Number(state.enemy?.maxHp)||60,position:4,image,gauge:0,dead:false}:null;
  const encounter=monster?{enemies:[monster]}:null;
