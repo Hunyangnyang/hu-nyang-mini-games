@@ -1012,6 +1012,11 @@ const rpgSaveAdventurerPortraits={
   male:'assets/images/0015_7c47b8995e.png',
   female:'assets/images/0016_12a073043c.png'
 };
+/* Multiplayer shares the EXISTING job/gender avatar selector, no duplicate asset map. */
+window.NyangRpgJobAvatarHtml93=function(jobName,gender){
+ const job=rpgJobs.find(j=>j.name===jobName||j.id===jobName)||rpgJobs.find(j=>j.id==='adventurer');
+ return rpgSaveMemberAvatar(job,gender);
+};
 function rpgSaveMemberAvatar(job,gender){
   const id=job?.id||'adventurer';
   if(id==='adventurer'){
